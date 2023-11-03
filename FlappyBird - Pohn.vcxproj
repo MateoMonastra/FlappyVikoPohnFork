@@ -13,10 +13,12 @@
   <ItemGroup>
     <ClCompile Include="src\Game\GameLoop.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game\GameLoop.h" />
     <ClInclude Include="src\Game\Scenes.h" />
+    <ClInclude Include="src\Player\Player.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
