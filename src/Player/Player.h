@@ -12,6 +12,7 @@ namespace FlappyBird
 		float scale = 0.0f;
 		Rectangle dest = { 0, 0, 0, 0 };
 		Vector2 origin = { 0, 0 };
+		float rotation = 0;
 	};
 
 	Player InitPlayer();
