@@ -32,7 +32,17 @@ namespace FlappyBird
 
 	void CheckMovementInput(Player& player)
 	{
+		float movement = 1.0f;
+		
+		if (IsKeyPressed(KEY_W))
+		{
+			player.position.x += movement * GetFrameTime();
+		}
 
+		if (IsKeyPressed(KEY_S))
+		{
+			player.position.x -= movement * GetFrameTime();
+		}
 	}
 
 	void DrawPlayer()
