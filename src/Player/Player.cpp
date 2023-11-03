@@ -22,6 +22,8 @@ namespace FlappyBird
 		player.source.x = 0;
 		player.source.y = 0;
 
+		player.origin = { player.dest.width / 2, player.dest.height / 2 };
+
 		return player;
 	}
 
@@ -45,8 +47,8 @@ namespace FlappyBird
 		}
 	}
 
-	void DrawPlayer()
+	void DrawPlayer(Player player)
 	{
-
+		DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
 	}
 }
