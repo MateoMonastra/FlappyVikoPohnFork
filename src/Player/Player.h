@@ -16,7 +16,7 @@ namespace FlappyBird
 	};
 
 	Player InitPlayer();
-	void UpdatePlayer();
-	void CheckMovementInput();
-	void DrawPlayer();
+	void UpdatePlayer(Player& player);
+	void CheckMovementInput(Player& player);
+	void DrawPlayer(Player player);
 }
