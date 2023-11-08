@@ -3,6 +3,7 @@
 #include "header/raylib.h"
 
 #include "Scenes.h"
+#include "Play/Play.h"
 
 namespace FlappyBird
 {
@@ -13,11 +14,11 @@ namespace FlappyBird
 		const int screenWidth = 1024;
 		const int screenHeight = 768;
 
-		InitWindow(screenWidth, screenHeight, "Asteroids");
+		InitWindow(screenWidth, screenHeight, "Flappy Bird");
 		SetExitKey(NULL);
-		InitAudioDevice();
 
-		scene = Scenes::Menu;
+		//scene = Scenes::Menu;
+		scene = Scenes::Play;
 		Scenes previousScene = Scenes::Exit;
 		bool isNewScene;
 		Scenes auxPrevScene = Scenes::Exit;
@@ -30,23 +31,24 @@ namespace FlappyBird
 			switch (scene)
 			{
 			case Scenes::Menu:
-
+				auxPrevScene = Scenes::Menu;
 				break;
 
 			case Scenes::Play:
-
+				RunPlay(isNewScene, previousScene);
+				auxPrevScene = Scenes::Play;
 				break;
 
 			case Scenes::Pause:
-;
+;				auxPrevScene = Scenes::Pause;
 				break;
 
 			case Scenes::Rules:
-
+				auxPrevScene = Scenes::Rules;
 				break;
 
 			case Scenes::Credits:
-
+				auxPrevScene = Scenes::Credits;
 				break;
 
 			case Scenes::LoseScreen:
@@ -61,7 +63,6 @@ namespace FlappyBird
 			}
 		} while (!WindowShouldClose() && scene != Scenes::Exit);
 
-		CloseAudioDevice();
 		CloseWindow();
 	}
 }
