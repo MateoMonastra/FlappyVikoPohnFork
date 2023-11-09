@@ -49,6 +49,14 @@ namespace FlappyBird
 		LoseCondition();
 	}
 
+	void DrawGameVersion()
+	{
+		int xPos = 10;
+		int yPos = 10;
+		int fontSize = 30;
+		DrawText("Version 0.1", xPos, yPos, fontSize, RED);
+	}
+
 	void DrawPlay()
 	{
 		BeginDrawing();
@@ -58,6 +66,8 @@ namespace FlappyBird
 		DrawPipe(pipe);
 
 		DrawPlayer(player);
+
+		DrawGameVersion();
 
 		EndDrawing();
 	}
