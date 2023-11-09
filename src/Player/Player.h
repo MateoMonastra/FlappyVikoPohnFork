@@ -8,6 +8,9 @@ namespace FlappyBird
 	{
 		Vector2 position = { 0, 0 };
 		float speed = 0.0f;
+		Vector2 velocity = { 0, 0 };
+		Vector2 acceleration = { 0, 0 };
+
 		Texture2D texture = Texture2D();
 		Rectangle source = { 0, 0, 0, 0 };
 		float scale = 0.0f;
