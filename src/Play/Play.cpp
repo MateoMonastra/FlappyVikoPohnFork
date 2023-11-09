@@ -14,12 +14,39 @@ namespace FlappyBird
 	{
 		player = InitPlayer();
 		pipe = InitPipe();
+	}	
+
+	bool PlayerPipeCollision()
+	{
+		float playerRightEdge = player.position.x + player.texture.width;
+		float playerLeftEdge = player.position.x;
+		float playerTopEdge = player.position.y + player.texture.height;
+		float playerBottomEdge = player.position.y;
+
+		float pipeRightEdge = pipe.position.x + pipe.width;
+		float pipeLeftEdge = pipe.position.x;
+		float pipeTopEdge = pipe.position.y + pipe.height;
+		float pipeBottomEdge = pipe.position.y;
+
+		return (playerRightEdge >= pipeLeftEdge &&
+			playerLeftEdge <= pipeRightEdge &&
+			playerTopEdge >= pipeBottomEdge &&
+			playerBottomEdge <= pipeTopEdge);
+	}
+
+	void LoseCondition()
+	{
+		if (PlayerPipeCollision())
+		{
+			InitPlay();
+		}
 	}
 
 	void UpdatePlay()
 	{
 		UpdatePlayer(player);
 		UpdatePipe(pipe);
+		LoseCondition();
 	}
 
 	void DrawPlay()
@@ -31,8 +58,6 @@ namespace FlappyBird
 		DrawPipe(pipe);
 
 		DrawPlayer(player);
-
-		//DrawRectangle(500, 500, 100, 100, GREEN);
 
 		EndDrawing();
 	}
