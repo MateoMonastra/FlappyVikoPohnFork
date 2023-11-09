@@ -7,6 +7,7 @@ namespace FlappyBird
 	struct Player 
 	{
 		Vector2 position = { 0, 0 };
+		float speed = 0.0f;
 		Texture2D texture = Texture2D();
 		Rectangle source = { 0, 0, 0, 0 };
 		float scale = 0.0f;

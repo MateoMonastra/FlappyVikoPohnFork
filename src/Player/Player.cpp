@@ -5,12 +5,15 @@ namespace FlappyBird
 	Player InitPlayer()
 	{
 		Player player;
-		float xPos = 40.0;
+
+		player.speed = 700.0f;
 
 		player.texture = LoadTexture("res/player.png");
-		player.position = { xPos, static_cast<float>((GetScreenHeight() / 2 - player.texture.height / 2)) };
 
-		player.scale = 0.25f;
+		float xPos = static_cast<float>(GetScreenWidth() / 8);
+		player.position = { xPos, static_cast<float>(GetScreenHeight() / 2) };
+
+		player.scale = 0.15f;
 		
 		player.dest.x = player.position.x;
 		player.dest.y = player.position.y;
@@ -33,18 +36,19 @@ namespace FlappyBird
 	}
 
 	void CheckMovementInput(Player& player)
-	{
-		float movement = 1.0f;
-		
-		if (IsKeyPressed(KEY_W))
+	{		
+		if (IsKeyDown(KEY_W))
 		{
-			player.position.x += movement * GetFrameTime();
+			player.position.y -= player.speed * GetFrameTime();
 		}
 
-		if (IsKeyPressed(KEY_S))
+		if (IsKeyDown(KEY_S))
 		{
-			player.position.x -= movement * GetFrameTime();
+			player.position.y += player.speed * GetFrameTime();
 		}
+
+		player.dest.x = player.position.x;
+		player.dest.y = player.position.y;
 	}
 
 	void DrawPlayer(Player player)
