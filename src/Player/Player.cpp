@@ -8,10 +8,11 @@ namespace FlappyBird
 
 		player.speed = 700.0f;
 
-		player.texture = LoadTexture("res/player.png");
+		player.texture = LoadTexture("res/player2.png");
 
-		float xPos = static_cast<float>(GetScreenWidth() / 8);
-		player.position = { xPos, static_cast<float>(GetScreenHeight() / 2) };
+		float xPos = static_cast<float>(player.texture.width);
+		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height / 2);
+		player.position = { xPos, yPos};
 
 		player.scale = 0.15f;
 		
@@ -33,6 +34,7 @@ namespace FlappyBird
 	void UpdatePlayer(Player& player)
 	{
 		CheckMovementInput(player);
+		PlayerScreenCollision(player);
 	}
 
 	void CheckMovementInput(Player& player)
@@ -47,12 +49,27 @@ namespace FlappyBird
 			player.position.y += player.speed * GetFrameTime();
 		}
 
-		player.dest.x = player.position.x;
+		player.dest.y = player.position.y;
+	}
+
+	void PlayerScreenCollision(Player& player)
+	{
+		if (player.position.y <= 0)
+		{
+			player.position.y = 0;
+		}
+
+		if (player.position.y + player.texture.height >= GetScreenHeight())
+		{
+			player.position.y = static_cast<float>(GetScreenHeight()) - static_cast<float>(player.texture.height);
+		}
+
 		player.dest.y = player.position.y;
 	}
 
 	void DrawPlayer(Player player)
 	{
-		DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
+		//DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
+		DrawTexture(player.texture, static_cast<int>(player.position.x), static_cast<int>(player.position.y), RAYWHITE);
 	}
 }
