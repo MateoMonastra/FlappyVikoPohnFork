@@ -1,11 +1,8 @@
 #include "Game/GameLoop.h"
 
-namespace FlappyBird
+int main()
 {
-	int main()
-	{
-		GameLoop();
+	FlappyBird::GameLoop();
 
-		return 0;
-	}
+	return 0;
 }
