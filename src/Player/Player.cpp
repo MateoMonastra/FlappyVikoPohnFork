@@ -60,9 +60,10 @@ namespace FlappyBird
 		if (player.position.y <= 0)
 		{
 			player.position.y = 0;
+			player.velocity.y = player.gravity * GetFrameTime();
 		}
 
-		if (player.position.y + player.texture.height >= GetScreenHeight())
+		if (player.position.y >= GetScreenHeight())
 		{
 			player.position.y = static_cast<float>(GetScreenHeight()) - static_cast<float>(player.texture.height);
 		}
