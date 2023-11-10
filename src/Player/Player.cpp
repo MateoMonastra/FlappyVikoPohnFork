@@ -33,23 +33,26 @@ namespace FlappyBird
 
 	void UpdatePlayer(Player& player)
 	{
-		CheckMovementInput(player);
+		PlayerMovement(player);
 		PlayerScreenCollision(player);
+	}
+
+	void PlayerMovement(Player& player)
+	{
+		CheckMovementInput(player);
+
+		player.velocity.y += player.gravity * GetFrameTime();
+		player.position.y += player.velocity.y * GetFrameTime();
 	}
 
 	void CheckMovementInput(Player& player)
 	{		
-		if (IsKeyDown(KEY_W))
+		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 		{
-			player.position.y -= player.speed * GetFrameTime();
+			player.velocity.y = player.jumpForce;
 		}
 
-		if (IsKeyDown(KEY_S))
-		{
-			player.position.y += player.speed * GetFrameTime();
-		}
-
-		player.dest.y = player.position.y;
+		//player.dest.y = player.position.y;
 	}
 
 	void PlayerScreenCollision(Player& player)
