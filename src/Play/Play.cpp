@@ -1,6 +1,6 @@
 #include "Play/Play.h"
 
-#include "header/raylib.h"
+#include "Raylib/header/raylib.h"
 
 #include "Player/Player.h"
 #include "Pipes/Pipe.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "header/raylib.h"
+#include "Raylib/header/raylib.h"
 
 namespace FlappyBird
 {
@@ -9,7 +9,6 @@ namespace FlappyBird
 		Vector2 position = { 0, 0 };
 		float speed = 0.0f;
 		Vector2 velocity = { 0, 0 };
-		//Vector2 acceleration = { 0, 0 };
 		float gravity = 600.0;
 		float jumpForce = -300.0f;
 

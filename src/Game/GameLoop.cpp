@@ -1,6 +1,6 @@
 #include "GameLoop.h"
 
-#include "header/raylib.h"
+#include "Raylib/header/raylib.h" 
 
 #include "Scenes.h"
 #include "Play/Play.h"
