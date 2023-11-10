@@ -83,9 +83,7 @@
       <AdditionalDependencies>raylib.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>cd "$(OutDir)"
-mkdir "res"
-xcopy /s /e /y "$(SolutionDir)res" "$(OutDir)res"</Command>
+      <Command>"$(ProjectDir)utils/copydir.bat" "$(OutDir)" "$(SolutionDir)res" "$(OutDir)res"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,9 +107,7 @@ xcopy /s /e /y "$(SolutionDir)res" "$(OutDir)res"</Command>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PreBuildEvent>
-      <Command>cd "$(OutDir)"
-mkdir "res"
-xcopy /s /e /y "$(SolutionDir)res" "$(OutDir)res"</Command>
+      <Command>"$(ProjectDir)utils/copydir.bat" "$(OutDir)" "$(SolutionDir)res" "$(OutDir)res"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
