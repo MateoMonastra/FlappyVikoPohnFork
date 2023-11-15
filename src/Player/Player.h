@@ -2,6 +2,8 @@
 
 #include "Raylib/header/raylib.h"
 
+#include "Game/Scenes.h"
+
 namespace FlappyBird
 {
 	struct Player 
@@ -21,9 +23,9 @@ namespace FlappyBird
 	};
 
 	Player InitPlayer();
-	void UpdatePlayer(Player& player);
+	void UpdatePlayer(Player& player, Scenes& scene);
 	void PlayerMovement(Player& player);
 	void CheckMovementInput(Player& player);
-	void PlayerScreenCollision(Player& player);
+	void PlayerScreenCollision(Player& player, Scenes& scene);
 	void DrawPlayer(Player player);
 }

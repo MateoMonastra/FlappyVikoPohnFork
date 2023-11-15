@@ -31,10 +31,10 @@ namespace FlappyBird
 		return player;
 	}
 
-	void UpdatePlayer(Player& player)
+	void UpdatePlayer(Player& player, Scenes& scene)
 	{
 		PlayerMovement(player);
-		PlayerScreenCollision(player);
+		PlayerScreenCollision(player, scene);
 	}
 
 	void PlayerMovement(Player& player)
@@ -55,7 +55,7 @@ namespace FlappyBird
 		//player.dest.y = player.position.y;
 	}
 
-	void PlayerScreenCollision(Player& player)
+	void PlayerScreenCollision(Player& player, Scenes& scene)
 	{
 		if (player.position.y <= 0)
 		{
@@ -65,7 +65,8 @@ namespace FlappyBird
 
 		if (player.position.y >= GetScreenHeight())
 		{
-			player.position.y = static_cast<float>(GetScreenHeight()) - static_cast<float>(player.texture.height);
+			//player.position.y = static_cast<float>(GetScreenHeight()) - static_cast<float>(player.texture.height);
+			scene = Scenes::LoseScreen;
 		}
 
 		player.dest.y = player.position.y;
