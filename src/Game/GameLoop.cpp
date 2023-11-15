@@ -3,7 +3,9 @@
 #include "Raylib/header/raylib.h" 
 
 #include "Scenes.h"
+#include "Menu/Menu.h"
 #include "Play/Play.h"
+#include "Credits/Credits.h"
 
 namespace FlappyBird
 {
@@ -17,8 +19,7 @@ namespace FlappyBird
 		InitWindow(screenWidth, screenHeight, "Flappy Bird");
 		SetExitKey(NULL);
 
-		//scene = Scenes::Menu;
-		scene = Scenes::Play;
+		scene = Scenes::Menu;
 		Scenes previousScene = Scenes::Exit;
 		bool isNewScene;
 		Scenes auxPrevScene = Scenes::Exit;
@@ -31,6 +32,7 @@ namespace FlappyBird
 			switch (scene)
 			{
 			case Scenes::Menu:
+				RunMenu(scene, isNewScene);
 				auxPrevScene = Scenes::Menu;
 				break;
 
@@ -48,6 +50,7 @@ namespace FlappyBird
 				break;
 
 			case Scenes::Credits:
+				RunCredits(scene, isNewScene); 
 				auxPrevScene = Scenes::Credits;
 				break;
 
