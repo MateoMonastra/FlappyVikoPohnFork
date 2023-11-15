@@ -5,6 +5,7 @@
 namespace FlappyBird
 {
 	void InitPlay();
+	void CheckPauseInput(Scenes& scene);
 	bool PlayerPipeCollision();
 	void LoseCondition(Scenes& scene);
 	void UpdatePlay(Scenes& scene);
