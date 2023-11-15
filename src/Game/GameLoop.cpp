@@ -5,6 +5,7 @@
 #include "Scenes.h"
 #include "Menu/Menu.h"
 #include "Play/Play.h"
+#include "Pause/Pause.h"
 #include "Credits/Credits.h"
 #include "LoseScreen/LoseScreen.h"
 
@@ -38,12 +39,13 @@ namespace FlappyBird
 				break;
 
 			case Scenes::Play:
-				RunPlay(isNewScene, previousScene, scene);
+				RunPlay(isNewScene, auxPrevScene, scene);
 				auxPrevScene = Scenes::Play;
 				break;
 
 			case Scenes::Pause:
-;				auxPrevScene = Scenes::Pause;
+				RunPause(scene, isNewScene);
+				auxPrevScene = Scenes::Pause;
 				break;
 
 			case Scenes::Rules:
