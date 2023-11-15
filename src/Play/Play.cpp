@@ -34,19 +34,19 @@ namespace FlappyBird
 			playerBottomEdge <= pipeTopEdge);
 	}
 
-	void LoseCondition()
+	void LoseCondition(Scenes& scene)
 	{
 		if (PlayerPipeCollision())
 		{
-			InitPlay();
+			scene = Scenes::LoseScreen;
 		}
 	}
 
-	void UpdatePlay()
+	void UpdatePlay(Scenes& scene)
 	{
-		UpdatePlayer(player);
+		UpdatePlayer(player, scene);
 		UpdatePipe(pipe);
-		LoseCondition();
+		LoseCondition(scene);
 	}
 
 	void DrawGameVersion()
@@ -72,14 +72,14 @@ namespace FlappyBird
 		EndDrawing();
 	}
 
-	void RunPlay(bool isNewScene, Scenes previousScene)
+	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene)
 	{
 		if (isNewScene && previousScene != Scenes::Pause)
 		{
 			InitPlay();
 		}
 
-		UpdatePlay();
+		UpdatePlay(scene);
 		DrawPlay();
 	}
 
