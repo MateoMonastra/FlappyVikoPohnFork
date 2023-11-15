@@ -47,12 +47,10 @@ namespace FlappyBird
 
 	void CheckMovementInput(Player& player)
 	{		
-		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+		if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
 		{
 			player.velocity.y = player.jumpForce;
 		}
-
-		//player.dest.y = player.position.y;
 	}
 
 	void PlayerScreenCollision(Player& player, Scenes& scene)
