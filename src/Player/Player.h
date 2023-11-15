@@ -9,12 +9,14 @@ namespace FlappyBird
 	struct Player 
 	{
 		Vector2 position = { 0, 0 };
-		float speed = 0.0f;
 		Vector2 velocity = { 0, 0 };
 		float gravity = 600.0;
 		float jumpForce = -300.0f;
+		bool isJumping = false;
 
 		Texture2D texture = Texture2D();
+		Texture2D textureFly = Texture2D();
+		Texture2D textureDrop = Texture2D();
 		Rectangle source = { 0, 0, 0, 0 };
 		float scale = 0.0f;
 		Rectangle dest = { 0, 0, 0, 0 };
@@ -26,6 +28,7 @@ namespace FlappyBird
 	void UpdatePlayer(Player& player, Scenes& scene);
 	void PlayerMovement(Player& player);
 	void CheckMovementInput(Player& player);
+	void ChangeTexture(Player& player);
 	void PlayerScreenCollision(Player& player, Scenes& scene);
 	void DrawPlayer(Player player);
 }

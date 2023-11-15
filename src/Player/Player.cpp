@@ -6,9 +6,9 @@ namespace FlappyBird
 	{
 		Player player;
 
-		player.speed = 700.0f;
-
-		player.texture = LoadTexture("res/player2.png");
+		player.textureDrop = LoadTexture("res/player2.png");
+		player.textureFly = LoadTexture("res/player2fly.png");
+		player.texture = player.textureDrop;
 
 		float xPos = static_cast<float>(player.texture.width);
 		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height / 2);
@@ -35,6 +35,7 @@ namespace FlappyBird
 	{
 		PlayerMovement(player);
 		PlayerScreenCollision(player, scene);
+		ChangeTexture(player);
 	}
 
 	void PlayerMovement(Player& player)
@@ -43,6 +44,11 @@ namespace FlappyBird
 
 		player.velocity.y += player.gravity * GetFrameTime();
 		player.position.y += player.velocity.y * GetFrameTime();
+
+		if (player.isJumping && player.velocity.y > 0)
+		{
+			player.isJumping = false;
+		}
 	}
 
 	void CheckMovementInput(Player& player)
@@ -50,6 +56,19 @@ namespace FlappyBird
 		if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
 		{
 			player.velocity.y = player.jumpForce;
+			player.isJumping = true;
+		}
+	}
+
+	void ChangeTexture(Player& player)
+	{
+		if (player.isJumping == true)
+		{
+			player.texture = player.textureFly;
+		}
+		else
+		{
+			player.texture = player.textureDrop;
 		}
 	}
 
@@ -63,7 +82,6 @@ namespace FlappyBird
 
 		if (player.position.y >= GetScreenHeight())
 		{
-			//player.position.y = static_cast<float>(GetScreenHeight()) - static_cast<float>(player.texture.height);
 			scene = Scenes::LoseScreen;
 		}
 
