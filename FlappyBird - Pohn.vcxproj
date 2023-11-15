@@ -11,17 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Button\Button.cpp" />
     <ClCompile Include="src\Game\GameLoop.cpp" />
     <ClCompile Include="src\LoseScreen\LoseScreen.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Menu\Menu.cpp" />
     <ClCompile Include="src\Pipes\Pipe.cpp" />
     <ClCompile Include="src\Player\Player.cpp" />
     <ClCompile Include="src\Play\Play.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Button\Button.h" />
     <ClInclude Include="src\Game\GameLoop.h" />
     <ClInclude Include="src\Game\Scenes.h" />
     <ClInclude Include="src\LoseScreen\LoseScreen.h" />
+    <ClInclude Include="src\Menu\Menu.h" />
     <ClInclude Include="src\Pipes\Pipe.h" />
     <ClInclude Include="src\Player\Player.h" />
     <ClInclude Include="src\Play\Play.h" />
