@@ -2,14 +2,14 @@
 
 namespace FlappyBird
 {
-	void InitButton(Button& button, Texture2D texture, Texture2D texturePressed, float x, float y, float width, float height, Color color)
+	void InitButton(Button& button, Texture2D texture, Texture2D texturePressed, float x, float y, float width, float topHeight, Color color)
 	{
 		button.texture = texture;
 		button.texturePressed = texturePressed;
 		button.x = x;
 		button.y = y;
 		button.width = width;
-		button.height = height;
+		button.topHeight = topHeight;
 		button.color = color;
 		button.isSelected = false;
 	}
@@ -26,7 +26,7 @@ namespace FlappyBird
 
 	bool CheckCollisionButtonMouse(Vector2 mousePos, Button button)
 	{
-		return ((mousePos.x >= button.x) && (mousePos.x < (button.x + button.width)) && (mousePos.y >= button.y) && (mousePos.y < (button.y + button.height)));
+		return ((mousePos.x >= button.x) && (mousePos.x < (button.x + button.width)) && (mousePos.y >= button.y) && (mousePos.y < (button.y + button.topHeight)));
 	}
 
 	bool CheckMouseInput(Button button)

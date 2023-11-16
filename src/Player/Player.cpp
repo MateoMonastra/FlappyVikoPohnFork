@@ -12,12 +12,12 @@ namespace FlappyBird
 
 		float xPos = static_cast<float>(player.texture.width);
 		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height / 2);
-		player.position = { xPos, yPos};
+		player.topPosition = { xPos, yPos};
 
 		player.scale = 0.15f;
 		
-		player.dest.x = player.position.x;
-		player.dest.y = player.position.y;
+		player.dest.x = player.topPosition.x;
+		player.dest.y = player.topPosition.y;
 		player.dest.width = static_cast<float>(player.texture.width) * player.scale;
 		player.dest.height = static_cast<float>(player.texture.height) * player.scale;
 
@@ -43,7 +43,7 @@ namespace FlappyBird
 		CheckMovementInput(player);
 
 		player.velocity.y += player.gravity * GetFrameTime();
-		player.position.y += player.velocity.y * GetFrameTime();
+		player.topPosition.y += player.velocity.y * GetFrameTime();
 
 		if (player.isJumping && player.velocity.y > 0)
 		{
@@ -74,23 +74,23 @@ namespace FlappyBird
 
 	void PlayerScreenCollision(Player& player, Scenes& scene)
 	{
-		if (player.position.y <= 0)
+		if (player.topPosition.y <= 0)
 		{
-			player.position.y = 0;
+			player.topPosition.y = 0;
 			player.velocity.y = player.gravity * GetFrameTime();
 		}
 
-		if (player.position.y >= GetScreenHeight())
+		if (player.topPosition.y >= GetScreenHeight())
 		{
 			scene = Scenes::LoseScreen;
 		}
 
-		player.dest.y = player.position.y;
+		player.dest.y = player.topPosition.y;
 	}
 
 	void DrawPlayer(Player player)
 	{
 		//DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
-		DrawTexture(player.texture, static_cast<int>(player.position.x), static_cast<int>(player.position.y), RAYWHITE);
+		DrawTexture(player.texture, static_cast<int>(player.topPosition.x), static_cast<int>(player.topPosition.y), RAYWHITE);
 	}
 }

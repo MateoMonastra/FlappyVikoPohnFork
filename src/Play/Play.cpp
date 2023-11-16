@@ -51,15 +51,15 @@ namespace FlappyBird
 
 	bool PlayerPipeCollision()
 	{
-		float playerRightEdge = player.position.x + player.texture.width;
-		float playerLeftEdge = player.position.x;
-		float playerTopEdge = player.position.y + player.texture.height;
-		float playerBottomEdge = player.position.y;
+		float playerRightEdge = player.topPosition.x + player.texture.width;
+		float playerLeftEdge = player.topPosition.x;
+		float playerTopEdge = player.topPosition.y + player.texture.height;
+		float playerBottomEdge = player.topPosition.y;
 
-		float pipeRightEdge = pipe.position.x + pipe.width;
-		float pipeLeftEdge = pipe.position.x;
-		float pipeTopEdge = pipe.position.y + pipe.height;
-		float pipeBottomEdge = pipe.position.y;
+		float pipeRightEdge = pipe.topPosition.x + pipe.width;
+		float pipeLeftEdge = pipe.topPosition.x;
+		float pipeTopEdge = pipe.topPosition.y + pipe.topHeight;
+		float pipeBottomEdge = pipe.topPosition.y;
 
 		return (playerRightEdge >= pipeLeftEdge &&
 			playerLeftEdge <= pipeRightEdge &&
