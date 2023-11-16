@@ -5,6 +5,7 @@
 #include "Player/Player.h"
 #include "Pipes/Pipe.h"
 #include "Button/Button.h"
+#include "Parallax/Parallax.h"
 
 namespace FlappyBird
 {
@@ -14,10 +15,13 @@ namespace FlappyBird
 	static Button pauseButton;
 	static Button pauseButtonPressed;
 
+	Parallax parallax;
+
 	void InitPlay()
 	{
 		player = InitPlayer();
 		pipe = InitPipe();
+		parallax = InitParallax();
 
 		Texture2D pauseButtonTexture = LoadTexture("res/pausebutton.png");
 		Texture2D pauseButtonPressedTexture = LoadTexture("res/pausebuttonpressed.png");
@@ -73,6 +77,7 @@ namespace FlappyBird
 
 	void UpdatePlay(Scenes& scene)
 	{
+		UpdateParallax(parallax);
 		CheckPauseInput(scene);
 		UpdatePlayer(player, scene);
 		UpdatePipe(pipe);
@@ -92,6 +97,8 @@ namespace FlappyBird
 		BeginDrawing();
 
 		ClearBackground(BLACK);
+
+		DrawParallax(parallax);
 
 		DrawPipe(pipe);
 
