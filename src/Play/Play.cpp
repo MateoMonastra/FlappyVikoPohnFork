@@ -49,17 +49,17 @@ namespace FlappyBird
 			pauseButton.isSelected = false;
 	}
 
-	bool PlayerPipeCollision()
+	bool PlayerPipeCollision(Vector2 pipePosition, float pipeHeight)
 	{
 		float playerRightEdge = player.topPosition.x + player.texture.width;
 		float playerLeftEdge = player.topPosition.x;
 		float playerTopEdge = player.topPosition.y + player.texture.height;
 		float playerBottomEdge = player.topPosition.y;
 
-		float pipeRightEdge = pipe.topPosition.x + pipe.width;
-		float pipeLeftEdge = pipe.topPosition.x;
-		float pipeTopEdge = pipe.topPosition.y + pipe.topHeight;
-		float pipeBottomEdge = pipe.topPosition.y;
+		float pipeRightEdge = pipePosition.x + pipe.width;
+		float pipeLeftEdge = pipePosition.x;
+		float pipeTopEdge = pipePosition.y + pipeHeight;
+		float pipeBottomEdge = pipePosition.y;
 
 		return (playerRightEdge >= pipeLeftEdge &&
 			playerLeftEdge <= pipeRightEdge &&
@@ -69,7 +69,7 @@ namespace FlappyBird
 
 	void LoseCondition(Scenes& scene)
 	{
-		if (PlayerPipeCollision())
+		if (PlayerPipeCollision(pipe.topPosition, pipe.topHeight) || PlayerPipeCollision(pipe.botPosition, pipe.botHeight))
 		{
 			scene = Scenes::LoseScreen;
 		}
