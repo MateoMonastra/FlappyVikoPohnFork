@@ -16,7 +16,7 @@ namespace FlappyBird
 		float width = 0.0f;
 	};
 
-	Pipe InitPipe();
+	Pipe InitPipe(float xPos);
 	void UpdatePipe(Pipe& pipe);
 	void DrawPipe(Pipe pipe);
 }

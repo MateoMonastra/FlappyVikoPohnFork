@@ -6,7 +6,7 @@ namespace FlappyBird
 	static int maxHeight = 400;
 	static float screenOffset = 100.0f;
 
-	Pipe InitPipe()
+	Pipe InitPipe(float xPos)
 	{
 		Pipe pipe;
 
@@ -15,7 +15,7 @@ namespace FlappyBird
 		pipe.width = 90.0f;
 		pipe.topHeight = static_cast<float>(GetRandomValue(minHeight, maxHeight));
 
-		pipe.topPosition.x = static_cast<float>(GetScreenWidth() + screenOffset);
+		pipe.topPosition.x = xPos;
 		pipe.topPosition.y = 0.0f;
 
 		pipe.botHeight = GetScreenHeight() - pipe.topHeight - pipe.separation;

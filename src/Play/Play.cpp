@@ -10,7 +10,8 @@
 namespace FlappyBird
 {
 	static Player player;
-	static Pipe pipe;
+	static Pipe firstPipe;
+	static Pipe secondPipe;
 
 	static Button pauseButton;
 	static Button pauseButtonPressed;
@@ -19,8 +20,14 @@ namespace FlappyBird
 
 	void InitPlay()
 	{
+		float pipeDistance = static_cast<float>(GetScreenWidth()) / 2.0f;
+		float pipeWidth = 90.0f;
+		float firstPipeX = static_cast<float>(GetScreenWidth());
+		float secondPipeX = static_cast<float>(GetScreenWidth()) + pipeDistance + pipeWidth / 2;
+		
 		player = InitPlayer();
-		pipe = InitPipe();
+		firstPipe = InitPipe(firstPipeX);
+		secondPipe = InitPipe(secondPipeX);
 		parallax = InitParallax();
 
 		Texture2D pauseButtonTexture = LoadTexture("res/pausebutton.png");
@@ -56,7 +63,7 @@ namespace FlappyBird
 		float playerTopEdge = player.topPosition.y + player.texture.height;
 		float playerBottomEdge = player.topPosition.y;
 
-		float pipeRightEdge = pipePosition.x + pipe.width;
+		float pipeRightEdge = pipePosition.x + firstPipe.width;
 		float pipeLeftEdge = pipePosition.x;
 		float pipeTopEdge = pipePosition.y + pipeHeight;
 		float pipeBottomEdge = pipePosition.y;
@@ -69,7 +76,8 @@ namespace FlappyBird
 
 	void LoseCondition(Scenes& scene)
 	{
-		if (PlayerPipeCollision(pipe.topPosition, pipe.topHeight) || PlayerPipeCollision(pipe.botPosition, pipe.botHeight))
+		if (PlayerPipeCollision(firstPipe.topPosition, firstPipe.topHeight) || PlayerPipeCollision(firstPipe.botPosition, firstPipe.botHeight) || 
+			PlayerPipeCollision(secondPipe.topPosition, secondPipe.topHeight) || PlayerPipeCollision(secondPipe.botPosition, secondPipe.botHeight))
 		{
 			scene = Scenes::LoseScreen;
 		}
@@ -80,7 +88,8 @@ namespace FlappyBird
 		UpdateParallax(parallax);
 		CheckPauseInput(scene);
 		UpdatePlayer(player, scene);
-		UpdatePipe(pipe);
+		UpdatePipe(firstPipe);
+		UpdatePipe(secondPipe);
 		LoseCondition(scene);
 	}
 
@@ -100,7 +109,8 @@ namespace FlappyBird
 
 		DrawParallax(parallax);
 
-		DrawPipe(pipe);
+		DrawPipe(firstPipe);
+		DrawPipe(secondPipe);
 
 		DrawPlayer(player);
 
