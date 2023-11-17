@@ -14,6 +14,8 @@ namespace FlappyBird
 		float topHeight = 0.0f;
 		float botHeight = 0.0f;
 		float width = 0.0f;
+
+
 	};
 
 	Pipe InitPipe(float xPos);

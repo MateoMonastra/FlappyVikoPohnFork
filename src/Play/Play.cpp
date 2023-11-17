@@ -93,12 +93,12 @@ namespace FlappyBird
 		LoseCondition(scene);
 	}
 
-	void DrawGameVersion()
+	void DrawPlayerScore()
 	{
 		int xPos = 10;
 		int yPos = 10;
 		int fontSize = 30;
-		DrawText("Version 0.2", xPos, yPos, fontSize, RED);
+		DrawText(TextFormat("Score: %i", player.score), xPos, yPos, fontSize, RED);
 	}
 
 	void DrawPlay()
@@ -110,11 +110,12 @@ namespace FlappyBird
 		DrawParallax(parallax);
 
 		DrawPipe(firstPipe);
+
 		DrawPipe(secondPipe);
 
 		DrawPlayer(player);
 
-		DrawGameVersion();
+		DrawPlayerScore();
 
 		DrawButton(pauseButton);
 
@@ -131,5 +132,4 @@ namespace FlappyBird
 		UpdatePlay(scene);
 		DrawPlay();
 	}
-
 }

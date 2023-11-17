@@ -16,10 +16,10 @@ namespace FlappyBird
 
 		player.scale = 0.15f;
 		
-		player.dest.x = player.topPosition.x;
+		player.dest.x = player.topPosition.x + static_cast<float>(player.texture.width) /2;
 		player.dest.y = player.topPosition.y;
-		player.dest.width = static_cast<float>(player.texture.width) * player.scale;
-		player.dest.height = static_cast<float>(player.texture.height) * player.scale;
+		player.dest.width = static_cast<float>(player.texture.width);
+		player.dest.height = static_cast<float>(player.texture.height);
 
 		player.source.width = static_cast<float>(player.texture.width);
 		player.source.height = static_cast<float>(player.texture.height);
@@ -42,7 +42,7 @@ namespace FlappyBird
 	{
 		CheckMovementInput(player);
 
-		player.velocity.y += player.gravity * GetFrameTime();
+		player.velocity.y += player.PLAYER_GRAVITY * GetFrameTime();
 		player.topPosition.y += player.velocity.y * GetFrameTime();
 
 		if (player.isJumping && player.velocity.y > 0)
@@ -55,7 +55,7 @@ namespace FlappyBird
 	{		
 		if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
 		{
-			player.velocity.y = player.jumpForce;
+			player.velocity.y = player.JUMPFORCE;
 			player.isJumping = true;
 		}
 	}
@@ -77,7 +77,7 @@ namespace FlappyBird
 		if (player.topPosition.y <= 0)
 		{
 			player.topPosition.y = 0;
-			player.velocity.y = player.gravity * GetFrameTime();
+			player.velocity.y = player.PLAYER_GRAVITY * GetFrameTime();
 		}
 
 		if (player.topPosition.y >= GetScreenHeight())
@@ -85,12 +85,21 @@ namespace FlappyBird
 			scene = Scenes::LoseScreen;
 		}
 
-		player.dest.y = player.topPosition.y;
+		int destFix = 30;
+		player.dest.y = player.topPosition.y + destFix;
 	}
 
 	void DrawPlayer(Player player)
 	{
-		//DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
-		DrawTexture(player.texture, static_cast<int>(player.topPosition.x), static_cast<int>(player.topPosition.y), RAYWHITE);
+		DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
+		DrawRectangle(static_cast<int>(player.topPosition.x), static_cast<int>(player.topPosition.y), player.texture.width, player.texture.height, WHITE);
+		
 	}
+
+	//static void UpdatePlayerScore()
+	//{
+
+
+
+	//}
 }
