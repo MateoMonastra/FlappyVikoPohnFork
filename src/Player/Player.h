@@ -10,8 +10,8 @@ namespace FlappyBird
 	{
 		Vector2 topPosition = { 0, 0 };
 		Vector2 velocity = { 0, 0 };
-		const float PLAYER_GRAVITY = 600.0;
-		const float JUMPFORCE = -300.0f;
+		float gravity = 600.0;
+		float jumpForce = -300.0f;
 		bool isJumping = false;
 
 		Rectangle hitBox = {};

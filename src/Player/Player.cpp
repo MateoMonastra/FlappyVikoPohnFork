@@ -42,7 +42,7 @@ namespace FlappyBird
 	{
 		CheckMovementInput(player);
 
-		player.velocity.y += player.PLAYER_GRAVITY * GetFrameTime();
+		player.velocity.y += player.gravity * GetFrameTime();
 		player.topPosition.y += player.velocity.y * GetFrameTime();
 
 		if (player.isJumping && player.velocity.y > 0)
@@ -55,7 +55,7 @@ namespace FlappyBird
 	{		
 		if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
 		{
-			player.velocity.y = player.JUMPFORCE;
+			player.velocity.y = player.jumpForce;
 			player.isJumping = true;
 		}
 	}
@@ -77,7 +77,7 @@ namespace FlappyBird
 		if (player.topPosition.y <= 0)
 		{
 			player.topPosition.y = 0;
-			player.velocity.y = player.PLAYER_GRAVITY * GetFrameTime();
+			player.velocity.y = player.gravity * GetFrameTime();
 		}
 
 		if (player.topPosition.y >= GetScreenHeight())
