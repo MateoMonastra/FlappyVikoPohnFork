@@ -32,9 +32,5 @@ namespace FlappyBird
 
 	Player InitPlayer();
 	void UpdatePlayer(Player& player, Scenes& scene);
-	void PlayerMovement(Player& player);
-	void CheckMovementInput(Player& player);
-	void ChangeTexture(Player& player);
-	void PlayerScreenCollision(Player& player, Scenes& scene);
 	void DrawPlayer(Player player);
 }
