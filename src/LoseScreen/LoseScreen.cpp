@@ -6,17 +6,44 @@
 
 namespace FlappyBird
 {
-	Texture2D loseScreenTexture;
+	static Texture2D loseScreenTexture;
 
 	static Button playAgainButton;
 	static Button backMenuLoseButton;
 
-	Texture2D backMenuLoseButtonTexture;
-	Texture2D playAgainButtonTexture;
+	static Texture2D backMenuLoseButtonTexture;
+	static Texture2D playAgainButtonTexture;
 
-	Texture2D backMenuLoseButtonPressedTexture;
-	Texture2D playAgainButtonPressedTexture;
+	static Texture2D backMenuLoseButtonPressedTexture;
+	static Texture2D playAgainButtonPressedTexture;
 
+	static void InputLoseScreen(Scenes& scene)
+	{
+		if (CheckCollisionButtonMouse(GetMousePosition(), backMenuLoseButton))
+		{
+			backMenuLoseButton.isSelected = true;
+
+			if (CheckMouseInput(backMenuLoseButton))
+			{
+				scene = Scenes::Menu;
+			}
+		}
+		else
+			backMenuLoseButton.isSelected = false;
+
+		if (CheckCollisionButtonMouse(GetMousePosition(), playAgainButton))
+		{
+			playAgainButton.isSelected = true;
+
+			if (CheckMouseInput(playAgainButton))
+			{
+				scene = Scenes::Play;
+			}
+		}
+		else
+			playAgainButton.isSelected = false;
+	}
+	
 	void InitLoseScreen()
 	{
 		loseScreenTexture = LoadTexture("res/losescreen.png");
@@ -47,33 +74,6 @@ namespace FlappyBird
 		DrawButton(playAgainButton);
 
 		EndDrawing();
-	}
-
-	void InputLoseScreen(Scenes& scene)
-	{
-		if (CheckCollisionButtonMouse(GetMousePosition(), backMenuLoseButton))
-		{
-			backMenuLoseButton.isSelected = true;
-
-			if (CheckMouseInput(backMenuLoseButton))
-			{
-				scene = Scenes::Menu;
-			}
-		}
-		else
-			backMenuLoseButton.isSelected = false;
-
-		if (CheckCollisionButtonMouse(GetMousePosition(), playAgainButton))
-		{
-			playAgainButton.isSelected = true;
-
-			if (CheckMouseInput(playAgainButton))
-			{
-				scene = Scenes::Play;
-			}
-		}
-		else
-			playAgainButton.isSelected = false;
 	}
 
 	void RunLoseScreen(Scenes& scene, bool isNewScene)
