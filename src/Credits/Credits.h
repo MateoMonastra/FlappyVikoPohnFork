@@ -5,7 +5,6 @@ namespace FlappyBird
 {
 	void InitCredits();
 	void DrawCredits();
-	void CreditsInput(Scenes& scene);
-	void UpdateCreditsMusic();
+	/*void UpdateCreditsMusic();*/
 	void RunCredits(Scenes& scene, bool isNewScene);
 }

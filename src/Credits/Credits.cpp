@@ -6,12 +6,27 @@
 
 namespace FlappyBird
 {
-	Texture2D creditsTexture;
+	static Texture2D creditsTexture;
 
 	static Button backMenuCreditsButton;
-	Texture2D backMenuCreditsButtonTexture;
-	Texture2D backMenuCreditsButtonPressedTexture;
+	static Texture2D backMenuCreditsButtonTexture;
+	static Texture2D backMenuCreditsButtonPressedTexture;
 
+	static void CreditsInput(Scenes& scene)
+	{
+		if (CheckCollisionButtonMouse(GetMousePosition(), backMenuCreditsButton))
+		{
+			backMenuCreditsButton.isSelected = true;
+
+			if (CheckMouseInput(backMenuCreditsButton))
+			{
+				scene = Scenes::Menu;
+			}
+		}
+		else
+			backMenuCreditsButton.isSelected = false;
+	}
+	
 	void InitCredits()
 	{
 		creditsTexture = LoadTexture("res/credits.png");
@@ -34,21 +49,6 @@ namespace FlappyBird
 		DrawButton(backMenuCreditsButton);
 
 		EndDrawing();
-	}
-
-	void CreditsInput(Scenes& scene)
-	{
-		if (CheckCollisionButtonMouse(GetMousePosition(), backMenuCreditsButton))
-		{
-			backMenuCreditsButton.isSelected = true;
-
-			if (CheckMouseInput(backMenuCreditsButton))
-			{
-				scene = Scenes::Menu;
-			}
-		}
-		else
-			backMenuCreditsButton.isSelected = false;
 	}
 
 	void RunCredits(Scenes& scene, bool isNewScene)
