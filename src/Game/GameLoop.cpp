@@ -18,7 +18,7 @@ namespace FlappyBird
 		const int screenWidth = 1024;
 		const int screenHeight = 768;
 
-		InitWindow(screenWidth, screenHeight, "Flappy Bird");
+		InitWindow(screenWidth, screenHeight, "Flappy Viko");
 		SetExitKey(NULL);
 
 		scene = Scenes::Menu;
