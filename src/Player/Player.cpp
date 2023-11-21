@@ -53,7 +53,6 @@ namespace FlappyBird
 		player.dest.y = player.topPosition.y + destFix;
 	}
 
-
 	//static void UpdatePlayerScore()
 	//{
 

@@ -6,14 +6,14 @@
 
 namespace FlappyBird
 {
-	Texture2D pauseTexture;
+	static Texture2D pauseTexture;
 
 	static Button resumeButton;
 	static Button backMenuPauseButton;
-	Texture2D backMenuPauseButtonTexture;
-	Texture2D backMenuPauseButtonPressedTexture;
-	Texture2D resumeButtonTexture;
-	Texture2D resumeButtonPressedTexture;
+	static Texture2D backMenuPauseButtonTexture;
+	static Texture2D backMenuPauseButtonPressedTexture;
+	static Texture2D resumeButtonTexture;
+	static Texture2D resumeButtonPressedTexture;
 
 	void InitPause()
 	{

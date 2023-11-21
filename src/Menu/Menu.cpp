@@ -1,23 +1,73 @@
 #include "Menu/Menu.h"
 
+#include "Button/Button.h"
+
 namespace FlappyBird
 {
-	Texture2D backTexture;
-	Texture2D playButtonTexture;
-	Texture2D rulesButtonTexture;
-	Texture2D creditsButtonTexture;
-	Texture2D exitButtonTexture;
+	static Texture2D backTexture;
+	static Texture2D playButtonTexture;
+	static Texture2D rulesButtonTexture;
+	static Texture2D creditsButtonTexture;
+	static Texture2D exitButtonTexture;
 
-	Texture2D playButtonPressedTexture;
-	Texture2D rulesButtonPressedTexture;
-	Texture2D creditsButtonPressedTexture;
-	Texture2D exitButtonPressedTexture;
+	static Texture2D playButtonPressedTexture;
+	static Texture2D rulesButtonPressedTexture;
+	static Texture2D creditsButtonPressedTexture;
+	static Texture2D exitButtonPressedTexture;
 
 	static Button playButton;
 	static Button rulesButton;
 	static Button creditsButton;
 	static Button exitButton;
 
+	static void MenuInput(Scenes& scene)
+	{
+		if (CheckCollisionButtonMouse(GetMousePosition(), playButton))
+		{
+			playButton.isSelected = true;
+
+			if (CheckMouseInput(playButton))
+			{
+				scene = Scenes::Play;
+			}
+		}
+		else
+			playButton.isSelected = false;
+
+		if (CheckCollisionButtonMouse(GetMousePosition(), rulesButton))
+		{
+			rulesButton.isSelected = true;
+			if (CheckMouseInput(rulesButton))
+			{
+				scene = Scenes::Rules;
+			}
+		}
+		else
+			rulesButton.isSelected = false;
+
+		if (CheckCollisionButtonMouse(GetMousePosition(), creditsButton))
+		{
+			creditsButton.isSelected = true;
+			if (CheckMouseInput(creditsButton))
+			{
+				scene = Scenes::Credits;
+			}
+		}
+		else
+			creditsButton.isSelected = false;
+
+		if (CheckCollisionButtonMouse(GetMousePosition(), exitButton))
+		{
+			exitButton.isSelected = true;
+			if (CheckMouseInput(exitButton))
+			{
+				scene = Scenes::Exit;
+			}
+		}
+		else
+			exitButton.isSelected = false;
+	}
+	
 	void InitMenu()
 	{
 		backTexture = LoadTexture("res/backmenu.png");
@@ -66,53 +116,6 @@ namespace FlappyBird
 		EndDrawing();
 	}
 
-	void MenuInput(Scenes& scene)
-	{
-		if (CheckCollisionButtonMouse(GetMousePosition(), playButton))
-		{
-			playButton.isSelected = true;
-
-			if (CheckMouseInput(playButton))
-			{
-				scene = Scenes::Play;
-			}
-		}
-		else
-			playButton.isSelected = false;
-
-		if (CheckCollisionButtonMouse(GetMousePosition(), rulesButton))
-		{
-			rulesButton.isSelected = true;
-			if (CheckMouseInput(rulesButton))
-			{
-				scene = Scenes::Rules;
-			}
-		}
-		else
-			rulesButton.isSelected = false;
-
-		if (CheckCollisionButtonMouse(GetMousePosition(), creditsButton))
-		{
-			creditsButton.isSelected = true;
-			if (CheckMouseInput(creditsButton))
-			{
-				scene = Scenes::Credits;
-			}
-		}
-		else
-			creditsButton.isSelected = false;
-
-		if (CheckCollisionButtonMouse(GetMousePosition(), exitButton))
-		{
-			exitButton.isSelected = true;
-			if (CheckMouseInput(exitButton))
-			{
-				scene = Scenes::Exit;
-			}
-		}
-		else
-			exitButton.isSelected = false;
-	}
 
 	void RunMenu(Scenes& scene, bool isNewScene)
 	{
