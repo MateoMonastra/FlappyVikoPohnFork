@@ -33,4 +33,5 @@ namespace FlappyBird
 	Player InitPlayer();
 	void UpdatePlayer(Player& player, Scenes& scene);
 	void DrawPlayer(Player player);
+	void DrawPlayerScore(Player player);
 }

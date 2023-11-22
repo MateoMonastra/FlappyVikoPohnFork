@@ -23,6 +23,13 @@ namespace FlappyBird
 		pipe.botPosition.x = pipe.topPosition.x;
 		pipe.botPosition.y = static_cast<float>(GetScreenHeight() - pipe.botHeight);
 
+		pipe.midPosition.x = pipe.topPosition.x;
+		pipe.midPosition.y = pipe.topPosition.y + pipe.topHeight;
+
+		pipe.midHeight = pipe.botHeight;
+
+		pipe.givePoints = true;
+
 		return pipe;
 	}
 
@@ -30,6 +37,7 @@ namespace FlappyBird
 	{
 		pipe.topPosition.x -= pipe.speed * GetFrameTime();
 		pipe.botPosition.x = pipe.topPosition.x;
+		pipe.midPosition.x = pipe.topPosition.x;
 
 		if (pipe.topPosition.x + pipe.width < 0)
 		{
@@ -38,6 +46,11 @@ namespace FlappyBird
 
 			pipe.botHeight = GetScreenHeight() - pipe.topHeight - pipe.separation;
 			pipe.botPosition.y = static_cast<float>(GetScreenHeight() - pipe.botHeight);
+
+			pipe.midPosition.y = pipe.topPosition.y + pipe.topHeight;
+
+			pipe.givePoints = true;
+
 		}
 	}
 

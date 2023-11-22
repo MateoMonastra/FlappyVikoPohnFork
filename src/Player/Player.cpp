@@ -53,13 +53,6 @@ namespace FlappyBird
 		player.dest.y = player.topPosition.y + destFix;
 	}
 
-	//static void UpdatePlayerScore()
-	//{
-
-
-
-	//}
-
 	Player InitPlayer()
 	{
 		Player player;
@@ -101,5 +94,13 @@ namespace FlappyBird
 		DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
 		DrawRectangle(static_cast<int>(player.topPosition.x), static_cast<int>(player.topPosition.y), player.texture.width, player.texture.height, WHITE);
 		
+	}
+
+	void DrawPlayerScore(Player player)
+	{
+		int xPos = 10;
+		int yPos = 10;
+		int fontSize = 30;
+		DrawText(TextFormat("Score: %i", player.score), xPos, yPos, fontSize, MAGENTA);
 	}
 }

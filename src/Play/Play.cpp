@@ -61,6 +61,21 @@ namespace FlappyBird
 		}
 	}
 
+	static void UpdateScore()
+	{
+		if (PlayerPipeCollision(firstPipe.midPosition,firstPipe.midHeight) && firstPipe.givePoints)
+		{
+			player.score += 1;
+			firstPipe.givePoints = false;
+		}
+
+		if (PlayerPipeCollision(secondPipe.midPosition, secondPipe.midHeight) && secondPipe.givePoints)
+		{
+			player.score += 1;
+			secondPipe.givePoints = false;
+		}
+	}
+	
 	static void UpdatePlay(Scenes& scene)
 	{
 		UpdateParallax(parallax);
@@ -68,15 +83,8 @@ namespace FlappyBird
 		UpdatePlayer(player, scene);
 		UpdatePipe(firstPipe);
 		UpdatePipe(secondPipe);
+		UpdateScore();
 		LoseCondition(scene);
-	}
-
-	static void DrawPlayerScore()
-	{
-		int xPos = 10;
-		int yPos = 10;
-		int fontSize = 30;
-		DrawText(TextFormat("Score: %i", player.score), xPos, yPos, fontSize, RED);
 	}
 
 	static void DrawPlay()
@@ -93,7 +101,7 @@ namespace FlappyBird
 
 		DrawPlayer(player);
 
-		DrawPlayerScore();
+		DrawPlayerScore(player);
 
 		DrawButton(pauseButton);
 
