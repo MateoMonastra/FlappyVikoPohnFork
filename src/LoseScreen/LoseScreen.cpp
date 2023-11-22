@@ -73,6 +73,8 @@ namespace FlappyBird
 		DrawButton(backMenuLoseButton);
 		DrawButton(playAgainButton);
 
+		//DrawText(TextFormat("Your Score: %0i", player.score), 300, 300, 40, MAGENTA);
+
 		EndDrawing();
 	}
 

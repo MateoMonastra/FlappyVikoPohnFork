@@ -6,17 +6,23 @@
 #include "Pipes/Pipe.h"
 #include "Button/Button.h"
 #include "Parallax/Parallax.h"
+#include "Screen.h"
 
 namespace FlappyBird
 {
-	static Player player;
+	static Player player1;
+	static Player player2;
 	static Pipe firstPipe;
 	static Pipe secondPipe;
 
 	static Button pauseButton;
 	static Button pauseButtonPressed;
+	static Button SinglePlayer;
+	static Button MultiPlayer;
 
 	Parallax parallax;
+
+	static Screen currentScreen;
 
 
 	static void CheckPauseInput(Scenes& scene)
@@ -34,7 +40,34 @@ namespace FlappyBird
 			pauseButton.isSelected = false;
 	}
 
-	static bool PlayerPipeCollision(Vector2 pipePosition, float pipeHeight)
+	static void CheckModeSelectorInput()
+	{
+		if (CheckCollisionButtonMouse(GetMousePosition(), SinglePlayer))
+		{
+			SinglePlayer.isSelected = true;
+
+			if (CheckMouseInput(SinglePlayer))
+			{
+				currentScreen = Screen::SinglePlayer;
+			}
+		}
+		else
+			SinglePlayer.isSelected = false;
+
+		if (CheckCollisionButtonMouse(GetMousePosition(), MultiPlayer))
+		{
+			MultiPlayer.isSelected = true;
+
+			if (CheckMouseInput(MultiPlayer))
+			{
+				currentScreen = Screen::MultiPlayer;
+			}
+		}
+		else
+			MultiPlayer.isSelected = false;
+	}
+
+	static bool PlayerPipeCollision(Vector2 pipePosition, float pipeHeight, Player player)
 	{
 		float playerRightEdge = player.topPosition.x + player.texture.width;
 		float playerLeftEdge = player.topPosition.x;
@@ -54,22 +87,21 @@ namespace FlappyBird
 
 	static void LoseCondition(Scenes& scene)
 	{
-		if (PlayerPipeCollision(firstPipe.topPosition, firstPipe.topHeight) || PlayerPipeCollision(firstPipe.botPosition, firstPipe.botHeight) || 
-			PlayerPipeCollision(secondPipe.topPosition, secondPipe.topHeight) || PlayerPipeCollision(secondPipe.botPosition, secondPipe.botHeight))
+		if (PlayerPipeCollision(firstPipe.topPosition, firstPipe.topHeight, player1) || PlayerPipeCollision(firstPipe.botPosition, firstPipe.botHeight, player1) ||
+			PlayerPipeCollision(secondPipe.topPosition, secondPipe.topHeight, player1) || PlayerPipeCollision(secondPipe.botPosition, secondPipe.botHeight, player1))
 		{
 			scene = Scenes::LoseScreen;
 		}
 	}
 
-	static void UpdateScore()
+	static void UpdateScore(Player& player)
 	{
-		if (PlayerPipeCollision(firstPipe.midPosition,firstPipe.midHeight) && firstPipe.givePoints)
+		if (PlayerPipeCollision(firstPipe.midPosition,firstPipe.midHeight, player1) && firstPipe.givePoints)
 		{
 			player.score += 1;
 			firstPipe.givePoints = false;
 		}
-
-		if (PlayerPipeCollision(secondPipe.midPosition, secondPipe.midHeight) && secondPipe.givePoints)
+		if (PlayerPipeCollision(secondPipe.midPosition, secondPipe.midHeight, player1) && secondPipe.givePoints)
 		{
 			player.score += 1;
 			secondPipe.givePoints = false;
@@ -78,13 +110,31 @@ namespace FlappyBird
 	
 	static void UpdatePlay(Scenes& scene)
 	{
-		UpdateParallax(parallax);
-		CheckPauseInput(scene);
-		UpdatePlayer(player, scene);
-		UpdatePipe(firstPipe);
-		UpdatePipe(secondPipe);
-		UpdateScore();
-		LoseCondition(scene);
+		if (currentScreen == Screen::ModeSelector)
+		{
+			CheckModeSelectorInput();
+		}
+		else if (currentScreen == Screen::SinglePlayer)
+		{
+			UpdateParallax(parallax);
+			CheckPauseInput(scene);
+			UpdatePlayer(player1,player2, scene);
+			UpdatePipe(firstPipe);
+			UpdatePipe(secondPipe);
+			UpdateScore(player1);
+			LoseCondition(scene);
+		}
+		else if (currentScreen == Screen::MultiPlayer)
+		{
+			UpdateParallax(parallax);
+			CheckPauseInput(scene);
+			UpdatePlayer(player1, player2, scene);
+			UpdatePipe(firstPipe);
+			UpdatePipe(secondPipe);
+			UpdateScore(player1);
+			UpdateScore(player2);
+			LoseCondition(scene);
+		}
 	}
 
 	static void DrawPlay()
@@ -92,19 +142,42 @@ namespace FlappyBird
 		BeginDrawing();
 
 		ClearBackground(BLACK);
+	
+		if (currentScreen == Screen::ModeSelector)
+		{
+			DrawButton(SinglePlayer);
+			DrawButton(MultiPlayer);
+		}
+		else if (currentScreen == Screen::SinglePlayer)
+		{
+			DrawParallax(parallax);
 
-		DrawParallax(parallax);
+			DrawPipe(firstPipe);
 
-		DrawPipe(firstPipe);
+			DrawPipe(secondPipe);
 
-		DrawPipe(secondPipe);
+			DrawPlayer(player1);
 
-		DrawPlayer(player);
+			DrawPlayerScore(player1);
 
-		DrawPlayerScore(player);
+			DrawButton(pauseButton);
+		}
+		else if (currentScreen == Screen::MultiPlayer)
+		{
+			DrawParallax(parallax);
 
-		DrawButton(pauseButton);
+			DrawPipe(firstPipe);
 
+			DrawPipe(secondPipe);
+
+			DrawPlayer(player1);
+
+			DrawPlayer(player2);
+
+			DrawPlayerScore(player1);
+
+			DrawButton(pauseButton);
+		}
 		EndDrawing();
 	}
 
@@ -115,7 +188,10 @@ namespace FlappyBird
 		float firstPipeX = static_cast<float>(GetScreenWidth());
 		float secondPipeX = static_cast<float>(GetScreenWidth()) + pipeDistance + pipeWidth / 2;
 		
-		player = InitPlayer();
+		player1 = InitPlayer();
+		player2 = InitPlayer();
+		player2.topPosition.y -= 80;
+
 		firstPipe = InitPipe(firstPipeX);
 		secondPipe = InitPipe(secondPipeX);
 		parallax = InitParallax();
@@ -129,6 +205,28 @@ namespace FlappyBird
 		float buttonYPos = static_cast<float>(GetScreenHeight()) - buttonHeight - 10;
 
 		InitButton(pauseButton, pauseButtonTexture, pauseButtonPressedTexture, buttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
+
+		Texture2D SinglePlayerButtonTexture = LoadTexture("res/SinglePlayer.png");
+		Texture2D SinglePlayerButtonPressedTexture = LoadTexture("res/SinglePlayer.png");
+
+		const float SinglePlayerbuttonWidth = static_cast<float>(SinglePlayerButtonTexture.width);
+		const float SinglePlayerbuttonHeight = static_cast<float>(SinglePlayerButtonTexture.height);
+		float SinglePlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 2) - 100;
+		float SinglePlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - SinglePlayerbuttonHeight;
+		
+		InitButton(SinglePlayer, SinglePlayerButtonTexture, SinglePlayerButtonPressedTexture, SinglePlayerbuttonXPos, SinglePlayerbuttonYPos, SinglePlayerbuttonWidth, SinglePlayerbuttonHeight, RAYWHITE);
+
+		Texture2D MultiPlayerButtonTexture = LoadTexture("res/MultiPlayer.png");
+		Texture2D MultiPlayerButtonPressedTexture = LoadTexture("res/MultiPlayer.png");
+
+		const float MultiPlayerbuttonWidth = static_cast<float>(MultiPlayerButtonTexture.width);
+		const float MultiPlayerbuttonHeight = static_cast<float>(MultiPlayerButtonTexture.height);
+		float MultiPlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 2) + 100;
+		float MultiPlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - MultiPlayerbuttonHeight;
+
+		InitButton(MultiPlayer, MultiPlayerButtonTexture, MultiPlayerButtonPressedTexture, MultiPlayerbuttonXPos, MultiPlayerbuttonYPos, MultiPlayerbuttonWidth, MultiPlayerbuttonHeight, RAYWHITE);
+
+		currentScreen = Screen::ModeSelector;
 	}
 	
 	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene)

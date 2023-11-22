@@ -1,26 +1,41 @@
 #include "Player.h"
+#include <iostream>
 
 namespace FlappyBird
 {
-	static void CheckMovementInput(Player& player)
+	static void CheckMovementInput(Player& player1, Player& player2)
 	{		
-		if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+		if (IsKeyPressed(KEY_W))
 		{
-			player.velocity.y = player.jumpForce;
-			player.isJumping = true;
+			player1.velocity.y = player1.jumpForce;
+			player1.isJumping = true;
 		}
+
+		if (IsKeyPressed(KEY_UP))
+		{
+			player2.velocity.y = player2.jumpForce;
+			player2.isJumping = true;
+		}
+
 	}
 	
-	static void PlayerMovement(Player& player)
+	static void PlayerMovement(Player& player1, Player& player2)
 	{
-		CheckMovementInput(player);
+		CheckMovementInput(player1, player2);
 
-		player.velocity.y += player.gravity * GetFrameTime();
-		player.topPosition.y += player.velocity.y * GetFrameTime();
+		player1.velocity.y += player1.gravity * GetFrameTime();
+		player1.topPosition.y += player1.velocity.y * GetFrameTime();
 
-		if (player.isJumping && player.velocity.y > 0)
+		player2.velocity.y += player2.gravity * GetFrameTime();
+		player2.topPosition.y += player2.velocity.y * GetFrameTime();
+		
+		if (player1.isJumping && player1.velocity.y > 0)
 		{
-			player.isJumping = false;
+			player1.isJumping = false;
+		}
+		else if (player2.isJumping && player2.velocity.y > 0)
+		{
+			player2.isJumping = false;
 		}
 	}
 
@@ -82,17 +97,21 @@ namespace FlappyBird
 		return player;
 	}
 
-	void UpdatePlayer(Player& player, Scenes& scene)
+	void UpdatePlayer(Player& player1, Player& player2, Scenes& scene)
 	{
-		PlayerMovement(player);
-		PlayerScreenCollision(player, scene);
-		ChangeTexture(player);
+		PlayerMovement(player1, player2);
+
+		PlayerScreenCollision(player1, scene);
+		PlayerScreenCollision(player2, scene);
+		
+		ChangeTexture(player1);
+		ChangeTexture(player2);
 	}
 
 	void DrawPlayer(Player player)
 	{
 		DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
-		DrawRectangle(static_cast<int>(player.topPosition.x), static_cast<int>(player.topPosition.y), player.texture.width, player.texture.height, WHITE);
+		//DrawRectangle(static_cast<int>(player.topPosition.x), static_cast<int>(player.topPosition.y), player.texture.width, player.texture.height, WHITE);
 		
 	}
 
