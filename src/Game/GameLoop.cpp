@@ -7,6 +7,7 @@
 #include "Play/Play.h"
 #include "Pause/Pause.h"
 #include "Credits/Credits.h"
+#include "Rules/Rules.h"
 
 namespace FlappyBird
 {
@@ -48,6 +49,7 @@ namespace FlappyBird
 				break;
 
 			case Scenes::Rules:
+				RunRules(scene, isNewScene);
 				auxPrevScene = Scenes::Rules;
 				break;
 

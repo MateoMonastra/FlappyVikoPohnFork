@@ -45,6 +45,9 @@
     <ClCompile Include="src\Parallax\Parallax.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rules\Rules.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game\GameLoop.h">
@@ -78,6 +81,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\Play\Screen.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rules\Rules.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
