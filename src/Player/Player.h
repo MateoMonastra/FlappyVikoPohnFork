@@ -37,4 +37,5 @@ namespace FlappyBird
 	void UpdatePlayer(Player& player1, Player& player2, Screen& currentScreen);
 	void DrawPlayer(Player player);
 	void DrawPlayerScore(Player player);
+	void ChangeTexture(Player& player);
 }

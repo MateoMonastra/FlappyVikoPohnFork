@@ -18,6 +18,7 @@ namespace FlappyBird
 	static Button pauseButton;
 	static Button pauseButtonPressed;
 
+	static Texture2D modeSelectorBack;
 	static Button SinglePlayer;
 	static Button MultiPlayer;
 
@@ -38,7 +39,8 @@ namespace FlappyBird
 
 	static Screen currentScreen;
 
-	bool restStart = true;
+	bool restStart = {};
+	double restStartAnimationTimer = {};
 
 	static void InputLoseScreen(Scenes& scene)
 	{
@@ -195,9 +197,10 @@ namespace FlappyBird
 			if (IsMouseButtonUp(MOUSE_BUTTON_RIGHT))
 			{
 				UpdateParallax(parallax);
+				CheckPauseInput(scene);
+				
 				if (!restStart)
 				{
-					CheckPauseInput(scene);
 					UpdatePlayer(player1, player2, currentScreen);
 					UpdatePipe(firstPipe);
 					UpdatePipe(secondPipe);
@@ -206,9 +209,26 @@ namespace FlappyBird
 				}
 				else
 				{
+					ChangeTexture(player1);
+					int animationCoolDown = 1;
+
+					if (GetTime() - restStartAnimationTimer > animationCoolDown)
+					{
+						if(player1.isJumping)
+						{
+							player1.isJumping = false;
+						}
+						else
+						{
+							player1.isJumping = true;
+						}
+						restStartAnimationTimer = GetTime();
+					}
+
 					if (IsKeyPressed(KEY_W))
 					{
 						restStart = false;
+						player1.isJumping = false;
 					}
 				}
 			}
@@ -216,9 +236,10 @@ namespace FlappyBird
 		else if (currentScreen == Screen::MultiPlayer)
 		{
 				UpdateParallax(parallax);
+				CheckPauseInput(scene);
+			
 			if (!restStart)
 			{
-				CheckPauseInput(scene);
 				UpdatePlayer(player1, player2, currentScreen);
 				UpdatePipe(firstPipe);
 				UpdatePipe(secondPipe);
@@ -229,6 +250,26 @@ namespace FlappyBird
 			}
 			else
 			{
+				ChangeTexture(player1);
+				ChangeTexture(player2);
+
+				int animationCoolDown = 1;
+
+				if (GetTime() - restStartAnimationTimer > animationCoolDown)
+				{
+					if (player1.isJumping)
+					{
+						player1.isJumping = false;
+						player2.isJumping = false;
+					}
+					else
+					{
+						player1.isJumping = true;
+						player2.isJumping = true;
+					}
+					restStartAnimationTimer = GetTime();
+				}
+
 				if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
 				{
 					restStart = false;
@@ -249,6 +290,7 @@ namespace FlappyBird
 
 		if (currentScreen == Screen::ModeSelector)
 		{
+			DrawTexture(modeSelectorBack, 0, 0, WHITE);
 			DrawButton(SinglePlayer);
 			DrawButton(MultiPlayer);
 		}
@@ -343,6 +385,7 @@ namespace FlappyBird
 		player2.scoreColor = RED;
 
 		player2.topPosition.y -= 80;
+		player2.dest.y =  player2.topPosition.y;
 
 		firstPipe = InitPipe(firstPipeX);
 		secondPipe = InitPipe(secondPipeX);
@@ -359,30 +402,33 @@ namespace FlappyBird
 		InitButton(pauseButton, pauseButtonTexture, pauseButtonPressedTexture, buttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
 
 		Texture2D SinglePlayerButtonTexture = LoadTexture("res/SinglePlayer.png");
-		Texture2D SinglePlayerButtonPressedTexture = LoadTexture("res/SinglePlayer.png");
+		Texture2D SinglePlayerButtonPressedTexture = LoadTexture("res/SinglePlayerpressed.png");
 
 		const float SinglePlayerbuttonWidth = static_cast<float>(SinglePlayerButtonTexture.width);
 		const float SinglePlayerbuttonHeight = static_cast<float>(SinglePlayerButtonTexture.height);
-		float SinglePlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 2) - 100;
+		float SinglePlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 3) - SinglePlayerbuttonWidth;
 		float SinglePlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - SinglePlayerbuttonHeight;
 
 		InitButton(SinglePlayer, SinglePlayerButtonTexture, SinglePlayerButtonPressedTexture, SinglePlayerbuttonXPos, SinglePlayerbuttonYPos, SinglePlayerbuttonWidth, SinglePlayerbuttonHeight, RAYWHITE);
 
 		Texture2D MultiPlayerButtonTexture = LoadTexture("res/MultiPlayer.png");
-		Texture2D MultiPlayerButtonPressedTexture = LoadTexture("res/MultiPlayer.png");
+		Texture2D MultiPlayerButtonPressedTexture = LoadTexture("res/MultiPlayerpressed.png");
 
 		const float MultiPlayerbuttonWidth = static_cast<float>(MultiPlayerButtonTexture.width);
 		const float MultiPlayerbuttonHeight = static_cast<float>(MultiPlayerButtonTexture.height);
-		float MultiPlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 2) + 100;
+		float MultiPlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 3) * 2;
 		float MultiPlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - MultiPlayerbuttonHeight;
 
 		InitButton(MultiPlayer, MultiPlayerButtonTexture, MultiPlayerButtonPressedTexture, MultiPlayerbuttonXPos, MultiPlayerbuttonYPos, MultiPlayerbuttonWidth, MultiPlayerbuttonHeight, RAYWHITE);
+
+		modeSelectorBack = LoadTexture("res/ModeSelectorBack.png");
 
 		currentScreen = Screen::ModeSelector;
 
 		InitLoseScreen();
 
 		restStart = true;
+		restStartAnimationTimer = GetTime();
 	}
 
 	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene)

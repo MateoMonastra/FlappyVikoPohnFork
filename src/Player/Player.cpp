@@ -40,17 +40,6 @@ namespace FlappyBird
 		}
 	}
 
-	static void ChangeTexture(Player& player)
-	{
-		if (player.isJumping == true)
-		{
-			player.texture = player.textureFly;
-		}
-		else
-		{
-			player.texture = player.textureDrop;
-		}
-	}
 
 	static void PlayerScreenCollision(Player& player)
 	{
@@ -127,9 +116,21 @@ namespace FlappyBird
 
 	void DrawPlayerScore(Player player)
 	{
-		int Xpos = GetScreenWidth() / 2 - 60;
+		int Xpos = GetScreenWidth() / 2 - 80;
 		int yPos = 10;
-		int fontSize = 30;
+		int fontSize = 50;
 		DrawText(TextFormat("Score: %01i", player.score), Xpos, yPos, fontSize, DARKPURPLE);
+	}
+	
+	void ChangeTexture(Player& player)
+	{
+		if (player.isJumping == true)
+		{
+			player.texture = player.textureFly;
+		}
+		else
+		{
+			player.texture = player.textureDrop;
+		}
 	}
 }
