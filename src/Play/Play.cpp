@@ -21,12 +21,15 @@ namespace FlappyBird
 	static Button SinglePlayer;
 	static Button MultiPlayer;
 
-	static Texture2D loseTexture;
+	static Texture2D loseTexture_Bad;
+	static Texture2D loseTexture_Ok;
+	static Texture2D loseTexture_Good;
+	static Texture2D loseTexture_VeryGood;
 
 	static Button backMenuLoseButton;
 	static Texture2D backMenuLoseButtonTexture;
 	static Texture2D backMenuLoseButtonPressedTexture;
-	
+
 	static Button playAgainButton;
 	static Texture2D playAgainButtonTexture;
 	static Texture2D playAgainButtonPressedTexture;
@@ -34,6 +37,8 @@ namespace FlappyBird
 	Parallax parallax;
 
 	static Screen currentScreen;
+
+	bool restStart = true;
 
 	static void InputLoseScreen(Scenes& scene)
 	{
@@ -66,7 +71,10 @@ namespace FlappyBird
 
 	static void InitLoseScreen()
 	{
-		loseTexture = LoadTexture("res/losescreen.png");
+		loseTexture_Bad = LoadTexture("res/losescreen_Bad.png");
+		loseTexture_Ok = LoadTexture("res/losescreen_ItsOk.png");
+		loseTexture_Good = LoadTexture("res/losescreen_WellDone.png");
+		loseTexture_VeryGood = LoadTexture("res/losescreen_Amazing.png");
 
 		backMenuLoseButtonTexture = LoadTexture("res/backmenubutton.png");
 		playAgainButtonTexture = LoadTexture("res/playagain.png");
@@ -75,7 +83,7 @@ namespace FlappyBird
 
 		const float buttonWidth = static_cast<float>(backMenuLoseButtonTexture.width);
 		const float buttonHeight = static_cast<float>(backMenuLoseButtonTexture.height);
-		float buttonYPos = static_cast<float>(GetScreenHeight()) / 4 * 3 - buttonHeight / 2;
+		float buttonYPos = static_cast<float>(GetScreenHeight()) / 4 * 3 + buttonHeight;
 
 		float backMenuPausebuttonXPos = static_cast<float>(GetScreenWidth()) / 2 - buttonWidth - 180;
 		float playAgainButtonXPos = static_cast<float>(GetScreenWidth()) / 2 + buttonWidth + 40;
@@ -164,7 +172,7 @@ namespace FlappyBird
 
 	static void UpdateScore(Player& player)
 	{
-		if (PlayerPipeCollision(firstPipe.midPosition,firstPipe.midHeight, player) && firstPipe.givePoints)
+		if (PlayerPipeCollision(firstPipe.midPosition, firstPipe.midHeight, player) && firstPipe.givePoints)
 		{
 			player1.score += 1;
 			firstPipe.givePoints = false;
@@ -175,7 +183,7 @@ namespace FlappyBird
 			secondPipe.givePoints = false;
 		}
 	}
-	
+
 	static void UpdatePlay(Scenes& scene)
 	{
 		if (currentScreen == Screen::ModeSelector)
@@ -187,25 +195,45 @@ namespace FlappyBird
 			if (IsMouseButtonUp(MOUSE_BUTTON_RIGHT))
 			{
 				UpdateParallax(parallax);
+				if (!restStart)
+				{
+					CheckPauseInput(scene);
+					UpdatePlayer(player1, player2, currentScreen);
+					UpdatePipe(firstPipe);
+					UpdatePipe(secondPipe);
+					UpdateScore(player1);
+					LoseCondition(player1);
+				}
+				else
+				{
+					if (IsKeyPressed(KEY_W))
+					{
+						restStart = false;
+					}
+				}
+			}
+		}
+		else if (currentScreen == Screen::MultiPlayer)
+		{
+				UpdateParallax(parallax);
+			if (!restStart)
+			{
 				CheckPauseInput(scene);
 				UpdatePlayer(player1, player2, currentScreen);
 				UpdatePipe(firstPipe);
 				UpdatePipe(secondPipe);
 				UpdateScore(player1);
+				UpdateScore(player2);
 				LoseCondition(player1);
+				LoseCondition(player2);
 			}
-		}
-		else if (currentScreen == Screen::MultiPlayer)
-		{
-			UpdateParallax(parallax);
-			CheckPauseInput(scene);
-			UpdatePlayer(player1, player2, currentScreen);
-			UpdatePipe(firstPipe);
-			UpdatePipe(secondPipe);
-			UpdateScore(player1);
-			UpdateScore(player2);
-			LoseCondition(player1);
-			LoseCondition(player2);
+			else
+			{
+				if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
+				{
+					restStart = false;
+				}
+			}
 		}
 		else if (currentScreen == Screen::Lose)
 		{
@@ -218,7 +246,7 @@ namespace FlappyBird
 		BeginDrawing();
 
 		ClearBackground(BLACK);
-	
+
 		if (currentScreen == Screen::ModeSelector)
 		{
 			DrawButton(SinglePlayer);
@@ -237,6 +265,11 @@ namespace FlappyBird
 			DrawPlayerScore(player1);
 
 			DrawButton(pauseButton);
+
+			if (restStart)
+			{
+				DrawText("Jump to begin!", GetScreenWidth() / 4, GetScreenHeight() / 4, 70, WHITE);
+			}
 		}
 		else if (currentScreen == Screen::MultiPlayer)
 		{
@@ -253,19 +286,39 @@ namespace FlappyBird
 			DrawPlayerScore(player1);
 
 			DrawButton(pauseButton);
+
+			if (restStart)
+			{
+				DrawText("Jump to begin!", GetScreenWidth() / 4, GetScreenHeight() / 4, 70, WHITE);
+			}
 		}
 		else if (currentScreen == Screen::Lose)
 		{
-			DrawTexture(loseTexture, 0, 0, RAYWHITE);
+			if (player1.score <= 5)
+			{
+				DrawTexture(loseTexture_Bad, 0, 0, RAYWHITE);
+			}
+			else if (player1.score <= 12)
+			{
+				DrawTexture(loseTexture_Ok, 0, 0, RAYWHITE);
+			}
+			else if (player1.score <= 20)
+			{
+				DrawTexture(loseTexture_Good, 0, 0, RAYWHITE);
+			}
+			else
+			{
+				DrawTexture(loseTexture_VeryGood, 0, 0, RAYWHITE);
+			}
 
 			DrawButton(backMenuLoseButton);
 			DrawButton(playAgainButton);
 
-			int scoreX = GetScreenWidth() / 3;
+			int scoreX = GetScreenWidth() / 3 - 20;
 			int scoreY = GetScreenHeight() / 3;
 			int scoreFontSize = 50;
 
-			DrawText(TextFormat("Total Score : %02i", player1.score), scoreX, scoreY, scoreFontSize, DARKPURPLE);
+			DrawText(TextFormat("Total Score : %01i", player1.score), scoreX, scoreY, scoreFontSize, DARKPURPLE);
 		}
 		EndDrawing();
 	}
@@ -276,7 +329,7 @@ namespace FlappyBird
 		float pipeWidth = 90.0f;
 		float firstPipeX = static_cast<float>(GetScreenWidth());
 		float secondPipeX = static_cast<float>(GetScreenWidth()) + pipeDistance + pipeWidth / 2;
-		
+
 		Texture2D player1Drop = LoadTexture("res/player1.png");
 		Texture2D player1fly = LoadTexture("res/player1fly.png");
 
@@ -312,7 +365,7 @@ namespace FlappyBird
 		const float SinglePlayerbuttonHeight = static_cast<float>(SinglePlayerButtonTexture.height);
 		float SinglePlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 2) - 100;
 		float SinglePlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - SinglePlayerbuttonHeight;
-		
+
 		InitButton(SinglePlayer, SinglePlayerButtonTexture, SinglePlayerButtonPressedTexture, SinglePlayerbuttonXPos, SinglePlayerbuttonYPos, SinglePlayerbuttonWidth, SinglePlayerbuttonHeight, RAYWHITE);
 
 		Texture2D MultiPlayerButtonTexture = LoadTexture("res/MultiPlayer.png");
@@ -328,8 +381,10 @@ namespace FlappyBird
 		currentScreen = Screen::ModeSelector;
 
 		InitLoseScreen();
+
+		restStart = true;
 	}
-	
+
 	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene)
 	{
 		if (isNewScene && previousScene != Scenes::Pause)

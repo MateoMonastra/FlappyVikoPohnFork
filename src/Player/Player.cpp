@@ -127,9 +127,9 @@ namespace FlappyBird
 
 	void DrawPlayerScore(Player player)
 	{
-		int Xpos = GetScreenWidth() / 2;
+		int Xpos = GetScreenWidth() / 2 - 60;
 		int yPos = 10;
 		int fontSize = 30;
-		DrawText(TextFormat("Score: %02i", player.score), Xpos, yPos, fontSize, DARKPURPLE);
+		DrawText(TextFormat("Score: %01i", player.score), Xpos, yPos, fontSize, DARKPURPLE);
 	}
 }
