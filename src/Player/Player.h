@@ -2,7 +2,7 @@
 
 #include "Raylib/header/raylib.h"
 
-#include "Game/Scenes.h"
+#include "Play/Screen.h"
 
 namespace FlappyBird
 {
@@ -31,7 +31,7 @@ namespace FlappyBird
 	};
 
 	Player InitPlayer();
-	void UpdatePlayer(Player& player1, Player& player2, Scenes& scene);
+	void UpdatePlayer(Player& player1, Player& player2, Screen& currentScreen);
 	void DrawPlayer(Player player);
 	void DrawPlayerScore(Player player);
 }

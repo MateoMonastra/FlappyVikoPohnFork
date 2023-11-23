@@ -1,5 +1,6 @@
 #include "Player.h"
-#include <iostream>
+
+#include "Play/Screen.h"
 
 namespace FlappyBird
 {
@@ -51,7 +52,7 @@ namespace FlappyBird
 		}
 	}
 
-	static void PlayerScreenCollision(Player& player, Scenes& scene)
+	static void PlayerScreenCollision(Player& player, Screen& currentScreen)
 	{
 		if (player.topPosition.y <= 0)
 		{
@@ -61,7 +62,7 @@ namespace FlappyBird
 
 		if (player.topPosition.y >= GetScreenHeight())
 		{
-			scene = Scenes::LoseScreen;
+			currentScreen = Screen::Lose;
 		}
 
 		int destFix = 30;
@@ -97,15 +98,18 @@ namespace FlappyBird
 		return player;
 	}
 
-	void UpdatePlayer(Player& player1, Player& player2, Scenes& scene)
+	void UpdatePlayer(Player& player1, Player& player2, Screen& currentScreen)
 	{
 		PlayerMovement(player1, player2);
 
-		PlayerScreenCollision(player1, scene);
-		PlayerScreenCollision(player2, scene);
+		PlayerScreenCollision(player1, currentScreen);
+		if (currentScreen == Screen::MultiPlayer)
+		{
+		PlayerScreenCollision(player2, currentScreen);
+		ChangeTexture(player2);
+		}
 		
 		ChangeTexture(player1);
-		ChangeTexture(player2);
 	}
 
 	void DrawPlayer(Player player)

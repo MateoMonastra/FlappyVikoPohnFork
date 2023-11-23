@@ -14,7 +14,6 @@
     <ClCompile Include="src\Button\Button.cpp" />
     <ClCompile Include="src\Credits\Credits.cpp" />
     <ClCompile Include="src\Game\GameLoop.cpp" />
-    <ClCompile Include="src\LoseScreen\LoseScreen.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Menu\Menu.cpp" />
     <ClCompile Include="src\Parallax\Parallax.cpp" />
@@ -28,7 +27,6 @@
     <ClInclude Include="src\Credits\Credits.h" />
     <ClInclude Include="src\Game\GameLoop.h" />
     <ClInclude Include="src\Game\Scenes.h" />
-    <ClInclude Include="src\LoseScreen\LoseScreen.h" />
     <ClInclude Include="src\Menu\Menu.h" />
     <ClInclude Include="src\Parallax\Parallax.h" />
     <ClInclude Include="src\Pause\Pause.h" />

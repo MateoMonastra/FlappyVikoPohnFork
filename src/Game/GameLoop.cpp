@@ -7,7 +7,6 @@
 #include "Play/Play.h"
 #include "Pause/Pause.h"
 #include "Credits/Credits.h"
-#include "LoseScreen/LoseScreen.h"
 
 namespace FlappyBird
 {
@@ -55,10 +54,6 @@ namespace FlappyBird
 			case Scenes::Credits:
 				RunCredits(scene, isNewScene); 
 				auxPrevScene = Scenes::Credits;
-				break;
-
-			case Scenes::LoseScreen:
-				RunLoseScreen(scene, isNewScene);
 				break;
 
 			case Scenes::Exit:
