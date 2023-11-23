@@ -69,12 +69,12 @@ namespace FlappyBird
 		player.dest.y = player.topPosition.y + destFix;
 	}
 
-	Player InitPlayer()
+	Player InitPlayer(Texture2D textureDrop, Texture2D textureFly)
 	{
 		Player player;
 
-		player.textureDrop = LoadTexture("res/player2.png");
-		player.textureFly = LoadTexture("res/player2fly.png");
+		player.textureDrop = textureDrop;
+		player.textureFly = textureFly;
 		player.texture = player.textureDrop;
 
 		float xPos = static_cast<float>(player.texture.width);
@@ -121,9 +121,8 @@ namespace FlappyBird
 
 	void DrawPlayerScore(Player player)
 	{
-		int xPos = 10;
 		int yPos = 10;
 		int fontSize = 30;
-		DrawText(TextFormat("Score: %i", player.score), xPos, yPos, fontSize, MAGENTA);
+		DrawText(TextFormat("Score: %i", player.score), player.scoreXPos, yPos, fontSize, player.scoreColor);
 	}
 }

@@ -9,6 +9,17 @@ namespace FlappyBird
 		Vector2 midPosition = { 0, 0 };
 		Vector2 botPosition = { 0, 0 };
 
+		Texture2D texture = {};
+
+		Rectangle topSource = {};
+		Rectangle topDest = {};
+		Vector2 topOrigin = {};
+
+		Rectangle botSource = {};
+		Rectangle botDest = {};
+		Vector2 botOrigin = {};
+
+
 		float separation = 160.0f;
 
 		float speed = 0.0f;

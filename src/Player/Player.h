@@ -27,10 +27,12 @@ namespace FlappyBird
 
 		float rotation = 0;
 
+		int scoreXPos = 0;
 		int score = {0};
+		Color scoreColor = {};
 	};
 
-	Player InitPlayer();
+	Player InitPlayer(Texture2D textureDrop, Texture2D textureFly);
 	void UpdatePlayer(Player& player1, Player& player2, Screen& currentScreen);
 	void DrawPlayer(Player player);
 	void DrawPlayerScore(Player player);
