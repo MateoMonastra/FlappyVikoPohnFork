@@ -14,6 +14,8 @@ namespace FlappyBird
 		float jumpForce = -300.0f;
 		bool isJumping = false;
 
+		bool isAlive = false;
+
 		Rectangle hitBox = {};
 
 		Texture2D texture = Texture2D();
@@ -27,7 +29,6 @@ namespace FlappyBird
 
 		float rotation = 0;
 
-		int scoreXPos = 0;
 		int score = {0};
 		Color scoreColor = {};
 	};

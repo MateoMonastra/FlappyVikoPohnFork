@@ -144,10 +144,19 @@ namespace FlappyBird
 			playerBottomEdge <= pipeTopEdge);
 	}
 
-	static void LoseCondition(Player player)
+	static void LoseCondition(Player& player)
 	{
 		if (PlayerPipeCollision(firstPipe.topPosition, firstPipe.topHeight, player) || PlayerPipeCollision(firstPipe.botPosition, firstPipe.botHeight, player) ||
 			PlayerPipeCollision(secondPipe.topPosition, secondPipe.topHeight, player) || PlayerPipeCollision(secondPipe.botPosition, secondPipe.botHeight, player))
+		{
+			player.isAlive = false;
+		}
+
+		if (currentScreen == Screen::SinglePlayer && !player1.isAlive)
+		{
+			currentScreen = Screen::Lose;
+		}
+		else if (currentScreen == Screen::MultiPlayer && !player1.isAlive && !player2.isAlive)
 		{
 			currentScreen = Screen::Lose;
 		}
@@ -157,12 +166,12 @@ namespace FlappyBird
 	{
 		if (PlayerPipeCollision(firstPipe.midPosition,firstPipe.midHeight, player) && firstPipe.givePoints)
 		{
-			player.score += 1;
+			player1.score += 1;
 			firstPipe.givePoints = false;
 		}
 		if (PlayerPipeCollision(secondPipe.midPosition, secondPipe.midHeight, player) && secondPipe.givePoints)
 		{
-			player.score += 1;
+			player1.score += 1;
 			secondPipe.givePoints = false;
 		}
 	}
@@ -243,8 +252,6 @@ namespace FlappyBird
 
 			DrawPlayerScore(player1);
 
-			DrawPlayerScore(player2);
-
 			DrawButton(pauseButton);
 		}
 		else if (currentScreen == Screen::Lose)
@@ -278,9 +285,6 @@ namespace FlappyBird
 
 		player1 = InitPlayer(player1Drop, player1fly);
 		player2 = InitPlayer(player2Drop, player2fly);
-
-		player1.scoreXPos = 10;
-		player2.scoreXPos = GetScreenWidth() - 180;
 
 		player1.scoreColor = BLUE;
 		player2.scoreColor = RED;

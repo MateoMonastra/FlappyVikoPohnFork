@@ -5,7 +5,7 @@
 namespace FlappyBird
 {
 	static void CheckMovementInput(Player& player1, Player& player2)
-	{		
+	{
 		if (IsKeyPressed(KEY_W))
 		{
 			player1.velocity.y = player1.jumpForce;
@@ -19,7 +19,7 @@ namespace FlappyBird
 		}
 
 	}
-	
+
 	static void PlayerMovement(Player& player1, Player& player2)
 	{
 		CheckMovementInput(player1, player2);
@@ -29,7 +29,7 @@ namespace FlappyBird
 
 		player2.velocity.y += player2.gravity * GetFrameTime();
 		player2.topPosition.y += player2.velocity.y * GetFrameTime();
-		
+
 		if (player1.isJumping && player1.velocity.y > 0)
 		{
 			player1.isJumping = false;
@@ -52,7 +52,7 @@ namespace FlappyBird
 		}
 	}
 
-	static void PlayerScreenCollision(Player& player, Screen& currentScreen)
+	static void PlayerScreenCollision(Player& player)
 	{
 		if (player.topPosition.y <= 0)
 		{
@@ -62,7 +62,7 @@ namespace FlappyBird
 
 		if (player.topPosition.y >= GetScreenHeight())
 		{
-			currentScreen = Screen::Lose;
+			player.isAlive = false;
 		}
 
 		int destFix = 30;
@@ -77,13 +77,15 @@ namespace FlappyBird
 		player.textureFly = textureFly;
 		player.texture = player.textureDrop;
 
+		player.isAlive = true;
+
 		float xPos = static_cast<float>(player.texture.width);
 		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height / 2);
-		player.topPosition = { xPos, yPos};
+		player.topPosition = { xPos, yPos };
 
 		player.scale = 0.15f;
-		
-		player.dest.x = player.topPosition.x + static_cast<float>(player.texture.width) /2;
+
+		player.dest.x = player.topPosition.x + static_cast<float>(player.texture.width) / 2;
 		player.dest.y = player.topPosition.y;
 		player.dest.width = static_cast<float>(player.texture.width);
 		player.dest.height = static_cast<float>(player.texture.height);
@@ -102,27 +104,32 @@ namespace FlappyBird
 	{
 		PlayerMovement(player1, player2);
 
-		PlayerScreenCollision(player1, currentScreen);
+		PlayerScreenCollision(player1);
+
+		ChangeTexture(player1);
+
 		if (currentScreen == Screen::MultiPlayer)
 		{
-		PlayerScreenCollision(player2, currentScreen);
-		ChangeTexture(player2);
+			PlayerScreenCollision(player2);
+			ChangeTexture(player2);
 		}
-		
-		ChangeTexture(player1);
+
 	}
 
 	void DrawPlayer(Player player)
 	{
-		DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
-		//DrawRectangle(static_cast<int>(player.topPosition.x), static_cast<int>(player.topPosition.y), player.texture.width, player.texture.height, WHITE);
-		
+		if (player.isAlive)
+		{
+			DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
+		}
 	}
+
 
 	void DrawPlayerScore(Player player)
 	{
+		int Xpos = GetScreenWidth() / 2;
 		int yPos = 10;
 		int fontSize = 30;
-		DrawText(TextFormat("Score: %i", player.score), player.scoreXPos, yPos, fontSize, player.scoreColor);
+		DrawText(TextFormat("Score: %02i", player.score), Xpos, yPos, fontSize, DARKPURPLE);
 	}
 }
