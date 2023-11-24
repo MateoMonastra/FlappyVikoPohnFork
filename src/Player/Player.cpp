@@ -114,12 +114,12 @@ namespace FlappyBird
 	}
 
 
-	void DrawPlayerScore(Player player)
+	void DrawPlayerScore(Player player, Font font)
 	{
-		int Xpos = GetScreenWidth() / 2 - 80;
-		int yPos = 10;
-		int fontSize = 50;
-		DrawText(TextFormat("Score: %01i", player.score), Xpos, yPos, fontSize, DARKPURPLE);
+		Vector2 textPos = {static_cast<float>(GetScreenWidth()) / 2 - 80, 10};
+		float fontSize = 50;
+		float textSpacing = 5;
+		DrawTextEx(font, TextFormat("Score: %01i", player.score),textPos, fontSize, textSpacing, DARKPURPLE);
 	}
 	
 	void ChangeTexture(Player& player)

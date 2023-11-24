@@ -12,6 +12,14 @@ namespace FlappyBird
 	static Texture2D backMenuCreditsButtonTexture;
 	static Texture2D backMenuCreditsButtonPressedTexture;
 
+	static void UnloadCredits()
+	{
+		UnloadTexture(creditsTexture);
+		UnloadTexture(backMenuCreditsButtonTexture);
+		UnloadTexture(backMenuCreditsButtonPressedTexture);
+	
+	}
+
 	static void CreditsInput(Scenes& scene)
 	{
 		if (CheckCollisionButtonMouse(GetMousePosition(), backMenuCreditsButton))
@@ -20,6 +28,7 @@ namespace FlappyBird
 
 			if (CheckMouseInput(backMenuCreditsButton))
 			{
+				UnloadCredits();
 				scene = Scenes::Menu;
 			}
 		}
@@ -29,9 +38,9 @@ namespace FlappyBird
 	
 	void InitCredits()
 	{
-		creditsTexture = LoadTexture("res/credits.png");
-		backMenuCreditsButtonTexture = LoadTexture("res/backmenubutton.png");
-		backMenuCreditsButtonPressedTexture = LoadTexture("res/backmenubuttonpressed.png");
+		creditsTexture = LoadTexture("res/PNG/credits.png");
+		backMenuCreditsButtonTexture = LoadTexture("res/PNG/backmenubutton.png");
+		backMenuCreditsButtonPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
 
 		const float buttonWidth = static_cast<float>(backMenuCreditsButtonTexture.width);
 		const float buttonHeight = static_cast<float>(backMenuCreditsButtonTexture.height);

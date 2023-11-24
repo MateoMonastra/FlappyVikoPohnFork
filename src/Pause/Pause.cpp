@@ -4,6 +4,8 @@
 
 #include "Button/Button.h"
 
+#include "Play/Play.h"
+
 namespace FlappyBird
 {
 	static Texture2D pauseTexture;
@@ -15,15 +17,27 @@ namespace FlappyBird
 	static Texture2D resumeButtonTexture;
 	static Texture2D resumeButtonPressedTexture;
 
+	static void UnloadPause()
+	{
+		UnloadTexture(pauseTexture);
+		UnloadTexture(backMenuPauseButtonTexture);
+		UnloadTexture(backMenuPauseButtonPressedTexture);
+		UnloadTexture(resumeButtonTexture);
+		UnloadTexture(resumeButtonPressedTexture);
+		UnloadTexture(resumeButton.texture);
+		UnloadTexture(backMenuPauseButton.texture);
+	
+	}
+
 	void InitPause()
 	{
-		pauseTexture = LoadTexture("res/pause.png");
+		pauseTexture = LoadTexture("res/PNG/pause.png");
 
-		backMenuPauseButtonTexture = LoadTexture("res/backmenubutton.png");
-		resumeButtonTexture = LoadTexture("res/resumebutton.png");
+		backMenuPauseButtonTexture = LoadTexture("res/PNG/backmenubutton.png");
+		resumeButtonTexture = LoadTexture("res/PNG/resumebutton.png");
 
-		backMenuPauseButtonPressedTexture = LoadTexture("res/backmenubuttonpressed.png");
-		resumeButtonPressedTexture = LoadTexture("res/resumebuttonpressed.png");
+		backMenuPauseButtonPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
+		resumeButtonPressedTexture = LoadTexture("res/PNG/resumebuttonpressed.png");
 
 		const float buttonWidth = static_cast<float>(backMenuPauseButtonTexture.width);
 		const float buttonHeight = static_cast<float>(backMenuPauseButtonTexture.height);
@@ -56,6 +70,8 @@ namespace FlappyBird
 
 			if (CheckMouseInput(backMenuPauseButton))
 			{
+				UnloadPause();
+				UnloadPlay();
 				scene = Scenes::Menu;
 			}
 		}
@@ -68,6 +84,7 @@ namespace FlappyBird
 
 			if (CheckMouseInput(resumeButton))
 			{
+				UnloadPause();
 				scene = Scenes::Play;
 			}
 		}

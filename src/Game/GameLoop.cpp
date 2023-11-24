@@ -20,6 +20,7 @@ namespace FlappyBird
 
 		InitWindow(screenWidth, screenHeight, "Flappy Viko");
 		SetExitKey(NULL);
+		
 
 		scene = Scenes::Menu;
 		Scenes previousScene = Scenes::Exit;

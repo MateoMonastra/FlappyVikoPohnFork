@@ -12,6 +12,14 @@ namespace FlappyBird
 	static Texture2D backMenuRulesButtonTexture;
 	static Texture2D backMenuRulesButtonPressedTexture;
 
+	static void UnloadRules()
+	{
+		UnloadTexture(rulesTexture);
+		UnloadTexture(backMenuRulesButtonTexture);
+		UnloadTexture(backMenuRulesButtonPressedTexture);
+	
+	}
+
 	static void RulesInput(Scenes& scene)
 	{
 		if (CheckCollisionButtonMouse(GetMousePosition(), backMenuRulesButton))
@@ -20,6 +28,7 @@ namespace FlappyBird
 
 			if (CheckMouseInput(backMenuRulesButton))
 			{
+				UnloadRules();
 				scene = Scenes::Menu;
 			}
 		}
@@ -29,9 +38,9 @@ namespace FlappyBird
 
 	void InitRules()
 	{
-		rulesTexture = LoadTexture("res/rules.png");
-		backMenuRulesButtonTexture = LoadTexture("res/backmenubutton.png");
-		backMenuRulesButtonPressedTexture = LoadTexture("res/backmenubuttonpressed.png");
+		rulesTexture = LoadTexture("res/PNG/rules.png");
+		backMenuRulesButtonTexture = LoadTexture("res/PNG/backmenubutton.png");
+		backMenuRulesButtonPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
 
 		const float buttonWidth = static_cast<float>(backMenuRulesButtonTexture.width);
 		const float buttonHeight = static_cast<float>(backMenuRulesButtonTexture.height);

@@ -20,6 +20,20 @@ namespace FlappyBird
 	static Button creditsButton;
 	static Button exitButton;
 
+	static void UnloadMenu()
+	{
+		UnloadTexture(backTexture);
+		UnloadTexture(playButtonTexture);
+		UnloadTexture(rulesButtonTexture);
+		UnloadTexture(exitButtonTexture);
+		UnloadTexture(creditsButtonTexture);
+		UnloadTexture(playButtonPressedTexture);
+		UnloadTexture(rulesButtonPressedTexture);
+		UnloadTexture(exitButtonPressedTexture);
+		UnloadTexture(creditsButtonPressedTexture);
+	
+	}
+
 	static void MenuInput(Scenes& scene)
 	{
 		if (CheckCollisionButtonMouse(GetMousePosition(), playButton))
@@ -28,6 +42,7 @@ namespace FlappyBird
 
 			if (CheckMouseInput(playButton))
 			{
+				UnloadMenu();
 				scene = Scenes::Play;
 			}
 		}
@@ -39,6 +54,7 @@ namespace FlappyBird
 			rulesButton.isSelected = true;
 			if (CheckMouseInput(rulesButton))
 			{
+				UnloadMenu();
 				scene = Scenes::Rules;
 			}
 		}
@@ -50,6 +66,7 @@ namespace FlappyBird
 			creditsButton.isSelected = true;
 			if (CheckMouseInput(creditsButton))
 			{
+				UnloadMenu();
 				scene = Scenes::Credits;
 			}
 		}
@@ -62,6 +79,7 @@ namespace FlappyBird
 			if (CheckMouseInput(exitButton))
 			{
 				scene = Scenes::Exit;
+				UnloadMenu();
 			}
 		}
 		else
@@ -70,21 +88,21 @@ namespace FlappyBird
 	
 	void InitMenu()
 	{
-		backTexture = LoadTexture("res/backmenu.png");
+		backTexture = LoadTexture("res/PNG/backmenu.png");
 		InitMenuButtons();
 	}
 
 	void InitMenuButtons()
 	{
-		playButtonTexture = LoadTexture("res/playbutton.png");
-		rulesButtonTexture = LoadTexture("res/rulesbutton.png");
-		creditsButtonTexture = LoadTexture("res/creditsbutton.png");
-		exitButtonTexture = LoadTexture("res/exitbutton.png");
+		playButtonTexture = LoadTexture("res/PNG/playbutton.png");
+		rulesButtonTexture = LoadTexture("res/PNG/rulesbutton.png");
+		creditsButtonTexture = LoadTexture("res/PNG/creditsbutton.png");
+		exitButtonTexture = LoadTexture("res/PNG/exitbutton.png");
 
-		playButtonPressedTexture = LoadTexture("res/playbuttonpressed.png");
-		rulesButtonPressedTexture = LoadTexture("res/rulesbuttonpressed.png");
-		creditsButtonPressedTexture = LoadTexture("res/creditsbuttonpressed.png");
-		exitButtonPressedTexture = LoadTexture("res/exitbuttonpressed.png");
+		playButtonPressedTexture = LoadTexture("res/PNG/playbuttonpressed.png");
+		rulesButtonPressedTexture = LoadTexture("res/PNG/rulesbuttonpressed.png");
+		creditsButtonPressedTexture = LoadTexture("res/PNG/creditsbuttonpressed.png");
+		exitButtonPressedTexture = LoadTexture("res/PNG/exitbuttonpressed.png");
 
 		const float buttonWidth = static_cast<float>(playButtonTexture.width);
 		const float buttonHeight = static_cast<float>(playButtonTexture.height);

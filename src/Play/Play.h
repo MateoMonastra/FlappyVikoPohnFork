@@ -6,4 +6,5 @@ namespace FlappyBird
 {
 	void InitPlay();
 	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene);
+	void UnloadPlay();
 }

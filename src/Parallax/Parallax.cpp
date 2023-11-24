@@ -6,9 +6,9 @@ namespace FlappyBird
     {
         Parallax parallax;
 
-        parallax.backTexture = LoadTexture("res/parback.png");
-        parallax.middleTexture = LoadTexture("res/parmid.png");
-        parallax.frontTexture = LoadTexture("res/parfront.png");
+        parallax.backTexture = LoadTexture("res/PNG/parback.png");
+        parallax.middleTexture = LoadTexture("res/PNG/parmid.png");
+        parallax.frontTexture = LoadTexture("res/PNG/parfront.png");
 
         return parallax;
     }

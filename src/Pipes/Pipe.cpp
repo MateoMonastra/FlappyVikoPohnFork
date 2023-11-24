@@ -10,7 +10,7 @@ namespace FlappyBird
 	{
 		Pipe pipe;
 
-		pipe.texture = LoadTexture("res/Pipe.png");
+		pipe.texture = LoadTexture("res/PNG/Pipe.png");
 
 		pipe.speed = 300.0f;
 
