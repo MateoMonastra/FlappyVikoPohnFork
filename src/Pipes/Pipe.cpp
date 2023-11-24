@@ -71,7 +71,7 @@ namespace FlappyBird
 
 	void UpdatePipeReverse(Pipe& pipe)
 	{
-		pipe.topPosition.x += pipe.speed / 2 * GetFrameTime();
+		pipe.topPosition.x += pipe.speed / 3 * GetFrameTime();
 		pipe.botPosition.x = pipe.topPosition.x;
 		pipe.midPosition.x = pipe.topPosition.x + pipe.width;
 
@@ -90,6 +90,18 @@ namespace FlappyBird
 		}
 		pipe.topDest = { pipe.topPosition.x ,pipe.topPosition.y, pipe.width, pipe.topHeight };
 		pipe.botDest = { pipe.botPosition.x ,pipe.botPosition.y, pipe.width, pipe.botHeight };
+
+	}
+
+	void StartReversePhasePipe(Pipe& firstPipe, Pipe& secondPipe)
+	{
+		firstPipe.topPosition.x = static_cast<float>(GetScreenWidth());
+
+		firstPipe.givePoints = true;
+
+		secondPipe.topPosition.x = static_cast<float>(GetScreenWidth()) + secondPipe.width * 5;
+
+		secondPipe.givePoints = true;
 	}
 
 	void DrawPipe(Pipe pipe)

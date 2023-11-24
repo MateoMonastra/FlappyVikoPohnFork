@@ -252,22 +252,22 @@ namespace FlappyBird
 				if (!restStart)
 				{
 					UpdatePlayer(player1, player2, currentScreen);
-					if (!reverseMode)
-					{
 					UpdatePipe(firstPipe);
 					UpdatePipe(secondPipe);
-					}
 					UpdateScore(player1);
-					LoseCondition(player1);
+					//LoseCondition(player1);
 
-					if (player1.score >= 2)
+					if (player1.score == 2 && !reverseMode)
 					{
 						reverseMode = true;
-						player1.topPosition.x = static_cast<float>(GetScreenWidth()) / 2 - player1.texture.width / 2;
-						player1.dest.x = player1.topPosition.x;
+						StartReversePhasePipe(firstPipe, secondPipe);
+					}
+					if (reverseMode)
+					{
 						UpdatePipeReverse(thirdPipe);
 						UpdatePipeReverse(quarterPipe);
 					}
+					
 				}
 				else
 				{

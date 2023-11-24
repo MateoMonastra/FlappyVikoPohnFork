@@ -38,6 +38,12 @@ namespace FlappyBird
 		{
 			player2.isJumping = false;
 		}
+
+		if (player1.score >= 2)
+		{
+			player1.topPosition.x = static_cast<float>(GetScreenWidth()) / 2 - player1.texture.width / 2;
+			player1.dest.x = player1.topPosition.x;
+		}
 	}
 
 
@@ -68,23 +74,24 @@ namespace FlappyBird
 
 		player.isAlive = true;
 
-		float xPos = static_cast<float>(player.texture.width);
-		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height / 2);
+		player.scale = 0.5f;
+		
+		float xPos = static_cast<float>(player.texture.width * player.scale);
+		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height * player.scale) / 2;
 		player.topPosition = { xPos, yPos };
 
-		player.scale = 0.15f;
 
-		player.dest.x = player.topPosition.x + static_cast<float>(player.texture.width) / 2;
+		player.dest.x = player.topPosition.x + static_cast<float>(player.texture.width * player.scale) / 2;
 		player.dest.y = player.topPosition.y;
-		player.dest.width = static_cast<float>(player.texture.width);
-		player.dest.height = static_cast<float>(player.texture.height);
+		player.dest.width = static_cast<float>(player.texture.width * player.scale);
+		player.dest.height = static_cast<float>(player.texture.height * player.scale);
 
 		player.source.width = static_cast<float>(player.texture.width);
 		player.source.height = static_cast<float>(player.texture.height);
 		player.source.x = 0;
 		player.source.y = 0;
 
-		player.origin = { player.dest.width / 2, player.dest.height / 2 };
+		player.origin = { (player.dest.width * player.scale) / 2, (player.dest.height* player.scale) / 2 };
 
 		return player;
 	}

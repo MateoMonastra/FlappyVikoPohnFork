@@ -37,6 +37,7 @@ namespace FlappyBird
 	void UpdatePipe(Pipe& pipe);
 	void UpdatePipeReverse(Pipe& pipe);
 	void DrawPipe(Pipe pipe);
+	void StartReversePhasePipe(Pipe& firstPipe, Pipe& secondPipe);
 }
 
 
