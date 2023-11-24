@@ -69,6 +69,29 @@ namespace FlappyBird
 		pipe.botDest = { pipe.botPosition.x ,pipe.botPosition.y, pipe.width, pipe.botHeight };
 	}
 
+	void UpdatePipeReverse(Pipe& pipe)
+	{
+		pipe.topPosition.x += pipe.speed / 2 * GetFrameTime();
+		pipe.botPosition.x = pipe.topPosition.x;
+		pipe.midPosition.x = pipe.topPosition.x + pipe.width;
+
+		if (pipe.topPosition.x > GetScreenWidth())
+		{
+			pipe.topHeight = static_cast<float>(GetRandomValue(minHeight, maxHeight));
+			pipe.topPosition.x = 0;
+
+			pipe.botHeight = GetScreenHeight() - pipe.topHeight - pipe.separation;
+			pipe.botPosition.y = static_cast<float>(GetScreenHeight() - pipe.botHeight);
+
+			pipe.midPosition.y = pipe.topPosition.y + pipe.topHeight;
+
+			pipe.givePoints = true;
+
+		}
+		pipe.topDest = { pipe.topPosition.x ,pipe.topPosition.y, pipe.width, pipe.topHeight };
+		pipe.botDest = { pipe.botPosition.x ,pipe.botPosition.y, pipe.width, pipe.botHeight };
+	}
+
 	void DrawPipe(Pipe pipe)
 	{
 		DrawRectangle(static_cast<int>(pipe.topPosition.x), static_cast<int>(pipe.topPosition.y), static_cast<int>(pipe.width), static_cast<int>(pipe.topHeight), DARKPURPLE);

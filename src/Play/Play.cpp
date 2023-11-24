@@ -12,8 +12,11 @@ namespace FlappyBird
 {
 	static Player player1;
 	static Player player2;
+
 	static Pipe firstPipe;
 	static Pipe secondPipe;
+	static Pipe thirdPipe;
+	static Pipe quarterPipe;
 
 	static Button pauseButton;
 
@@ -42,6 +45,8 @@ namespace FlappyBird
 
 	bool restStart = {};
 	double restStartAnimationTimer = {};
+
+	bool reverseMode = false;
 
 
 	static void InputLoseScreen(Scenes& scene)
@@ -75,6 +80,47 @@ namespace FlappyBird
 			playAgainButton.isSelected = false;
 	}
 
+	static void RestAnimation()
+	{
+		ChangeTexture(player1);
+		ChangeTexture(player2);
+
+		int animationCoolDown = 1;
+
+		if (GetTime() - restStartAnimationTimer > animationCoolDown)
+		{
+			if (player1.isJumping)
+			{
+				player1.isJumping = false;
+				player2.isJumping = false;
+			}
+			else
+			{
+				player1.isJumping = true;
+				player2.isJumping = true;
+			}
+			restStartAnimationTimer = GetTime();
+		}
+
+		if (currentScreen == Screen::MultiPlayer)
+		{
+			if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
+			{
+				restStart = false;
+				player1.isJumping = false;
+				player2.isJumping = false;
+			}
+		}
+		else
+		{
+			if (IsKeyPressed(KEY_W))
+			{
+				restStart = false;
+				player1.isJumping = false;
+			}
+		}
+	}
+	
 	static void InitLoseScreen()
 	{
 		loseTexture_Bad = LoadTexture("res/PNG/losescreen_Bad.png");
@@ -206,34 +252,26 @@ namespace FlappyBird
 				if (!restStart)
 				{
 					UpdatePlayer(player1, player2, currentScreen);
+					if (!reverseMode)
+					{
 					UpdatePipe(firstPipe);
 					UpdatePipe(secondPipe);
+					}
 					UpdateScore(player1);
 					LoseCondition(player1);
+
+					if (player1.score >= 2)
+					{
+						reverseMode = true;
+						player1.topPosition.x = static_cast<float>(GetScreenWidth()) / 2 - player1.texture.width / 2;
+						player1.dest.x = player1.topPosition.x;
+						UpdatePipeReverse(thirdPipe);
+						UpdatePipeReverse(quarterPipe);
+					}
 				}
 				else
 				{
-					ChangeTexture(player1);
-					int animationCoolDown = 1;
-
-					if (GetTime() - restStartAnimationTimer > animationCoolDown)
-					{
-						if(player1.isJumping)
-						{
-							player1.isJumping = false;
-						}
-						else
-						{
-							player1.isJumping = true;
-						}
-						restStartAnimationTimer = GetTime();
-					}
-
-					if (IsKeyPressed(KEY_W))
-					{
-						restStart = false;
-						player1.isJumping = false;
-					}
+					RestAnimation();
 				}
 			}
 		}
@@ -254,30 +292,7 @@ namespace FlappyBird
 			}
 			else
 			{
-				ChangeTexture(player1);
-				ChangeTexture(player2);
-
-				int animationCoolDown = 1;
-
-				if (GetTime() - restStartAnimationTimer > animationCoolDown)
-				{
-					if (player1.isJumping)
-					{
-						player1.isJumping = false;
-						player2.isJumping = false;
-					}
-					else
-					{
-						player1.isJumping = true;
-						player2.isJumping = true;
-					}
-					restStartAnimationTimer = GetTime();
-				}
-
-				if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
-				{
-					restStart = false;
-				}
+				RestAnimation();
 			}
 		}
 		else if (currentScreen == Screen::Lose)
@@ -285,6 +300,7 @@ namespace FlappyBird
 			InputLoseScreen(scene);
 		}
 	}
+
 
 	static void DrawPlay()
 	{
@@ -305,6 +321,10 @@ namespace FlappyBird
 			DrawPipe(firstPipe);
 
 			DrawPipe(secondPipe);
+
+			DrawPipe(thirdPipe);
+			
+			DrawPipe(quarterPipe);
 
 			DrawPlayer(player1);
 
@@ -378,10 +398,6 @@ namespace FlappyBird
 
 	void InitPlay()
 	{
-		float pipeDistance = static_cast<float>(GetScreenWidth()) / 2.0f;
-		float pipeWidth = 90.0f;
-		float firstPipeX = static_cast<float>(GetScreenWidth());
-		float secondPipeX = static_cast<float>(GetScreenWidth()) + pipeDistance + pipeWidth / 2;
 
 		Texture2D player1Drop = LoadTexture("res/PNG/player1.png");
 		Texture2D player1fly = LoadTexture("res/PNG/player1fly.png");
@@ -398,8 +414,18 @@ namespace FlappyBird
 		player2.topPosition.y -= 80;
 		player2.dest.y =  player2.topPosition.y;
 
+		float pipeDistance = static_cast<float>(GetScreenWidth()) / 2.0f;
+		float pipeWidth = 90.0f;
+		float firstPipeX = static_cast<float>(GetScreenWidth());
+		float secondPipeX = static_cast<float>(GetScreenWidth()) + pipeDistance + pipeWidth / 2;
+		float thirdPipeX = 0 - pipeWidth;
+		float quarterPipeX = 0 - pipeDistance - pipeWidth / 2;
+
 		firstPipe = InitPipe(firstPipeX);
 		secondPipe = InitPipe(secondPipeX);
+		thirdPipe = InitPipe(thirdPipeX);
+		quarterPipe = InitPipe(quarterPipeX);
+
 		parallax = InitParallax();
 
 		Texture2D pauseButtonTexture = LoadTexture("res/PNG/pausebutton.png");
@@ -475,6 +501,8 @@ namespace FlappyBird
 
 		UnloadTexture(firstPipe.texture);
 		UnloadTexture(secondPipe.texture);
+		UnloadTexture(thirdPipe.texture);
+		UnloadTexture(quarterPipe.texture);
 
 		UnloadTexture(pauseButton.texture);
 		UnloadTexture(pauseButton.texturePressed);
