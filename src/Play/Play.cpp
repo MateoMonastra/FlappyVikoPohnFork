@@ -16,7 +16,6 @@ namespace FlappyBird
 	static Pipe firstPipe;
 	static Pipe secondPipe;
 	static Pipe thirdPipe;
-	static Pipe quarterPipe;
 
 	static Button pauseButton;
 
@@ -260,12 +259,11 @@ namespace FlappyBird
 					if (player1.score == 2 && !reverseMode)
 					{
 						reverseMode = true;
-						StartReversePhasePipe(firstPipe, secondPipe);
+						StartReversePhasePipe(firstPipe, secondPipe, thirdPipe);
 					}
 					if (reverseMode)
 					{
-						UpdatePipeReverse(thirdPipe);
-						UpdatePipeReverse(quarterPipe);
+						UpdatePipeReverse(thirdPipe,secondPipe);
 					}
 					
 				}
@@ -323,8 +321,6 @@ namespace FlappyBird
 			DrawPipe(secondPipe);
 
 			DrawPipe(thirdPipe);
-			
-			DrawPipe(quarterPipe);
 
 			DrawPlayer(player1);
 
@@ -419,12 +415,10 @@ namespace FlappyBird
 		float firstPipeX = static_cast<float>(GetScreenWidth());
 		float secondPipeX = static_cast<float>(GetScreenWidth()) + pipeDistance + pipeWidth / 2;
 		float thirdPipeX = 0 - pipeWidth;
-		float quarterPipeX = 0 - pipeDistance - pipeWidth / 2;
-
+		
 		firstPipe = InitPipe(firstPipeX);
 		secondPipe = InitPipe(secondPipeX);
 		thirdPipe = InitPipe(thirdPipeX);
-		quarterPipe = InitPipe(quarterPipeX);
 
 		parallax = InitParallax();
 
@@ -502,7 +496,6 @@ namespace FlappyBird
 		UnloadTexture(firstPipe.texture);
 		UnloadTexture(secondPipe.texture);
 		UnloadTexture(thirdPipe.texture);
-		UnloadTexture(quarterPipe.texture);
 
 		UnloadTexture(pauseButton.texture);
 		UnloadTexture(pauseButton.texturePressed);
