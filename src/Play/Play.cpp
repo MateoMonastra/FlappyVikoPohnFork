@@ -138,8 +138,8 @@ namespace FlappyBird
 		const float buttonHeight = static_cast<float>(backMenuLoseButtonTexture.height);
 		float buttonYPos = static_cast<float>(GetScreenHeight()) / 4 * 3 + buttonHeight;
 
-		float backMenuPausebuttonXPos = static_cast<float>(GetScreenWidth()) / 2 - buttonWidth - 180;
-		float playAgainButtonXPos = static_cast<float>(GetScreenWidth()) / 2 + buttonWidth + 40;
+		float backMenuPausebuttonXPos = static_cast<float>(GetScreenWidth() / 2) - buttonWidth -130;
+		float playAgainButtonXPos = static_cast<float>(GetScreenWidth() / 2) + buttonWidth -130;
 
 		InitButton(backMenuLoseButton, backMenuLoseButtonTexture, backMenuLoseButtonPressedTexture, backMenuPausebuttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
 		InitButton(playAgainButton, playAgainButtonTexture, playAgainButtonPressedTexture, playAgainButtonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
