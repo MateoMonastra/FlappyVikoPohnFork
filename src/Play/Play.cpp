@@ -138,8 +138,8 @@ namespace FlappyBird
 		const float buttonHeight = static_cast<float>(backMenuLoseButtonTexture.height);
 		float buttonYPos = static_cast<float>(GetScreenHeight()) / 4 * 3 + buttonHeight;
 
-		float backMenuPausebuttonXPos = static_cast<float>(GetScreenWidth() / 2) - buttonWidth -130;
-		float playAgainButtonXPos = static_cast<float>(GetScreenWidth() / 2) + buttonWidth -130;
+		float backMenuPausebuttonXPos = static_cast<float>(GetScreenWidth() / 2) - buttonWidth - 130;
+		float playAgainButtonXPos = static_cast<float>(GetScreenWidth() / 2) + buttonWidth - 130;
 
 		InitButton(backMenuLoseButton, backMenuLoseButtonTexture, backMenuLoseButtonPressedTexture, backMenuPausebuttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
 		InitButton(playAgainButton, playAgainButtonTexture, playAgainButtonPressedTexture, playAgainButtonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
@@ -301,7 +301,6 @@ namespace FlappyBird
 		}
 	}
 
-
 	static void DrawPlay()
 	{
 		BeginDrawing();
@@ -362,6 +361,11 @@ namespace FlappyBird
 				DrawButton(playAgainButton);
 
 				Vector2 scorePos = { static_cast<float>(GetScreenWidth()) / 3 - 50, static_cast<float>(GetScreenHeight()) / 3 + 50 };
+				if (player1.score >= 10)
+				{
+					scorePos = { static_cast<float>(GetScreenWidth()) / 3 - 70, static_cast<float>(GetScreenHeight()) / 3 + 50 };
+				}
+				
 				float scoreFontSize = 90;
 				float textSpacing = 5;
 
@@ -391,34 +395,38 @@ namespace FlappyBird
 				float textSpacing = 20;
 				DrawTextEx(textFont, "Jump to begin!", textPos, textFontSize, textSpacing, WHITE);
 			}
-				if (GAME_OVER)
+			if (GAME_OVER)
+			{
+				if (player1.score <= 5)
 				{
-					if (player1.score <= 5)
-					{
-						DrawTextureEx(loseTexture_Bad, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
-					}
-					else if (player1.score <= 12)
-					{
-						DrawTextureEx(loseTexture_Ok, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
-					}
-					else if (player1.score <= 20)
-					{
-						DrawTextureEx(loseTexture_Good, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
-					}
-					else
-					{
-						DrawTextureEx(loseTexture_VeryGood, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
-					}
-
-					DrawButton(backMenuLoseButton);
-					DrawButton(playAgainButton);
-
-					Vector2 scorePos = { static_cast<float>(GetScreenWidth()) / 3 - 20, static_cast<float>(GetScreenHeight()) / 3 };
-					float scoreFontSize = 90;
-					float textSpacing = 5;
-
-					DrawTextEx(textFont, TextFormat("Total Score : %01i", player1.score), scorePos, scoreFontSize, textSpacing, DARKPURPLE);
+					DrawTextureEx(loseTexture_Bad, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
 				}
+				else if (player1.score <= 12)
+				{
+					DrawTextureEx(loseTexture_Ok, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+				}
+				else if (player1.score <= 20)
+				{
+					DrawTextureEx(loseTexture_Good, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+				}
+				else
+				{
+					DrawTextureEx(loseTexture_VeryGood, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+				}
+
+				DrawButton(backMenuLoseButton);
+				DrawButton(playAgainButton);
+
+				Vector2 scorePos = { static_cast<float>(GetScreenWidth()) / 3 - 50, static_cast<float>(GetScreenHeight()) / 3 + 50 };
+				if (player1.score >= 10)
+				{
+					scorePos = { static_cast<float>(GetScreenWidth()) / 3 - 70, static_cast<float>(GetScreenHeight()) / 3 + 50 };
+				}
+				float scoreFontSize = 90;
+				float textSpacing = 5;
+
+				DrawTextEx(textFont, TextFormat("Total Score : %01i", player1.score), scorePos, scoreFontSize, textSpacing, DARKPURPLE);
+			}
 		}
 		EndDrawing();
 	}
@@ -488,7 +496,7 @@ namespace FlappyBird
 		currentScreen = Screen::ModeSelector;
 
 		InitLoseScreen();
-		
+
 		GAME_OVER = false;
 
 		restStart = true;
