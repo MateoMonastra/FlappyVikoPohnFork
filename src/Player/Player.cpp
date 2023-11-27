@@ -4,8 +4,11 @@
 
 namespace FlappyBird
 {
+	float animationTimer = 0;
+
 	static void CheckMovementInput(Player& player1, Player& player2)
 	{
+
 		if (IsKeyPressed(KEY_W))
 		{
 			player1.velocity.y = player1.jumpForce;
@@ -18,6 +21,7 @@ namespace FlappyBird
 			player2.isJumping = true;
 		}
 
+
 	}
 
 	static void PlayerMovement(Player& player1, Player& player2)
@@ -29,15 +33,6 @@ namespace FlappyBird
 
 		player2.velocity.y += player2.gravity * GetFrameTime();
 		player2.topPosition.y += player2.velocity.y * GetFrameTime();
-
-		if (player1.isJumping && player1.velocity.y > 0)
-		{
-			player1.isJumping = false;
-		}
-		else if (player2.isJumping && player2.velocity.y > 0)
-		{
-			player2.isJumping = false;
-		}
 
 		if (player1.score >= 2)
 		{
@@ -75,7 +70,7 @@ namespace FlappyBird
 		player.isAlive = true;
 
 		player.scale = 0.5f;
-		
+
 		float xPos = static_cast<float>(player.texture.width * player.scale);
 		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height * player.scale) / 2;
 		player.topPosition = { xPos, yPos };
@@ -91,7 +86,7 @@ namespace FlappyBird
 		player.source.x = 0;
 		player.source.y = 0;
 
-		player.origin = { (player.dest.width * player.scale) / 2, (player.dest.height* player.scale) / 2 };
+		player.origin = { (player.dest.width * player.scale) / 2, (player.dest.height * player.scale) / 2 };
 
 		return player;
 	}
@@ -123,19 +118,29 @@ namespace FlappyBird
 
 	void DrawPlayerScore(Player player, Font font)
 	{
-		Vector2 textPos = {static_cast<float>(GetScreenWidth()) / 2 - 80, 10};
+		Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 2 - 80, 10 };
 		float fontSize = 50;
 		float textSpacing = 5;
-		DrawTextEx(font, TextFormat("Score: %01i", player.score),textPos, fontSize, textSpacing, DARKPURPLE);
+		DrawTextEx(font, TextFormat("Score: %01i", player.score), textPos, fontSize, textSpacing, DARKPURPLE);
 	}
-	
+
 	void ChangeTexture(Player& player)
 	{
-		if (player.isJumping == true)
+		const float animationCooldown = 0.3f;
+
+		animationTimer += GetFrameTime();
+
+		if (player.isJumping)
 		{
-			player.texture = player.textureFly;
+			if (animationTimer >= animationCooldown)
+			{
+				player.texture = player.textureFly;
+			}
+
+			animationTimer = 0;
+			player.isJumping = false;
 		}
-		else
+		else if (animationTimer >= animationCooldown)
 		{
 			player.texture = player.textureDrop;
 		}
