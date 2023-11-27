@@ -7,6 +7,5 @@ namespace FlappyBird
 		ModeSelector,
 		SinglePlayer,
 		MultiPlayer,
-		Lose
 	};
 }

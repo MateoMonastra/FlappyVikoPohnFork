@@ -6,6 +6,7 @@ namespace FlappyBird
     {
         Parallax parallax;
 
+        parallax.staticTexture = LoadTexture("res/PNG/parstatic.png");
         parallax.backTexture = LoadTexture("res/PNG/parback.png");
         parallax.middleTexture = LoadTexture("res/PNG/parmid.png");
         parallax.frontTexture = LoadTexture("res/PNG/parfront.png");
@@ -45,6 +46,8 @@ namespace FlappyBird
 
         Vector2 firstFront = { parallax.frontXPos, 0 };
         Vector2 secondFront = { parallax.frontTexture.width + parallax.frontXPos, 0 };
+
+        DrawTexture(parallax.staticTexture,0,0,WHITE);
 
         DrawTextureEx(parallax.backTexture, firstBack, parallax.rotation, parallax.scale, WHITE);
         DrawTextureEx(parallax.backTexture, secondBack, parallax.rotation, parallax.scale, WHITE);

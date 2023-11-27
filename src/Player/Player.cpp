@@ -55,8 +55,10 @@ namespace FlappyBird
 			player.isAlive = false;
 		}
 
-		int destFix = 30;
-		player.dest.y = player.topPosition.y + destFix;
+		player.dest.y = player.topPosition.y;
+
+		player.hitBox.y = player.dest.y + player.dest.height / 3;
+		player.hitBox.x = player.dest.x;
 	}
 
 	Player InitPlayer(Texture2D textureDrop, Texture2D textureFly)
@@ -69,7 +71,7 @@ namespace FlappyBird
 
 		player.isAlive = true;
 
-		player.scale = 0.5f;
+		player.scale = 0.15f;
 
 		float xPos = static_cast<float>(player.texture.width * player.scale);
 		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height * player.scale) / 2;
@@ -87,6 +89,8 @@ namespace FlappyBird
 		player.source.y = 0;
 
 		player.origin = { (player.dest.width * player.scale) / 2, (player.dest.height * player.scale) / 2 };
+
+		player.hitBox = { player.dest.x, player.dest.y + player.dest.height / 3 , player.dest.width, player.dest.height/4 };
 
 		return player;
 	}
@@ -111,6 +115,7 @@ namespace FlappyBird
 	{
 		if (player.isAlive)
 		{
+			DrawRectangle(static_cast<int>(player.hitBox.x), static_cast<int>(player.hitBox.y), static_cast<int>(player.hitBox.width), static_cast<int>(player.hitBox.height), RAYWHITE);
 			DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
 		}
 	}

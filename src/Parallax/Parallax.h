@@ -5,6 +5,7 @@ namespace FlappyBird
 {
 	struct Parallax
 	{
+		Texture2D staticTexture = Texture2D();
 		Texture2D backTexture = Texture2D();
 		Texture2D middleTexture = Texture2D();
 		Texture2D frontTexture = Texture2D();

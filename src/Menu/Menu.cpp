@@ -5,18 +5,16 @@
 namespace FlappyBird
 {
 	static Texture2D backTexture;
+
 	static Texture2D playButtonTexture;
-	static Texture2D rulesButtonTexture;
 	static Texture2D creditsButtonTexture;
 	static Texture2D exitButtonTexture;
 
 	static Texture2D playButtonPressedTexture;
-	static Texture2D rulesButtonPressedTexture;
 	static Texture2D creditsButtonPressedTexture;
 	static Texture2D exitButtonPressedTexture;
 
 	static Button playButton;
-	static Button rulesButton;
 	static Button creditsButton;
 	static Button exitButton;
 
@@ -24,14 +22,11 @@ namespace FlappyBird
 	{
 		UnloadTexture(backTexture);
 		UnloadTexture(playButtonTexture);
-		UnloadTexture(rulesButtonTexture);
 		UnloadTexture(exitButtonTexture);
 		UnloadTexture(creditsButtonTexture);
 		UnloadTexture(playButtonPressedTexture);
-		UnloadTexture(rulesButtonPressedTexture);
 		UnloadTexture(exitButtonPressedTexture);
 		UnloadTexture(creditsButtonPressedTexture);
-	
 	}
 
 	static void MenuInput(Scenes& scene)
@@ -48,18 +43,6 @@ namespace FlappyBird
 		}
 		else
 			playButton.isSelected = false;
-
-		if (CheckCollisionButtonMouse(GetMousePosition(), rulesButton))
-		{
-			rulesButton.isSelected = true;
-			if (CheckMouseInput(rulesButton))
-			{
-				UnloadMenu();
-				scene = Scenes::Rules;
-			}
-		}
-		else
-			rulesButton.isSelected = false;
 
 		if (CheckCollisionButtonMouse(GetMousePosition(), creditsButton))
 		{
@@ -95,12 +78,10 @@ namespace FlappyBird
 	void InitMenuButtons()
 	{
 		playButtonTexture = LoadTexture("res/PNG/playbutton.png");
-		rulesButtonTexture = LoadTexture("res/PNG/rulesbutton.png");
 		creditsButtonTexture = LoadTexture("res/PNG/creditsbutton.png");
 		exitButtonTexture = LoadTexture("res/PNG/exitbutton.png");
 
 		playButtonPressedTexture = LoadTexture("res/PNG/playbuttonpressed.png");
-		rulesButtonPressedTexture = LoadTexture("res/PNG/rulesbuttonpressed.png");
 		creditsButtonPressedTexture = LoadTexture("res/PNG/creditsbuttonpressed.png");
 		exitButtonPressedTexture = LoadTexture("res/PNG/exitbuttonpressed.png");
 
@@ -110,14 +91,12 @@ namespace FlappyBird
 		const float buttonDistance = buttonHeight + 15;
 
 		float playButtonY = static_cast<float>(GetScreenHeight()) / 2 - buttonHeight / 2;
-		float rulesButtonY = playButtonY + buttonDistance;
-		float creditsButtonY = rulesButtonY + buttonDistance;
+		float creditsButtonY = playButtonY + buttonDistance;
 		float exitButtonY = creditsButtonY + buttonDistance;
 
 		Color buttonColor = RAYWHITE;
 
 		InitButton(playButton, playButtonTexture, playButtonPressedTexture, buttonXPos, playButtonY, buttonWidth, buttonHeight, buttonColor);
-		InitButton(rulesButton, rulesButtonTexture, rulesButtonPressedTexture, buttonXPos, rulesButtonY, buttonWidth, buttonHeight, buttonColor);
 		InitButton(creditsButton, creditsButtonTexture, creditsButtonPressedTexture, buttonXPos, creditsButtonY, buttonWidth, buttonHeight, buttonColor);
 		InitButton(exitButton, exitButtonTexture, exitButtonPressedTexture, buttonXPos, exitButtonY, buttonWidth, buttonHeight, buttonColor);
 	}
@@ -128,7 +107,6 @@ namespace FlappyBird
 		DrawTexture(backTexture, 0, 0, RAYWHITE);
 
 		DrawButton(playButton);
-		DrawButton(rulesButton);
 		DrawButton(creditsButton);
 		DrawButton(exitButton);
 		EndDrawing();
