@@ -340,21 +340,25 @@ namespace FlappyBird
 
 			if (GAME_OVER)
 			{
+
+				Vector2 loseTexturePos = { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) };
+				float loseTextureScale = 0.5f;
+
 				if (player1.score <= 5)
 				{
-					DrawTextureEx(loseTexture_Bad, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+					DrawTextureEx(loseTexture_Bad, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
 				else if (player1.score <= 12)
 				{
-					DrawTextureEx(loseTexture_Ok, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+					DrawTextureEx(loseTexture_Ok, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
 				else if (player1.score <= 20)
 				{
-					DrawTextureEx(loseTexture_Good, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+					DrawTextureEx(loseTexture_Good, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
 				else
 				{
-					DrawTextureEx(loseTexture_VeryGood, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+					DrawTextureEx(loseTexture_VeryGood, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
 
 				DrawButton(backMenuLoseButton);
@@ -397,22 +401,26 @@ namespace FlappyBird
 			}
 			if (GAME_OVER)
 			{
+				Vector2 loseTexturePos = { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) };
+				float loseTextureScale = 0.5f;
+
 				if (player1.score <= 5)
 				{
-					DrawTextureEx(loseTexture_Bad, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+					DrawTextureEx(loseTexture_Bad, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
 				else if (player1.score <= 12)
 				{
-					DrawTextureEx(loseTexture_Ok, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+					DrawTextureEx(loseTexture_Ok, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
 				else if (player1.score <= 20)
 				{
-					DrawTextureEx(loseTexture_Good, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+					DrawTextureEx(loseTexture_Good, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
 				else
 				{
-					DrawTextureEx(loseTexture_VeryGood, { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) }, 0, 0.5f, RAYWHITE);
+					DrawTextureEx(loseTexture_VeryGood, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
+
 
 				DrawButton(backMenuLoseButton);
 				DrawButton(playAgainButton);
