@@ -31,6 +31,10 @@ namespace FlappyBird
 
 		int score = {0};
 		Color scoreColor = {};
+
+		Sound crash = {};
+		Sound fall = {};
+		Sound jump = {};
 	};
 
 	Player InitPlayer(Texture2D textureDrop, Texture2D textureFly);

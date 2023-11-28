@@ -43,9 +43,8 @@ namespace FlappyBird
 	static Parallax parallax;
 
 	static Font textFont;
-	
+
 	static Screen currentScreen;
-	 
 
 	bool GAME_OVER = false;
 
@@ -79,7 +78,7 @@ namespace FlappyBird
 	static void InitRules()
 	{
 		Rules = LoadTexture("res/PNG/rules.png");
-		
+
 		Texture2D MenuTexture = LoadTexture("res/PNG/backmenubutton.png");
 		Texture2D MenuPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
 
@@ -318,6 +317,7 @@ namespace FlappyBird
 			PlayerPipeCollision(thirdPipe.topPosition, thirdPipe.topHeight, player) || PlayerPipeCollision(thirdPipe.botPosition, thirdPipe.botHeight, player))
 		{
 			player.isAlive = false;
+			PlaySound(player.crash);
 		}
 
 		if (currentScreen == Screen::SinglePlayer && !player1.isAlive)
@@ -378,11 +378,11 @@ namespace FlappyBird
 					{
 						if (secondPipe.topPosition.x < firstPipe.topPosition.x)
 						{
-						UpdatePipeReverse(thirdPipe, firstPipe);
+							UpdatePipeReverse(thirdPipe, firstPipe);
 						}
 						else
 						{
-						UpdatePipeReverse(thirdPipe, secondPipe);
+							UpdatePipeReverse(thirdPipe, secondPipe);
 						}
 					}
 
@@ -444,7 +444,7 @@ namespace FlappyBird
 
 		if (currentScreen == Screen::Rules)
 		{
-			DrawTexture(Rules,0,0,WHITE);
+			DrawTexture(Rules, 0, 0, WHITE);
 
 			DrawButton(Menu);
 
@@ -593,7 +593,7 @@ namespace FlappyBird
 		InitRules();
 
 		InitGame();
-		
+
 		InitModeSelector();
 
 		InitLoseScreen();
@@ -603,7 +603,7 @@ namespace FlappyBird
 		restStart = true;
 
 		reverseMode = false;
-		
+
 		textFont = LoadFontEx("res/Acme-Regular.ttf", 90, NULL, NULL);
 	}
 
@@ -612,7 +612,7 @@ namespace FlappyBird
 		if (isNewScene && previousScene != Scenes::Pause)
 		{
 			InitPlay();
-			
+
 			PlayMusicStream(music);
 		}
 
@@ -627,16 +627,16 @@ namespace FlappyBird
 		UnloadTexture(player1.textureFly);
 		UnloadTexture(player2.textureDrop);
 		UnloadTexture(player2.textureFly);
-		
+
 		UnloadTexture(firstPipe.texture);
 		UnloadTexture(secondPipe.texture);
 		UnloadTexture(thirdPipe.texture);
-		
+
 		UnloadTexture(pauseButton.texture);
 		UnloadTexture(pauseButton.texturePressed);
-		
+
 		UnloadTexture(modeSelectorBack);
-		
+
 		UnloadTexture(SinglePlayer.texture);
 		UnloadTexture(SinglePlayer.texturePressed);
 
@@ -649,7 +649,7 @@ namespace FlappyBird
 		UnloadTexture(Next.texturePressed);
 		UnloadTexture(Menu.texture);
 		UnloadTexture(Menu.texturePressed);
-		
+
 		UnloadTexture(loseTexture_Bad);
 		UnloadTexture(loseTexture_Ok);
 		UnloadTexture(loseTexture_Good);

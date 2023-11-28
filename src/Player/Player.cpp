@@ -10,17 +10,18 @@ namespace FlappyBird
 
 	static void CheckMovementInput(Player& player1, Player& player2)
 	{
-
 		if (IsKeyPressed(KEY_W))
 		{
 			player1.velocity.y = player1.jumpForce;
 			player1.isJumping = true;
+			PlaySound(player1.jump);
 		}
 
 		if (IsKeyPressed(KEY_UP))
 		{
 			player2.velocity.y = player2.jumpForce;
 			player2.isJumping = true;
+			PlaySound(player2.jump);
 		}
 	}
 
@@ -47,6 +48,7 @@ namespace FlappyBird
 		if (player.topPosition.y >= GetScreenHeight())
 		{
 			player.isAlive = false;
+			PlaySound(player.fall);
 		}
 
 		player.dest.y = player.topPosition.y;
@@ -86,6 +88,14 @@ namespace FlappyBird
 
 		int hitBoxFixer = 10;
 		player.hitBox = { player.dest.x, player.dest.y + player.dest.height / 3 , player.dest.width - hitBoxFixer, player.dest.height/4 };
+
+		player.jump = LoadSound("res/AUDIO/sounds/jump.mp3");
+		player.fall = LoadSound("res/AUDIO/sounds/fallingSound.mp3");
+		player.crash = LoadSound("res/AUDIO/sounds/birdCrash.mp3");
+
+		SetSoundVolume(player.crash, 0.4f);
+		SetSoundVolume(player.fall, 0.4f);
+		SetSoundVolume(player.jump, 0.4f);
 
 		return player;
 	}
