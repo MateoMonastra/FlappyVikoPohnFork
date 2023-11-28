@@ -40,11 +40,12 @@ namespace FlappyBird
 	static Texture2D playAgainButtonTexture;
 	static Texture2D playAgainButtonPressedTexture;
 
-	Parallax parallax;
+	static Parallax parallax;
 
+	static Font textFont;
+	
 	static Screen currentScreen;
-
-	Font textFont;
+	 
 
 	bool GAME_OVER = false;
 
@@ -83,7 +84,7 @@ namespace FlappyBird
 		Texture2D MenuPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
 
 		Texture2D NextTexture = LoadTexture("res/PNG/next.png");
-		Texture2D NextPressedTexture = LoadTexture("res/PNG/next																																																																																																																pressed.png");
+		Texture2D NextPressedTexture = LoadTexture("res/PNG/nextpressed.png");
 
 		const float buttonWidth = static_cast<float>(MenuTexture.width);
 		const float buttonHeight = static_cast<float>(MenuTexture.height);
@@ -257,6 +258,7 @@ namespace FlappyBird
 
 			if (CheckMouseInput(Menu))
 			{
+				UnloadPlay();
 				scene = Scenes::Menu;
 			}
 		}
@@ -406,7 +408,7 @@ namespace FlappyBird
 				LoseCondition(player1);
 				LoseCondition(player2);
 
-				if (player1.score == 25 && !reverseMode)
+				if (player1.score == 5 && !reverseMode)
 				{
 					reverseMode = true;
 					StartReversePhasePipe(firstPipe, secondPipe, thirdPipe);
@@ -524,6 +526,8 @@ namespace FlappyBird
 
 			DrawPipe(secondPipe);
 
+			DrawPipe(thirdPipe);
+
 			DrawPlayer(player1);
 
 			DrawPlayer(player2);
@@ -603,19 +607,49 @@ namespace FlappyBird
 		textFont = LoadFontEx("res/Acme-Regular.ttf", 90, NULL, NULL);
 	}
 
-	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene)
+	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene, Music& music)
 	{
 		if (isNewScene && previousScene != Scenes::Pause)
 		{
 			InitPlay();
+			
+			PlayMusicStream(music);
 		}
 
+		UpdateMusicStream(music);
 		UpdatePlay(scene);
 		DrawPlay();
 	}
 
 	void UnloadPlay()
 	{
+		UnloadTexture(player1.textureDrop);
+		UnloadTexture(player1.textureFly);
+		UnloadTexture(player2.textureDrop);
+		UnloadTexture(player2.textureFly);
+		
+		UnloadTexture(firstPipe.texture);
+		UnloadTexture(secondPipe.texture);
+		UnloadTexture(thirdPipe.texture);
+		
+		UnloadTexture(pauseButton.texture);
+		UnloadTexture(pauseButton.texturePressed);
+		
+		UnloadTexture(modeSelectorBack);
+		
+		UnloadTexture(SinglePlayer.texture);
+		UnloadTexture(SinglePlayer.texturePressed);
+
+		UnloadTexture(MultiPlayer.texture);
+		UnloadTexture(MultiPlayer.texturePressed);
+
+		UnloadTexture(Rules);
+
+		UnloadTexture(Next.texture);
+		UnloadTexture(Next.texturePressed);
+		UnloadTexture(Menu.texture);
+		UnloadTexture(Menu.texturePressed);
+		
 		UnloadTexture(loseTexture_Bad);
 		UnloadTexture(loseTexture_Ok);
 		UnloadTexture(loseTexture_Good);
@@ -623,34 +657,18 @@ namespace FlappyBird
 
 		UnloadTexture(backMenuLoseButtonTexture);
 		UnloadTexture(backMenuLoseButtonPressedTexture);
+		UnloadTexture(backMenuLoseButton.texture);
+		UnloadTexture(backMenuLoseButton.texturePressed);
 
 		UnloadTexture(playAgainButtonTexture);
 		UnloadTexture(playAgainButtonPressedTexture);
-
-		UnloadTexture(player1.textureDrop);
-		UnloadTexture(player1.textureFly);
-		UnloadTexture(player2.textureDrop);
-		UnloadTexture(player2.textureFly);
-
-		UnloadTexture(firstPipe.texture);
-		UnloadTexture(secondPipe.texture);
-		UnloadTexture(thirdPipe.texture);
-
-		UnloadTexture(pauseButton.texture);
-		UnloadTexture(pauseButton.texturePressed);
-
-		UnloadTexture(modeSelectorBack);
-
-		UnloadTexture(SinglePlayer.texture);
-		UnloadTexture(SinglePlayer.texturePressed);
-
-		UnloadTexture(MultiPlayer.texture);
-		UnloadTexture(MultiPlayer.texturePressed);
+		UnloadTexture(playAgainButton.texture);
+		UnloadTexture(playAgainButton.texturePressed);
 
 		UnloadTexture(parallax.backTexture);
 		UnloadTexture(parallax.middleTexture);
-
 		UnloadTexture(parallax.frontTexture);
+
 
 		UnloadFont(textFont);
 	}

@@ -112,14 +112,15 @@ namespace FlappyBird
 		EndDrawing();
 	}
 
-
-	void RunMenu(Scenes& scene, bool isNewScene)
+	void RunMenu(Scenes& scene, bool isNewScene, Music& music)
 	{
 		if (isNewScene)
 		{
 			InitMenu();
+			PlayMusicStream(music);
 		}
 
+		UpdateMusicStream(music);
 		DrawMenu();
 		MenuInput(scene);
 	}

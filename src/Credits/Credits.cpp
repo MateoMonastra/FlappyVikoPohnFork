@@ -1,7 +1,5 @@
 #include "Credits.h"
 
-#include "Raylib/header/raylib.h"
-
 #include "Button/Button.h"
 
 namespace FlappyBird
@@ -60,13 +58,15 @@ namespace FlappyBird
 		EndDrawing();
 	}
 
-	void RunCredits(Scenes& scene, bool isNewScene)
+	void RunCredits(Scenes& scene, bool isNewScene, Music& music)
 	{
 		if (isNewScene)
 		{
 			InitCredits();
+			PlayMusicStream(music);
 		}
 
+		UpdateMusicStream(music);
 		DrawCredits();
 		CreditsInput(scene);
 	}

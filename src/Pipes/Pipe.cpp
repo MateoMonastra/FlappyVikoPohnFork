@@ -99,7 +99,7 @@ namespace FlappyBird
 		secondPipe.separation = 180;
 
 		thirdPipe.separation = 320;
-		thirdPipe.speed = -200;
+		thirdPipe.speed = -300;
 
 		thirdPipe.topHeight = firstPipe.topHeight - thirdPipe.separation / 4;
 		thirdPipe.topPosition.x = 0;

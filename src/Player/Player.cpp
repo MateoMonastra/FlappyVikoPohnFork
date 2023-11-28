@@ -22,8 +22,6 @@ namespace FlappyBird
 			player2.velocity.y = player2.jumpForce;
 			player2.isJumping = true;
 		}
-
-
 	}
 
 	static void PlayerMovement(Player& player1, Player& player2)
@@ -35,10 +33,6 @@ namespace FlappyBird
 
 		player2.velocity.y += player2.gravity * GetFrameTime();
 		player2.topPosition.y += player2.velocity.y * GetFrameTime();
-
-
-		player1.dest.x = player1.topPosition.x;
-		
 	}
 
 
@@ -107,6 +101,7 @@ namespace FlappyBird
 		if (currentScreen == Screen::MultiPlayer)
 		{
 			PlayerScreenCollision(player2);
+
 			ChangeTexture(player2, animationTimerP2);
 		}
 
@@ -116,7 +111,6 @@ namespace FlappyBird
 	{
 		if (player.isAlive)
 		{
-			//DrawRectangle(static_cast<int>(player.hitBox.x), static_cast<int>(player.hitBox.y), static_cast<int>(player.hitBox.width), static_cast<int>(player.hitBox.height), RAYWHITE);
 			DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
 		}
 	}

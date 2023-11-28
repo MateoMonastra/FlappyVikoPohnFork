@@ -48,6 +48,7 @@ namespace FlappyBird
 
 		InitButton(backMenuPauseButton, backMenuPauseButtonTexture, backMenuPauseButtonPressedTexture, backMenuPausebuttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
 		InitButton(resumeButton, resumeButtonTexture, resumeButtonPressedTexture, resumeButtonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
+
 	}
 
 	void DrawPause()
@@ -92,15 +93,16 @@ namespace FlappyBird
 			resumeButton.isSelected = false;
 	}
 
-	void RunPause(Scenes& scene, bool isNewScene)
+	void RunPause(Scenes& scene, bool isNewScene, Music& music)
 	{
 		if (isNewScene)
 		{
 			InitPause();
+			PlayMusicStream(music);
 		}
 
 		ShowCursor();
-
+		UpdateMusicStream(music);
 		DrawPause();
 		InputPause(scene);
 	}
