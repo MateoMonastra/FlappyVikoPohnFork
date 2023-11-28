@@ -1,4 +1,5 @@
 #include "Pipes/Pipe.h"
+#include <iostream>
 
 namespace FlappyBird
 {
@@ -41,8 +42,6 @@ namespace FlappyBird
 		pipe.botDest = { pipe.botPosition.x ,pipe.botPosition.y, pipe.width, pipe.botHeight };
 		pipe.botOrigin = { 0, 0};
 
-
-
 		return pipe;
 	}
 
@@ -67,6 +66,7 @@ namespace FlappyBird
 		}
 		pipe.topDest = { pipe.topPosition.x ,pipe.topPosition.y, pipe.width, pipe.topHeight };
 		pipe.botDest = { pipe.botPosition.x ,pipe.botPosition.y, pipe.width, pipe.botHeight };
+		
 	}
 
 	void UpdatePipeReverse(Pipe& newPipe, Pipe& refPipe)
@@ -81,7 +81,7 @@ namespace FlappyBird
 			newPipe.topPosition.x = 0;
 
 			newPipe.botHeight = refPipe.botHeight;
-			newPipe.botPosition.y = refPipe.botPosition.y + newPipe.separation / 4;
+			newPipe.botPosition.y = refPipe.botPosition.y + newPipe.separation / 3;
 
 			newPipe.midPosition.y = newPipe.topPosition.y + newPipe.topHeight;
 
@@ -90,57 +90,36 @@ namespace FlappyBird
 		}
 		newPipe.topDest = { newPipe.topPosition.x ,newPipe.topPosition.y, newPipe.width, newPipe.topHeight };
 		newPipe.botDest = { newPipe.botPosition.x ,newPipe.botPosition.y, newPipe.width, newPipe.botHeight };
-
 	}
 
 	void StartReversePhasePipe(Pipe& firstPipe, Pipe& secondPipe,Pipe& thirdPipe)
 	{
-		firstPipe.separation = 160;
+		firstPipe.separation = 180;
 		
-		secondPipe.separation = 160;
+		secondPipe.separation = 180;
 
-		thirdPipe.separation = 290;
-		thirdPipe.speed = -500;
+		thirdPipe.separation = 320;
+		thirdPipe.speed = -200;
 
-		firstPipe.topHeight = static_cast<float>(GetRandomValue(minHeight, maxHeight));
-		firstPipe.topPosition.x = static_cast<float>(GetScreenWidth());
-
-		firstPipe.botHeight = GetScreenHeight() - firstPipe.topHeight - firstPipe.separation;
-		firstPipe.botPosition.y = static_cast<float>(GetScreenHeight() - firstPipe.botHeight);
-
-		firstPipe.midPosition.y = firstPipe.topPosition.y + firstPipe.topHeight;
-
-		firstPipe.givePoints = true;
-
-		secondPipe.topHeight = static_cast<float>(GetRandomValue(minHeight, maxHeight));
-		secondPipe.topPosition.x = static_cast<float>(GetScreenWidth() + GetScreenWidth() / 2);
-
-		secondPipe.botHeight = GetScreenHeight() - secondPipe.topHeight - secondPipe.separation;
-		secondPipe.botPosition.y = static_cast<float>(GetScreenHeight() - secondPipe.botHeight);
-
-		secondPipe.midPosition.y = secondPipe.topPosition.y + secondPipe.topHeight;
-
-		secondPipe.givePoints = true;
-
-		thirdPipe.topHeight = firstPipe.topHeight;
+		thirdPipe.topHeight = firstPipe.topHeight - thirdPipe.separation / 4;
 		thirdPipe.topPosition.x = 0;
 
 		thirdPipe.botHeight = firstPipe.botHeight;
-		thirdPipe.botPosition.y = firstPipe.botPosition.y;
+		thirdPipe.botPosition.y = firstPipe.botPosition.y + firstPipe.separation / 3;
 
-		thirdPipe.midPosition.y = thirdPipe.topPosition.y + thirdPipe.topHeight;
+		thirdPipe.midPosition.y = firstPipe.topPosition.y + firstPipe.topHeight;
 
 		thirdPipe.givePoints = true;
 	}
 
 	void DrawPipe(Pipe pipe)
 	{
-		DrawRectangle(static_cast<int>(pipe.topPosition.x), static_cast<int>(pipe.topPosition.y), static_cast<int>(pipe.width), static_cast<int>(pipe.topHeight), DARKPURPLE);
+		//DrawRectangle(static_cast<int>(pipe.topPosition.x), static_cast<int>(pipe.topPosition.y), static_cast<int>(pipe.width), static_cast<int>(pipe.topHeight), DARKPURPLE);
 		
 		DrawTexturePro(pipe.texture,pipe.topSource,pipe.topDest,pipe.topOrigin ,0, WHITE);
 		
 
-		DrawRectangle(static_cast<int>(pipe.botPosition.x), static_cast<int>(pipe.botPosition.y), static_cast<int>(pipe.width), static_cast<int>(pipe.botHeight), DARKPURPLE);
+		//DrawRectangle(static_cast<int>(pipe.botPosition.x), static_cast<int>(pipe.botPosition.y), static_cast<int>(pipe.width), static_cast<int>(pipe.botHeight), DARKPURPLE);
 		
 		DrawTexturePro(pipe.texture, pipe.botSource, pipe.botDest, pipe.botOrigin, 0, WHITE);
 	}

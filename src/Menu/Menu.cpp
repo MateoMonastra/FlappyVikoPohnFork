@@ -37,8 +37,8 @@ namespace FlappyBird
 
 			if (CheckMouseInput(playButton))
 			{
-				UnloadMenu();
 				scene = Scenes::Play;
+				UnloadMenu();
 			}
 		}
 		else
@@ -49,8 +49,8 @@ namespace FlappyBird
 			creditsButton.isSelected = true;
 			if (CheckMouseInput(creditsButton))
 			{
-				UnloadMenu();
 				scene = Scenes::Credits;
+				UnloadMenu();
 			}
 		}
 		else
@@ -120,8 +120,8 @@ namespace FlappyBird
 			InitMenu();
 		}
 
-		MenuInput(scene);
 		DrawMenu();
+		MenuInput(scene);
 	}
 
 }

@@ -4,7 +4,9 @@
 
 namespace FlappyBird
 {
-	float animationTimer = 0;
+	double restStartAnimationTimer = GetTime();
+	float animationTimerP1 = 0;
+	float animationTimerP2 = 0;
 
 	static void CheckMovementInput(Player& player1, Player& player2)
 	{
@@ -34,11 +36,9 @@ namespace FlappyBird
 		player2.velocity.y += player2.gravity * GetFrameTime();
 		player2.topPosition.y += player2.velocity.y * GetFrameTime();
 
-		if (player1.score >= 2)
-		{
-			player1.topPosition.x = static_cast<float>(GetScreenWidth()) / 2 - player1.texture.width / 2;
-			player1.dest.x = player1.topPosition.x;
-		}
+
+		player1.dest.x = player1.topPosition.x;
+		
 	}
 
 
@@ -73,12 +73,12 @@ namespace FlappyBird
 
 		player.scale = 0.15f;
 
-		float xPos = static_cast<float>(player.texture.width * player.scale);
+		float xPos = static_cast<float>(GetScreenWidth()) / 2 - player.texture.width / static_cast<float>(2);;
 		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height * player.scale) / 2;
 		player.topPosition = { xPos, yPos };
 
-
-		player.dest.x = player.topPosition.x + static_cast<float>(player.texture.width * player.scale) / 2;
+		
+		player.dest.x = player.topPosition.x;
 		player.dest.y = player.topPosition.y;
 		player.dest.width = static_cast<float>(player.texture.width * player.scale);
 		player.dest.height = static_cast<float>(player.texture.height * player.scale);
@@ -90,7 +90,8 @@ namespace FlappyBird
 
 		player.origin = { (player.dest.width * player.scale) / 2, (player.dest.height * player.scale) / 2 };
 
-		player.hitBox = { player.dest.x, player.dest.y + player.dest.height / 3 , player.dest.width, player.dest.height/4 };
+		int hitBoxFixer = 10;
+		player.hitBox = { player.dest.x, player.dest.y + player.dest.height / 3 , player.dest.width - hitBoxFixer, player.dest.height/4 };
 
 		return player;
 	}
@@ -101,12 +102,12 @@ namespace FlappyBird
 
 		PlayerScreenCollision(player1);
 
-		ChangeTexture(player1);
+		ChangeTexture(player1, animationTimerP1);
 
 		if (currentScreen == Screen::MultiPlayer)
 		{
 			PlayerScreenCollision(player2);
-			ChangeTexture(player2);
+			ChangeTexture(player2, animationTimerP2);
 		}
 
 	}
@@ -115,21 +116,20 @@ namespace FlappyBird
 	{
 		if (player.isAlive)
 		{
-			DrawRectangle(static_cast<int>(player.hitBox.x), static_cast<int>(player.hitBox.y), static_cast<int>(player.hitBox.width), static_cast<int>(player.hitBox.height), RAYWHITE);
+			//DrawRectangle(static_cast<int>(player.hitBox.x), static_cast<int>(player.hitBox.y), static_cast<int>(player.hitBox.width), static_cast<int>(player.hitBox.height), RAYWHITE);
 			DrawTexturePro(player.texture, player.source, player.dest, player.origin, player.rotation, RAYWHITE);
 		}
 	}
-
 
 	void DrawPlayerScore(Player player, Font font)
 	{
 		Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 2 - 80, 10 };
 		float fontSize = 50;
 		float textSpacing = 5;
-		DrawTextEx(font, TextFormat("Score: %01i", player.score), textPos, fontSize, textSpacing, DARKPURPLE);
+		DrawTextEx(font, TextFormat("Score: %01i", player.score), textPos, fontSize, textSpacing, DARKBROWN);
 	}
 
-	void ChangeTexture(Player& player)
+	void ChangeTexture(Player& player, float& animationTimer)
 	{
 		const float animationCooldown = 0.3f;
 
@@ -148,6 +148,29 @@ namespace FlappyBird
 		else if (animationTimer >= animationCooldown)
 		{
 			player.texture = player.textureDrop;
+		}
+	}
+
+	void RestStartAnimation(Player& player1, Player& player2)
+	{
+		ChangeTexture(player1,animationTimerP1);
+		ChangeTexture(player2,animationTimerP2);
+
+		int animationCoolDown = 1;
+
+		if (GetTime() - restStartAnimationTimer > animationCoolDown)
+		{
+			if (player1.isJumping)
+			{
+				player1.isJumping = false;
+				player2.isJumping = false;
+			}
+			else
+			{
+				player1.isJumping = true;
+				player2.isJumping = true;
+			}
+			restStartAnimationTimer = GetTime();
 		}
 	}
 }

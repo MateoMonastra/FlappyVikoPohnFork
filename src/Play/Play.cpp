@@ -45,7 +45,6 @@ namespace FlappyBird
 	bool GAME_OVER = false;
 
 	bool restStart = {};
-	double restStartAnimationTimer = {};
 
 	bool reverseMode = false;
 
@@ -81,27 +80,9 @@ namespace FlappyBird
 			playAgainButton.isSelected = false;
 	}
 
-	static void RestAnimation()
+	static void RestStart()
 	{
-		ChangeTexture(player1);
-		ChangeTexture(player2);
-
-		int animationCoolDown = 1;
-
-		if (GetTime() - restStartAnimationTimer > animationCoolDown)
-		{
-			if (player1.isJumping)
-			{
-				player1.isJumping = false;
-				player2.isJumping = false;
-			}
-			else
-			{
-				player1.isJumping = true;
-				player2.isJumping = true;
-			}
-			restStartAnimationTimer = GetTime();
-		}
+		RestStartAnimation(player1,player2);
 
 		if (currentScreen == Screen::MultiPlayer)
 		{
@@ -158,6 +139,11 @@ namespace FlappyBird
 		}
 		else
 			pauseButton.isSelected = false;
+
+		if (IsKeyPressed(KEY_ESCAPE))
+		{
+			scene = Scenes::Pause;
+		}
 	}
 
 	static void CheckModeSelectorInput()
@@ -208,7 +194,8 @@ namespace FlappyBird
 	static void LoseCondition(Player& player)
 	{
 		if (PlayerPipeCollision(firstPipe.topPosition, firstPipe.topHeight, player) || PlayerPipeCollision(firstPipe.botPosition, firstPipe.botHeight, player) ||
-			PlayerPipeCollision(secondPipe.topPosition, secondPipe.topHeight, player) || PlayerPipeCollision(secondPipe.botPosition, secondPipe.botHeight, player))
+			PlayerPipeCollision(secondPipe.topPosition, secondPipe.topHeight, player) || PlayerPipeCollision(secondPipe.botPosition, secondPipe.botHeight, player) ||
+			PlayerPipeCollision(thirdPipe.topPosition, thirdPipe.topHeight, player) || PlayerPipeCollision(thirdPipe.botPosition, thirdPipe.botHeight, player))
 		{
 			player.isAlive = false;
 		}
@@ -258,20 +245,27 @@ namespace FlappyBird
 					UpdateScore(player1);
 					LoseCondition(player1);
 
-					if (player1.score == 2 && !reverseMode)
+					if (player1.score == 25 && !reverseMode)
 					{
 						reverseMode = true;
 						StartReversePhasePipe(firstPipe, secondPipe, thirdPipe);
 					}
 					if (reverseMode)
 					{
+						if (secondPipe.topPosition.x < firstPipe.topPosition.x)
+						{
+						UpdatePipeReverse(thirdPipe, firstPipe);
+						}
+						else
+						{
 						UpdatePipeReverse(thirdPipe, secondPipe);
+						}
 					}
 
 				}
 				else
 				{
-					RestAnimation();
+					RestStart();
 				}
 			}
 		}
@@ -289,10 +283,27 @@ namespace FlappyBird
 				UpdateScore(player2);
 				LoseCondition(player1);
 				LoseCondition(player2);
+
+				if (player1.score == 25 && !reverseMode)
+				{
+					reverseMode = true;
+					StartReversePhasePipe(firstPipe, secondPipe, thirdPipe);
+				}
+				if (reverseMode)
+				{
+					if (secondPipe.topPosition.x < firstPipe.topPosition.x)
+					{
+						UpdatePipeReverse(thirdPipe, firstPipe);
+					}
+					else
+					{
+						UpdatePipeReverse(thirdPipe, secondPipe);
+					}
+				}
 			}
 			else
 			{
-				RestAnimation();
+				RestStart();
 			}
 		}
 		else
@@ -327,32 +338,27 @@ namespace FlappyBird
 
 			DrawPlayerScore(player1, textFont);
 
-			DrawButton(pauseButton);
-
 			if (restStart)
 			{
 				Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 4, static_cast<float>(GetScreenHeight()) / 4 };
 				float textFontSize = 70;
-
 				float textSpacing = 20;
 				DrawTextEx(textFont, "Jump to begin!", textPos, textFontSize, textSpacing, WHITE);
 			}
-
 			if (GAME_OVER)
 			{
-
 				Vector2 loseTexturePos = { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) };
 				float loseTextureScale = 0.5f;
 
-				if (player1.score <= 5)
+				if (player1.score <= 10)
 				{
 					DrawTextureEx(loseTexture_Bad, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
-				else if (player1.score <= 12)
+				else if (player1.score <= 20)
 				{
 					DrawTextureEx(loseTexture_Ok, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
-				else if (player1.score <= 20)
+				else if (player1.score <= 35)
 				{
 					DrawTextureEx(loseTexture_Good, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
@@ -369,11 +375,15 @@ namespace FlappyBird
 				{
 					scorePos = { static_cast<float>(GetScreenWidth()) / 3 - 70, static_cast<float>(GetScreenHeight()) / 3 + 50 };
 				}
-				
+
 				float scoreFontSize = 90;
 				float textSpacing = 5;
 
-				DrawTextEx(textFont, TextFormat("Total Score : %01i", player1.score), scorePos, scoreFontSize, textSpacing, DARKPURPLE);
+				DrawTextEx(textFont, TextFormat("Total Score : %01i", player1.score), scorePos, scoreFontSize, textSpacing, DARKBROWN);
+			}
+			else
+			{
+				DrawButton(pauseButton);
 			}
 		}
 		else if (currentScreen == Screen::MultiPlayer)
@@ -390,8 +400,6 @@ namespace FlappyBird
 
 			DrawPlayerScore(player1, textFont);
 
-			DrawButton(pauseButton);
-
 			if (restStart)
 			{
 				Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 4, static_cast<float>(GetScreenHeight()) / 4 };
@@ -404,15 +412,15 @@ namespace FlappyBird
 				Vector2 loseTexturePos = { static_cast<float>(GetScreenWidth() / 4), static_cast<float>(GetScreenHeight() / 4) };
 				float loseTextureScale = 0.5f;
 
-				if (player1.score <= 5)
+				if (player1.score <= 10)
 				{
 					DrawTextureEx(loseTexture_Bad, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
-				else if (player1.score <= 12)
+				else if (player1.score <= 20)
 				{
 					DrawTextureEx(loseTexture_Ok, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
-				else if (player1.score <= 20)
+				else if (player1.score <= 35)
 				{
 					DrawTextureEx(loseTexture_Good, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
@@ -430,10 +438,15 @@ namespace FlappyBird
 				{
 					scorePos = { static_cast<float>(GetScreenWidth()) / 3 - 70, static_cast<float>(GetScreenHeight()) / 3 + 50 };
 				}
+
 				float scoreFontSize = 90;
 				float textSpacing = 5;
 
-				DrawTextEx(textFont, TextFormat("Total Score : %01i", player1.score), scorePos, scoreFontSize, textSpacing, DARKPURPLE);
+				DrawTextEx(textFont, TextFormat("Total Score : %01i", player1.score), scorePos, scoreFontSize, textSpacing, DARKBROWN);
+			}
+			else
+			{
+				DrawButton(pauseButton);
 			}
 		}
 		EndDrawing();
@@ -508,8 +521,9 @@ namespace FlappyBird
 		GAME_OVER = false;
 
 		restStart = true;
-		restStartAnimationTimer = GetTime();
 
+		reverseMode = false;
+		
 		textFont = LoadFontEx("res/Acme-Regular.ttf", 90, NULL, NULL);
 	}
 
