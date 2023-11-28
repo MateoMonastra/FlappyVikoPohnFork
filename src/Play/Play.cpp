@@ -82,8 +82,8 @@ namespace FlappyBird
 		Texture2D MenuTexture = LoadTexture("res/PNG/backmenubutton.png");
 		Texture2D MenuPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
 
-		Texture2D NextTexture = LoadTexture("res/PNG/SinglePlayer.png");
-		Texture2D NextPressedTexture = LoadTexture("res/PNG/SinglePlayerpressed.png");
+		Texture2D NextTexture = LoadTexture("res/PNG/next.png");
+		Texture2D NextPressedTexture = LoadTexture("res/PNG/next																																																																																																																pressed.png");
 
 		const float buttonWidth = static_cast<float>(MenuTexture.width);
 		const float buttonHeight = static_cast<float>(MenuTexture.height);

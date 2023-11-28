@@ -88,9 +88,9 @@ namespace FlappyBird
 		const float buttonWidth = static_cast<float>(playButtonTexture.width);
 		const float buttonHeight = static_cast<float>(playButtonTexture.height);
 		float buttonXPos = static_cast<float>(GetScreenWidth()) / 2 - buttonWidth / 2;
-		const float buttonDistance = buttonHeight + 15;
+		const float buttonDistance = buttonHeight + 35;
 
-		float playButtonY = static_cast<float>(GetScreenHeight()) / 2 - buttonHeight / 2;
+		float playButtonY = static_cast<float>(GetScreenHeight()) / 2 ;
 		float creditsButtonY = playButtonY + buttonDistance;
 		float exitButtonY = creditsButtonY + buttonDistance;
 
