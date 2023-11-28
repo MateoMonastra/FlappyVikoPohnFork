@@ -23,6 +23,10 @@ namespace FlappyBird
 	static Button SinglePlayer;
 	static Button MultiPlayer;
 
+	static Texture2D Rules;
+	static Button Next;
+	static Button Menu;
+
 	static Texture2D loseTexture_Bad;
 	static Texture2D loseTexture_Ok;
 	static Texture2D loseTexture_Good;
@@ -48,8 +52,141 @@ namespace FlappyBird
 
 	bool reverseMode = false;
 
+	static void RestStart()
+	{
+		RestStartAnimation(player1, player2);
 
-	static void InputLoseScreen(Scenes& scene)
+		if (currentScreen == Screen::MultiPlayer)
+		{
+			if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
+			{
+				restStart = false;
+				player1.isJumping = false;
+				player2.isJumping = false;
+			}
+		}
+		else
+		{
+			if (IsKeyPressed(KEY_W))
+			{
+				restStart = false;
+				player1.isJumping = false;
+			}
+		}
+	}
+
+	static void InitRules()
+	{
+		Rules = LoadTexture("res/PNG/rules.png");
+		
+		Texture2D MenuTexture = LoadTexture("res/PNG/backmenubutton.png");
+		Texture2D MenuPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
+
+		Texture2D NextTexture = LoadTexture("res/PNG/SinglePlayer.png");
+		Texture2D NextPressedTexture = LoadTexture("res/PNG/SinglePlayerpressed.png");
+
+		const float buttonWidth = static_cast<float>(MenuTexture.width);
+		const float buttonHeight = static_cast<float>(MenuTexture.height);
+		float buttonYPos = static_cast<float>(GetScreenHeight()) / 4 * 3 + buttonHeight;
+
+		float MenuXPos = static_cast<float>(GetScreenWidth() / 2) - buttonWidth - 140;
+		float NextXPos = static_cast<float>(GetScreenWidth() / 2) + buttonWidth - 130;
+
+		InitButton(Menu, MenuTexture, MenuPressedTexture, MenuXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
+		InitButton(Next, NextTexture, NextPressedTexture, NextXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
+
+	}
+
+	static void InitGame()
+	{
+		Texture2D player1Drop = LoadTexture("res/PNG/player1.png");
+		Texture2D player1fly = LoadTexture("res/PNG/player1fly.png");
+
+		Texture2D player2Drop = LoadTexture("res/PNG/player2.png");
+		Texture2D player2fly = LoadTexture("res/PNG/player2fly.png");
+
+		player1 = InitPlayer(player1Drop, player1fly);
+		player2 = InitPlayer(player2Drop, player2fly);
+
+		player1.scoreColor = BLUE;
+		player2.scoreColor = RED;
+
+		player2.topPosition.y -= 80;
+		player2.dest.y = player2.topPosition.y;
+
+		float pipeDistance = static_cast<float>(GetScreenWidth()) / 2.0f;
+		float pipeWidth = 90.0f;
+		float firstPipeX = static_cast<float>(GetScreenWidth());
+		float secondPipeX = static_cast<float>(GetScreenWidth()) + pipeDistance + pipeWidth / 2;
+		float thirdPipeX = 0 - pipeWidth;
+
+		firstPipe = InitPipe(firstPipeX);
+		secondPipe = InitPipe(secondPipeX);
+		thirdPipe = InitPipe(thirdPipeX);
+
+		parallax = InitParallax();
+
+		Texture2D pauseButtonTexture = LoadTexture("res/PNG/pausebutton.png");
+		Texture2D pauseButtonPressedTexture = LoadTexture("res/PNG/pausebuttonpressed.png");
+
+		const float buttonWidth = static_cast<float>(pauseButtonTexture.width);
+		const float buttonHeight = static_cast<float>(pauseButtonTexture.height);
+		float buttonXPos = 20;
+		float buttonYPos = static_cast<float>(GetScreenHeight()) - buttonHeight - 10;
+
+		InitButton(pauseButton, pauseButtonTexture, pauseButtonPressedTexture, buttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
+	}
+
+	static void InitModeSelector()
+	{
+
+		Texture2D SinglePlayerButtonTexture = LoadTexture("res/PNG/SinglePlayer.png");
+		Texture2D SinglePlayerButtonPressedTexture = LoadTexture("res/PNG/SinglePlayerpressed.png");
+
+		const float SinglePlayerbuttonWidth = static_cast<float>(SinglePlayerButtonTexture.width);
+		const float SinglePlayerbuttonHeight = static_cast<float>(SinglePlayerButtonTexture.height);
+		float SinglePlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 3) - SinglePlayerbuttonWidth;
+		float SinglePlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - SinglePlayerbuttonHeight;
+
+		InitButton(SinglePlayer, SinglePlayerButtonTexture, SinglePlayerButtonPressedTexture, SinglePlayerbuttonXPos, SinglePlayerbuttonYPos, SinglePlayerbuttonWidth, SinglePlayerbuttonHeight, RAYWHITE);
+
+		Texture2D MultiPlayerButtonTexture = LoadTexture("res/PNG/MultiPlayer.png");
+		Texture2D MultiPlayerButtonPressedTexture = LoadTexture("res/PNG/MultiPlayerpressed.png");
+
+		const float MultiPlayerbuttonWidth = static_cast<float>(MultiPlayerButtonTexture.width);
+		const float MultiPlayerbuttonHeight = static_cast<float>(MultiPlayerButtonTexture.height);
+		float MultiPlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 3) * 2;
+		float MultiPlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - MultiPlayerbuttonHeight;
+
+		InitButton(MultiPlayer, MultiPlayerButtonTexture, MultiPlayerButtonPressedTexture, MultiPlayerbuttonXPos, MultiPlayerbuttonYPos, MultiPlayerbuttonWidth, MultiPlayerbuttonHeight, RAYWHITE);
+
+		modeSelectorBack = LoadTexture("res/PNG/ModeSelectorBack.png");
+	}
+
+	static void InitLoseScreen()
+	{
+		loseTexture_Bad = LoadTexture("res/PNG/losescreen_Bad.png");
+		loseTexture_Ok = LoadTexture("res/PNG/losescreen_ItsOk.png");
+		loseTexture_Good = LoadTexture("res/PNG/losescreen_WellDone.png");
+		loseTexture_VeryGood = LoadTexture("res/PNG/losescreen_Amazing.png");
+
+		backMenuLoseButtonTexture = LoadTexture("res/PNG/backmenubutton.png");
+		playAgainButtonTexture = LoadTexture("res/PNG/playagain.png");
+		backMenuLoseButtonPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
+		playAgainButtonPressedTexture = LoadTexture("res/PNG/playagainpressed.png");
+
+		const float buttonWidth = static_cast<float>(backMenuLoseButtonTexture.width);
+		const float buttonHeight = static_cast<float>(backMenuLoseButtonTexture.height);
+		float buttonYPos = static_cast<float>(GetScreenHeight()) / 4 * 3 + buttonHeight;
+
+		float backMenuPausebuttonXPos = static_cast<float>(GetScreenWidth() / 2) - buttonWidth - 130;
+		float playAgainButtonXPos = static_cast<float>(GetScreenWidth() / 2) + buttonWidth - 130;
+
+		InitButton(backMenuLoseButton, backMenuLoseButtonTexture, backMenuLoseButtonPressedTexture, backMenuPausebuttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
+		InitButton(playAgainButton, playAgainButtonTexture, playAgainButtonPressedTexture, playAgainButtonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
+	}
+
+	static void CheckLoseScreenInput(Scenes& scene)
 	{
 		if (CheckCollisionButtonMouse(GetMousePosition(), backMenuLoseButton))
 		{
@@ -80,52 +217,6 @@ namespace FlappyBird
 			playAgainButton.isSelected = false;
 	}
 
-	static void RestStart()
-	{
-		RestStartAnimation(player1,player2);
-
-		if (currentScreen == Screen::MultiPlayer)
-		{
-			if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
-			{
-				restStart = false;
-				player1.isJumping = false;
-				player2.isJumping = false;
-			}
-		}
-		else
-		{
-			if (IsKeyPressed(KEY_W))
-			{
-				restStart = false;
-				player1.isJumping = false;
-			}
-		}
-	}
-
-	static void InitLoseScreen()
-	{
-		loseTexture_Bad = LoadTexture("res/PNG/losescreen_Bad.png");
-		loseTexture_Ok = LoadTexture("res/PNG/losescreen_ItsOk.png");
-		loseTexture_Good = LoadTexture("res/PNG/losescreen_WellDone.png");
-		loseTexture_VeryGood = LoadTexture("res/PNG/losescreen_Amazing.png");
-
-		backMenuLoseButtonTexture = LoadTexture("res/PNG/backmenubutton.png");
-		playAgainButtonTexture = LoadTexture("res/PNG/playagain.png");
-		backMenuLoseButtonPressedTexture = LoadTexture("res/PNG/backmenubuttonpressed.png");
-		playAgainButtonPressedTexture = LoadTexture("res/PNG/playagainpressed.png");
-
-		const float buttonWidth = static_cast<float>(backMenuLoseButtonTexture.width);
-		const float buttonHeight = static_cast<float>(backMenuLoseButtonTexture.height);
-		float buttonYPos = static_cast<float>(GetScreenHeight()) / 4 * 3 + buttonHeight;
-
-		float backMenuPausebuttonXPos = static_cast<float>(GetScreenWidth() / 2) - buttonWidth - 130;
-		float playAgainButtonXPos = static_cast<float>(GetScreenWidth() / 2) + buttonWidth - 130;
-
-		InitButton(backMenuLoseButton, backMenuLoseButtonTexture, backMenuLoseButtonPressedTexture, backMenuPausebuttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
-		InitButton(playAgainButton, playAgainButtonTexture, playAgainButtonPressedTexture, playAgainButtonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
-	}
-
 	static void CheckPauseInput(Scenes& scene)
 	{
 		if (CheckCollisionButtonMouse(GetMousePosition(), pauseButton))
@@ -144,6 +235,33 @@ namespace FlappyBird
 		{
 			scene = Scenes::Pause;
 		}
+	}
+
+	static void CheckRulesInput(Scenes& scene)
+	{
+		if (CheckCollisionButtonMouse(GetMousePosition(), Next))
+		{
+			Next.isSelected = true;
+
+			if (CheckMouseInput(Next))
+			{
+				currentScreen = Screen::ModeSelector;
+			}
+		}
+		else
+			Next.isSelected = false;
+
+		if (CheckCollisionButtonMouse(GetMousePosition(), Menu))
+		{
+			Menu.isSelected = true;
+
+			if (CheckMouseInput(Menu))
+			{
+				scene = Scenes::Menu;
+			}
+		}
+		else
+			Menu.isSelected = false;
 	}
 
 	static void CheckModeSelectorInput()
@@ -226,7 +344,11 @@ namespace FlappyBird
 
 	static void UpdatePlay(Scenes& scene)
 	{
-		if (currentScreen == Screen::ModeSelector)
+		if (currentScreen == Screen::Rules)
+		{
+			CheckRulesInput(scene);
+		}
+		else if (currentScreen == Screen::ModeSelector)
 		{
 			CheckModeSelectorInput();
 		}
@@ -308,7 +430,7 @@ namespace FlappyBird
 		}
 		else
 		{
-			InputLoseScreen(scene);
+			CheckLoseScreenInput(scene);
 		}
 	}
 
@@ -318,7 +440,15 @@ namespace FlappyBird
 
 		ClearBackground(BLACK);
 
-		if (currentScreen == Screen::ModeSelector)
+		if (currentScreen == Screen::Rules)
+		{
+			DrawTexture(Rules,0,0,WHITE);
+
+			DrawButton(Menu);
+
+			DrawButton(Next);
+		}
+		else if (currentScreen == Screen::ModeSelector)
 		{
 			DrawTexture(modeSelectorBack, 0, 0, WHITE);
 			DrawButton(SinglePlayer);
@@ -454,67 +584,13 @@ namespace FlappyBird
 
 	void InitPlay()
 	{
+		currentScreen = Screen::Rules;
 
-		Texture2D player1Drop = LoadTexture("res/PNG/player1.png");
-		Texture2D player1fly = LoadTexture("res/PNG/player1fly.png");
+		InitRules();
 
-		Texture2D player2Drop = LoadTexture("res/PNG/player2.png");
-		Texture2D player2fly = LoadTexture("res/PNG/player2fly.png");
-
-		player1 = InitPlayer(player1Drop, player1fly);
-		player2 = InitPlayer(player2Drop, player2fly);
-
-		player1.scoreColor = BLUE;
-		player2.scoreColor = RED;
-
-		player2.topPosition.y -= 80;
-		player2.dest.y = player2.topPosition.y;
-
-		float pipeDistance = static_cast<float>(GetScreenWidth()) / 2.0f;
-		float pipeWidth = 90.0f;
-		float firstPipeX = static_cast<float>(GetScreenWidth());
-		float secondPipeX = static_cast<float>(GetScreenWidth()) + pipeDistance + pipeWidth / 2;
-		float thirdPipeX = 0 - pipeWidth;
-
-		firstPipe = InitPipe(firstPipeX);
-		secondPipe = InitPipe(secondPipeX);
-		thirdPipe = InitPipe(thirdPipeX);
-
-		parallax = InitParallax();
-
-		Texture2D pauseButtonTexture = LoadTexture("res/PNG/pausebutton.png");
-		Texture2D pauseButtonPressedTexture = LoadTexture("res/PNG/pausebuttonpressed.png");
-
-		const float buttonWidth = static_cast<float>(pauseButtonTexture.width);
-		const float buttonHeight = static_cast<float>(pauseButtonTexture.height);
-		float buttonXPos = 20;
-		float buttonYPos = static_cast<float>(GetScreenHeight()) - buttonHeight - 10;
-
-		InitButton(pauseButton, pauseButtonTexture, pauseButtonPressedTexture, buttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
-
-		Texture2D SinglePlayerButtonTexture = LoadTexture("res/PNG/SinglePlayer.png");
-		Texture2D SinglePlayerButtonPressedTexture = LoadTexture("res/PNG/SinglePlayerpressed.png");
-
-		const float SinglePlayerbuttonWidth = static_cast<float>(SinglePlayerButtonTexture.width);
-		const float SinglePlayerbuttonHeight = static_cast<float>(SinglePlayerButtonTexture.height);
-		float SinglePlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 3) - SinglePlayerbuttonWidth;
-		float SinglePlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - SinglePlayerbuttonHeight;
-
-		InitButton(SinglePlayer, SinglePlayerButtonTexture, SinglePlayerButtonPressedTexture, SinglePlayerbuttonXPos, SinglePlayerbuttonYPos, SinglePlayerbuttonWidth, SinglePlayerbuttonHeight, RAYWHITE);
-
-		Texture2D MultiPlayerButtonTexture = LoadTexture("res/PNG/MultiPlayer.png");
-		Texture2D MultiPlayerButtonPressedTexture = LoadTexture("res/PNG/MultiPlayerpressed.png");
-
-		const float MultiPlayerbuttonWidth = static_cast<float>(MultiPlayerButtonTexture.width);
-		const float MultiPlayerbuttonHeight = static_cast<float>(MultiPlayerButtonTexture.height);
-		float MultiPlayerbuttonXPos = static_cast<float>(GetScreenWidth() / 3) * 2;
-		float MultiPlayerbuttonYPos = static_cast<float>(GetScreenHeight() / 2) - MultiPlayerbuttonHeight;
-
-		InitButton(MultiPlayer, MultiPlayerButtonTexture, MultiPlayerButtonPressedTexture, MultiPlayerbuttonXPos, MultiPlayerbuttonYPos, MultiPlayerbuttonWidth, MultiPlayerbuttonHeight, RAYWHITE);
-
-		modeSelectorBack = LoadTexture("res/PNG/ModeSelectorBack.png");
-
-		currentScreen = Screen::ModeSelector;
+		InitGame();
+		
+		InitModeSelector();
 
 		InitLoseScreen();
 
@@ -578,4 +654,5 @@ namespace FlappyBird
 
 		UnloadFont(textFont);
 	}
+
 }
