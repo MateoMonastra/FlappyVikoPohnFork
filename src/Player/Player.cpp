@@ -10,51 +10,67 @@ namespace FlappyBird
 
 	static void CheckMovementInput(Player& player1, Player& player2)
 	{
-		if (IsKeyPressed(KEY_W))
+		if (player1.isAlive)
 		{
-			player1.velocity.y = player1.jumpForce;
-			player1.isJumping = true;
-			PlaySound(player1.jump);
+			if (IsKeyPressed(KEY_W))
+			{
+				player1.velocity.y = player1.jumpForce;
+				player1.isJumping = true;
+				PlaySound(player1.jump);
+			}
 		}
 
-		if (IsKeyPressed(KEY_UP))
+		if (player2.isAlive)
 		{
-			player2.velocity.y = player2.jumpForce;
-			player2.isJumping = true;
-			PlaySound(player2.jump);
+			if (IsKeyPressed(KEY_UP))
+			{
+				player2.velocity.y = player2.jumpForce;
+				player2.isJumping = true;
+				PlaySound(player2.jump);
+			}
 		}
 	}
 
 	static void PlayerMovement(Player& player1, Player& player2)
 	{
+
 		CheckMovementInput(player1, player2);
 
-		player1.velocity.y += player1.gravity * GetFrameTime();
-		player1.topPosition.y += player1.velocity.y * GetFrameTime();
+		if (player1.isAlive)
+		{
+			player1.velocity.y += player1.gravity * GetFrameTime();
+			player1.topPosition.y += player1.velocity.y * GetFrameTime();
+		}
+		if (player2.isAlive)
+		{
+			player2.velocity.y += player2.gravity * GetFrameTime();
+			player2.topPosition.y += player2.velocity.y * GetFrameTime();
+		}
 
-		player2.velocity.y += player2.gravity * GetFrameTime();
-		player2.topPosition.y += player2.velocity.y * GetFrameTime();
 	}
 
 
 	static void PlayerScreenCollision(Player& player)
 	{
-		if (player.topPosition.y <= 0)
+		if (player.isAlive)
 		{
-			player.topPosition.y = 0;
-			player.velocity.y = player.gravity * GetFrameTime();
+			if (player.topPosition.y <= 0)
+			{
+				player.topPosition.y = 0;
+				player.velocity.y = player.gravity * GetFrameTime();
+			}
+
+			if (player.topPosition.y >= GetScreenHeight())
+			{
+				player.isAlive = false;
+				PlaySound(player.fall);
+			}
+
+			player.dest.y = player.topPosition.y;
+
+			player.hitBox.y = player.dest.y + player.dest.height / 3;
+			player.hitBox.x = player.dest.x;
 		}
-
-		if (player.topPosition.y >= GetScreenHeight())
-		{
-			player.isAlive = false;
-			PlaySound(player.fall);
-		}
-
-		player.dest.y = player.topPosition.y;
-
-		player.hitBox.y = player.dest.y + player.dest.height / 3;
-		player.hitBox.x = player.dest.x;
 	}
 
 	Player InitPlayer(Texture2D textureDrop, Texture2D textureFly)
@@ -73,7 +89,7 @@ namespace FlappyBird
 		float yPos = static_cast<float>(GetScreenHeight() / 2) - static_cast<float>(player.texture.height * player.scale) / 2;
 		player.topPosition = { xPos, yPos };
 
-		
+
 		player.dest.x = player.topPosition.x;
 		player.dest.y = player.topPosition.y;
 		player.dest.width = static_cast<float>(player.texture.width * player.scale);
@@ -87,7 +103,7 @@ namespace FlappyBird
 		player.origin = { (player.dest.width * player.scale) / 2, (player.dest.height * player.scale) / 2 };
 
 		int hitBoxFixer = 10;
-		player.hitBox = { player.dest.x, player.dest.y + player.dest.height / 3 , player.dest.width - hitBoxFixer, player.dest.height/4 };
+		player.hitBox = { player.dest.x, player.dest.y + player.dest.height / 3 , player.dest.width - hitBoxFixer, player.dest.height / 4 };
 
 		player.jump = LoadSound("res/AUDIO/sounds/jump.mp3");
 		player.fall = LoadSound("res/AUDIO/sounds/fallingSound.mp3");
@@ -157,8 +173,8 @@ namespace FlappyBird
 
 	void RestStartAnimation(Player& player1, Player& player2)
 	{
-		ChangeTexture(player1,animationTimerP1);
-		ChangeTexture(player2,animationTimerP2);
+		ChangeTexture(player1, animationTimerP1);
+		ChangeTexture(player2, animationTimerP2);
 
 		int animationCoolDown = 1;
 

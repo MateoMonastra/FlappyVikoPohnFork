@@ -194,8 +194,8 @@ namespace FlappyBird
 
 			if (CheckMouseInput(backMenuLoseButton))
 			{
-				UnloadPlay();
 				scene = Scenes::Menu;
+				UnloadPlay();
 			}
 		}
 		else
@@ -207,10 +207,10 @@ namespace FlappyBird
 
 			if (CheckMouseInput(playAgainButton))
 			{
+				currentScreen = Screen::Rules;
+				scene = Scenes::Play;
 				UnloadPlay();
 				InitPlay();
-				currentScreen = Screen::ModeSelector;
-				scene = Scenes::Play;
 			}
 		}
 		else
@@ -257,8 +257,8 @@ namespace FlappyBird
 
 			if (CheckMouseInput(Menu))
 			{
-				UnloadPlay();
 				scene = Scenes::Menu;
+				UnloadPlay();
 			}
 		}
 		else
@@ -472,8 +472,8 @@ namespace FlappyBird
 
 			if (restStart)
 			{
-				Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 4, static_cast<float>(GetScreenHeight()) / 4 };
-				float textFontSize = 70;
+				Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 6, static_cast<float>(GetScreenHeight()) / 5 };
+				float textFontSize = 90;
 				float textSpacing = 20;
 				DrawTextEx(textFont, "Jump to begin!", textPos, textFontSize, textSpacing, WHITE);
 			}
@@ -536,8 +536,8 @@ namespace FlappyBird
 
 			if (restStart)
 			{
-				Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 4, static_cast<float>(GetScreenHeight()) / 4 };
-				float textFontSize = 70;
+				Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 6, static_cast<float>(GetScreenHeight()) / 5 };
+				float textFontSize = 90;
 				float textSpacing = 20;
 				DrawTextEx(textFont, "Jump to begin!", textPos, textFontSize, textSpacing, WHITE);
 			}
@@ -617,8 +617,8 @@ namespace FlappyBird
 		}
 
 		UpdateMusicStream(music);
-		UpdatePlay(scene);
 		DrawPlay();
+		UpdatePlay(scene);
 	}
 
 	void UnloadPlay()
@@ -668,7 +668,14 @@ namespace FlappyBird
 		UnloadTexture(parallax.backTexture);
 		UnloadTexture(parallax.middleTexture);
 		UnloadTexture(parallax.frontTexture);
+		
+		UnloadSound(player1.crash);
+		UnloadSound(player1.fall);
+		UnloadSound(player1.jump);
 
+		UnloadSound(player2.crash);
+		UnloadSound(player2.fall);
+		UnloadSound(player2.jump);
 
 		UnloadFont(textFont);
 	}
