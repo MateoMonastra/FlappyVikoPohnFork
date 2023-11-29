@@ -5,6 +5,7 @@
 namespace FlappyBird
 {
 	static Texture2D backTexture;
+	static Texture2D title;
 
 	static Texture2D playButtonTexture;
 	static Texture2D creditsButtonTexture;
@@ -18,15 +19,47 @@ namespace FlappyBird
 	static Button creditsButton;
 	static Button exitButton;
 
+	Sound birdScream;
+	Sound buttonPress;
+
+	float titleY = 0;
+	bool soundWasPlayed = false;
+
+	static void UpdateTitlePos()
+	{
+		int titleFinalPosY = -150;
+
+		if (titleY > titleFinalPosY)
+		{
+			int titleSpeed = 200;
+
+			titleY -= titleSpeed * GetFrameTime();
+		}
+		else if (!soundWasPlayed)
+		{
+			PlaySound(birdScream);
+			soundWasPlayed = true;
+		}
+	
+	}
+
 	static void UnloadMenu()
 	{
 		UnloadTexture(backTexture);
-		UnloadTexture(playButtonTexture);
-		UnloadTexture(exitButtonTexture);
+		UnloadTexture(title);
+
 		UnloadTexture(creditsButtonTexture);
-		UnloadTexture(playButtonPressedTexture);
-		UnloadTexture(exitButtonPressedTexture);
 		UnloadTexture(creditsButtonPressedTexture);
+		
+		UnloadTexture(playButtonTexture);
+		UnloadTexture(playButtonPressedTexture);
+		
+		UnloadTexture(exitButtonTexture);
+		UnloadTexture(exitButtonPressedTexture);
+
+		UnloadSound(birdScream);
+		UnloadSound(buttonPress);
+
 	}
 
 	static void MenuInput(Scenes& scene)
@@ -37,6 +70,7 @@ namespace FlappyBird
 
 			if (CheckMouseInput(playButton))
 			{
+				PlaySound(buttonPress);
 				scene = Scenes::Play;
 				UnloadMenu();
 			}
@@ -49,6 +83,7 @@ namespace FlappyBird
 			creditsButton.isSelected = true;
 			if (CheckMouseInput(creditsButton))
 			{
+				PlaySound(buttonPress);
 				scene = Scenes::Credits;
 				UnloadMenu();
 			}
@@ -61,6 +96,7 @@ namespace FlappyBird
 			exitButton.isSelected = true;
 			if (CheckMouseInput(exitButton))
 			{
+				PlaySound(buttonPress);
 				scene = Scenes::Exit;
 				UnloadMenu();
 			}
@@ -72,7 +108,15 @@ namespace FlappyBird
 	void InitMenu()
 	{
 		backTexture = LoadTexture("res/PNG/backmenu.png");
+		title = LoadTexture("res/PNG/title.png");
+
+		birdScream = LoadSound("res/AUDIO/sounds/birdScream.mp3");
+		buttonPress = LoadSound("res/AUDIO/sounds/buttonSound.mp3");
+
+		titleY = static_cast<float>(GetScreenHeight());
 		InitMenuButtons();
+
+		soundWasPlayed = false;
 	}
 
 	void InitMenuButtons()
@@ -104,11 +148,16 @@ namespace FlappyBird
 	void DrawMenu()
 	{
 		BeginDrawing();
+
 		DrawTexture(backTexture, 0, 0, RAYWHITE);
 
+		int titleX = GetScreenWidth() / 2 - title.width /2;
+		DrawTexture(title, titleX, static_cast<int>(titleY),WHITE);
+		
 		DrawButton(playButton);
 		DrawButton(creditsButton);
 		DrawButton(exitButton);
+		
 		EndDrawing();
 	}
 
@@ -119,7 +168,7 @@ namespace FlappyBird
 			InitMenu();
 			PlayMusicStream(music);
 		}
-
+		UpdateTitlePos();
 		UpdateMusicStream(music);
 		DrawMenu();
 		MenuInput(scene);
