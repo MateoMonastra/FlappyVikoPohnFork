@@ -1,7 +1,5 @@
 #include "Player.h"
 
-#include "Play/Screen.h"
-
 namespace FlappyBird
 {
 	double restStartAnimationTimer = GetTime();
@@ -151,7 +149,7 @@ namespace FlappyBird
 
 	void ChangeTexture(Player& player, float& animationTimer)
 	{
-		const float animationCooldown = 0.3f;
+		const float animationCooldown = 0.13f;
 
 		animationTimer += GetFrameTime();
 
