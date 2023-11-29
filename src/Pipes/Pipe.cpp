@@ -1,5 +1,4 @@
 #include "Pipes/Pipe.h"
-#include <iostream>
 
 namespace FlappyBird
 {

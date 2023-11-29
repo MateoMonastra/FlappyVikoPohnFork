@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/Scenes.h"
 #include "Raylib/header/raylib.h"
 

@@ -14,6 +14,24 @@ namespace FlappyBird
 	static Music menuMusic;
 	static Music gameMusic;
 
+	static void InitProgram()
+	{
+		const int screenWidth = 1024;
+		const int screenHeight = 768;
+
+		InitWindow(screenWidth, screenHeight, "Flappy Viko");
+		SetExitKey(NULL);
+		
+		InitAudioDevice();
+		menuMusic = LoadMusicStream("res/AUDIO/music/menuMusic.mp3");
+		gameMusic = LoadMusicStream("res/AUDIO/music/gameMusic.mp3");
+
+		SetMusicVolume(menuMusic,0.2f);
+		SetMusicVolume(gameMusic,0.2f);
+
+		scene = Scenes::Menu;
+	}
+
 	void GameLoop()
 	{
 		InitProgram();
@@ -59,23 +77,5 @@ namespace FlappyBird
 
 		CloseAudioDevice();
 		CloseWindow();
-	}
-
-	void InitProgram()
-	{
-		const int screenWidth = 1024;
-		const int screenHeight = 768;
-
-		InitWindow(screenWidth, screenHeight, "Flappy Viko");
-		SetExitKey(NULL);
-		
-		InitAudioDevice();
-		menuMusic = LoadMusicStream("res/AUDIO/music/menuMusic.mp3");
-		gameMusic = LoadMusicStream("res/AUDIO/music/gameMusic.mp3");
-
-		SetMusicVolume(menuMusic,0.2f);
-		SetMusicVolume(gameMusic,0.2f);
-
-		scene = Scenes::Menu;
 	}
 }

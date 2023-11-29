@@ -1,9 +1,6 @@
 #include "Pause.h"
 
-#include "Raylib/header/raylib.h"
-
 #include "Button/Button.h"
-
 #include "Play/Play.h"
 
 namespace FlappyBird

@@ -174,5 +174,4 @@ namespace FlappyBird
 		DrawMenu();
 		MenuInput(scene);
 	}
-
 }

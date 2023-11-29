@@ -1,13 +1,9 @@
 #include "Play/Play.h"
 
-#include "Raylib/header/raylib.h"
-
 #include "Player/Player.h"
 #include "Pipes/Pipe.h"
 #include "Button/Button.h"
 #include "Parallax/Parallax.h"
-#include "Screen.h"
-#include <iostream>
 
 namespace FlappyBird
 {

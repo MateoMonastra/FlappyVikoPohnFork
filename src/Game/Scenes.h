@@ -7,10 +7,7 @@ namespace FlappyBird
         Menu,
         Play,
         Pause,
-        Rules,
         Credits,
-        WinScreen,
-        LoseScreen,
         Exit
     };
 }
