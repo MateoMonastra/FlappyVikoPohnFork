@@ -15,7 +15,6 @@ namespace FlappyBird
 		UnloadTexture(creditsTexture);
 		UnloadTexture(backMenuCreditsButtonTexture);
 		UnloadTexture(backMenuCreditsButtonPressedTexture);
-	
 	}
 
 	static void CreditsInput(Scenes& scene)
@@ -26,8 +25,8 @@ namespace FlappyBird
 
 			if (CheckMouseInput(backMenuCreditsButton))
 			{
-				UnloadCredits();
 				scene = Scenes::Menu;
+				UnloadCredits();
 			}
 		}
 		else

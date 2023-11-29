@@ -29,7 +29,7 @@ namespace FlappyBird
 
 		float rotation = 0;
 
-		int score = {0};
+		int score = {50};
 		Color scoreColor = {};
 
 		Sound crash = {};

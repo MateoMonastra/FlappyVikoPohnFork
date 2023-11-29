@@ -26,7 +26,6 @@ namespace FlappyBird
 		UnloadTexture(resumeButtonPressedTexture);
 		UnloadTexture(resumeButton.texture);
 		UnloadTexture(backMenuPauseButton.texture);
-	
 	}
 
 	void InitPause()
@@ -48,7 +47,6 @@ namespace FlappyBird
 
 		InitButton(backMenuPauseButton, backMenuPauseButtonTexture, backMenuPauseButtonPressedTexture, backMenuPausebuttonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
 		InitButton(resumeButton, resumeButtonTexture, resumeButtonPressedTexture, resumeButtonXPos, buttonYPos, buttonWidth, buttonHeight, RAYWHITE);
-
 	}
 
 	void DrawPause()
@@ -71,9 +69,9 @@ namespace FlappyBird
 
 			if (CheckMouseInput(backMenuPauseButton))
 			{
+				scene = Scenes::Menu;
 				UnloadPause();
 				UnloadPlay();
-				scene = Scenes::Menu;
 			}
 		}
 		else
@@ -85,8 +83,8 @@ namespace FlappyBird
 
 			if (CheckMouseInput(resumeButton))
 			{
-				UnloadPause();
 				scene = Scenes::Play;
+				UnloadPause();
 			}
 		}
 		else

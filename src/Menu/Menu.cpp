@@ -19,8 +19,8 @@ namespace FlappyBird
 	static Button creditsButton;
 	static Button exitButton;
 
-	Sound birdScream;
-	Sound buttonPress;
+	static Sound birdScream;
+	static Sound buttonPress;
 
 	float titleY = 0;
 	bool soundWasPlayed = false;
@@ -59,7 +59,6 @@ namespace FlappyBird
 
 		UnloadSound(birdScream);
 		UnloadSound(buttonPress);
-
 	}
 
 	static void MenuInput(Scenes& scene)
@@ -112,6 +111,8 @@ namespace FlappyBird
 
 		birdScream = LoadSound("res/AUDIO/sounds/birdScream.mp3");
 		buttonPress = LoadSound("res/AUDIO/sounds/buttonSound.mp3");
+
+		SetSoundVolume(buttonPress, 0.2f);
 
 		titleY = static_cast<float>(GetScreenHeight());
 		InitMenuButtons();

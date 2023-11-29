@@ -46,6 +46,8 @@ namespace FlappyBird
 
 	static Screen currentScreen;
 
+	static Sound celebration;
+
 	bool GAME_OVER = false;
 
 	bool restStart = {};
@@ -432,6 +434,10 @@ namespace FlappyBird
 		}
 		else
 		{
+			if (player1.score > 35)
+			{
+				PlaySound(celebration);
+			}
 			CheckLoseScreenInput(scene);
 		}
 	}
@@ -496,6 +502,7 @@ namespace FlappyBird
 				}
 				else
 				{
+					PlaySound(celebration);
 					DrawTextureEx(loseTexture_VeryGood, loseTexturePos, 0, loseTextureScale, RAYWHITE);
 				}
 
@@ -605,6 +612,8 @@ namespace FlappyBird
 		reverseMode = false;
 
 		textFont = LoadFontEx("res/Acme-Regular.ttf", 90, NULL, NULL);
+
+		celebration = LoadSound("res/AUDIO/sounds/celebration.mp3");
 	}
 
 	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene, Music& music)
@@ -676,6 +685,7 @@ namespace FlappyBird
 		UnloadSound(player2.crash);
 		UnloadSound(player2.fall);
 		UnloadSound(player2.jump);
+		UnloadSound(celebration);
 
 		UnloadFont(textFont);
 	}
