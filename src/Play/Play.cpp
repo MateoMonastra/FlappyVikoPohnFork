@@ -51,15 +51,20 @@ namespace FlappyBird
 
 	static bool celebrationWasPlayed = false;
 
-	bool GAME_OVER = false;
+	static bool GAME_OVER = false;
 
-	bool restStart = {};
+	static bool restStart = {};
 
-	bool reverseMode = false;
+	static bool reverseMode = false;
+
+	static int scoreStartPhase2 = 25;
+
+	static bool wasSpeedUpdatedPhase1 = false;
+	static bool wasSpeedUpdatedPhase2 = false;
 
 	static int score_Ok = 10;
-	static int score_Good = 20;
-	static int score_VeryGood = 35;
+	static int score_Good = 30;
+	static int score_VeryGood = 45;
 
 	static void RestStart()
 	{
@@ -378,10 +383,10 @@ namespace FlappyBird
 				UpdateScore(player1);
 				LoseCondition(player1);
 
-				if (player1.score == 25 && !reverseMode)
+				if (player1.score == scoreStartPhase2 && !reverseMode)
 				{
-					reverseMode = true;
 					StartReversePhasePipe(firstPipe, secondPipe, thirdPipe);
+					reverseMode = true;
 				}
 				if (reverseMode)
 				{
@@ -393,6 +398,17 @@ namespace FlappyBird
 					{
 						UpdatePipeReverse(thirdPipe, secondPipe);
 					}
+				}
+
+				if (player1.score == score_Ok && !wasSpeedUpdatedPhase1)
+				{
+					UpdatepPipeSpeed(firstPipe, secondPipe, thirdPipe);
+					wasSpeedUpdatedPhase1 = true;
+				}
+				else if (player1.score == score_Good && !wasSpeedUpdatedPhase2)
+				{
+					UpdatepPipeSpeed(firstPipe, secondPipe, thirdPipe);
+					wasSpeedUpdatedPhase2 = true;
 				}
 			}
 			else
@@ -416,7 +432,7 @@ namespace FlappyBird
 				LoseCondition(player1);
 				LoseCondition(player2);
 
-				if (player1.score == 5 && !reverseMode)
+				if (player1.score == scoreStartPhase2 && !reverseMode)
 				{
 					reverseMode = true;
 					StartReversePhasePipe(firstPipe, secondPipe, thirdPipe);
@@ -431,6 +447,17 @@ namespace FlappyBird
 					{
 						UpdatePipeReverse(thirdPipe, secondPipe);
 					}
+				}
+
+				if (player1.score == score_Ok && !wasSpeedUpdatedPhase1)
+				{
+					UpdatepPipeSpeed(firstPipe, secondPipe, thirdPipe);
+					wasSpeedUpdatedPhase1 = true;
+				}
+				else if (player1.score == score_Good && !wasSpeedUpdatedPhase2)
+				{
+					UpdatepPipeSpeed(firstPipe, secondPipe, thirdPipe);
+					wasSpeedUpdatedPhase2 = true;
 				}
 			}
 			else
@@ -522,7 +549,7 @@ namespace FlappyBird
 					scorePos = { static_cast<float>(GetScreenWidth()) / 3 - 70, static_cast<float>(GetScreenHeight()) / 3 + 50 };
 				}
 
-				float scoreFontSize = 90;
+				float scoreFontSize = 80;
 				float textSpacing = 5;
 
 				DrawTextEx(textFont, TextFormat("Total Score : %01i", player1.score), scorePos, scoreFontSize, textSpacing, DARKBROWN);
@@ -551,7 +578,7 @@ namespace FlappyBird
 			if (restStart)
 			{
 				Vector2 textPos = { static_cast<float>(GetScreenWidth()) / 6, static_cast<float>(GetScreenHeight()) / 5 };
-				float textFontSize = 90;
+				float textFontSize = 80;
 				float textSpacing = 20;
 				DrawTextEx(textFont, "Jump to begin!", textPos, textFontSize, textSpacing, WHITE);
 			}
@@ -626,7 +653,11 @@ namespace FlappyBird
 		celebration = LoadSound("res/AUDIO/sounds/celebration.mp3");
 
 		SetSoundVolume(celebration, 0.2f);
+
 		celebrationWasPlayed = false;
+
+		wasSpeedUpdatedPhase1 = false;
+		wasSpeedUpdatedPhase2 = false;
 	}
 
 	void RunPlay(bool isNewScene, Scenes previousScene, Scenes& scene, Music& music)

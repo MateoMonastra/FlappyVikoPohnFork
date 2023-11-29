@@ -11,7 +11,7 @@ namespace FlappyBird
 		Vector2 topPosition = { 0, 0 };
 		Vector2 velocity = { 0, 0 };
 		float gravity = 600.0;
-		float jumpForce = -300.0f;
+		float jumpForce = -320.0f;
 		bool isJumping = false;
 
 		bool isAlive = false;

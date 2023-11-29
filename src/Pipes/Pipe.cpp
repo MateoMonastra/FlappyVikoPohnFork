@@ -13,7 +13,7 @@ namespace FlappyBird
 
 		pipe.texture = LoadTexture("res/PNG/Pipe.png");
 
-		pipe.speed = 400.0f;
+		pipe.speed = 450.0f;
 
 		pipe.width = 50.0f;
 
@@ -71,7 +71,7 @@ namespace FlappyBird
 
 	void UpdatePipeReverse(Pipe& newPipe, Pipe& refPipe)
 	{
-		newPipe.topPosition.x -= newPipe.speed * GetFrameTime();
+		newPipe.topPosition.x += newPipe.speed * GetFrameTime();
 		newPipe.botPosition.x = newPipe.topPosition.x;
 		newPipe.midPosition.x = newPipe.topPosition.x + newPipe.width / 2;
 
@@ -92,22 +92,33 @@ namespace FlappyBird
 		newPipe.botDest = { newPipe.botPosition.x ,newPipe.botPosition.y, newPipe.width, newPipe.botHeight };
 	}
 
+	void UpdatepPipeSpeed(Pipe& firstPipe, Pipe& secondPipe, Pipe& thirdPipe)
+	{
+		int speedUpdate = 50;
+
+		firstPipe.speed += speedUpdate;
+
+		secondPipe.speed += speedUpdate;
+		
+		thirdPipe.speed += speedUpdate;
+	}
+
 	void StartReversePhasePipe(Pipe& firstPipe, Pipe& secondPipe,Pipe& thirdPipe)
 	{
 		firstPipe.separation = 180;
 		
 		secondPipe.separation = 180;
 
-		thirdPipe.separation = 320;
-		thirdPipe.speed = -300;
+		thirdPipe.separation = 330;
+		thirdPipe.speed = 300;
 
-		thirdPipe.topHeight = firstPipe.topHeight - thirdPipe.separation / 4;
+		thirdPipe.topHeight = secondPipe.topHeight - thirdPipe.separation / 4;
 		thirdPipe.topPosition.x = 0;
 
-		thirdPipe.botHeight = firstPipe.botHeight;
-		thirdPipe.botPosition.y = firstPipe.botPosition.y + firstPipe.separation / 3;
+		thirdPipe.botHeight = secondPipe.botHeight;
+		thirdPipe.botPosition.y = secondPipe.botPosition.y + secondPipe.separation / 3;
 
-		thirdPipe.midPosition.y = firstPipe.topPosition.y + firstPipe.topHeight;
+		thirdPipe.midPosition.y = secondPipe.topPosition.y + secondPipe.topHeight;
 
 		thirdPipe.givePoints = true;
 	}
