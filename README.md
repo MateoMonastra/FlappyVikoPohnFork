@@ -1,3 +1,6 @@
+
+![title](https://github.com/MateoMonastra/FlappyVikoPohnFork/assets/132021065/0eb4cc3d-ac7d-46a5-9bbd-0177432b4482)
+
 📝 About The Project
 Allow me to introduce Flappy Viko!
 
