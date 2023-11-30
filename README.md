@@ -30,7 +30,7 @@ GitHub: https://caropohn.itch.io/
 
 Art Team:
 
-Tomas Marrero → Instagram  
+Tomas Marrero 
 
 Gmail: tomarrero96@gmail.com
 
